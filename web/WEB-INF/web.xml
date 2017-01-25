@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ * Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+ *
+ * You may not modify, use, reproduce, or distribute this software
+ * except in compliance with the terms of the license at:
+ * http://developer.sun.com/berkeley_license.html
+ *
+ * author: tgiunipero
+-->
+
+<web-app version="3.0"
+         xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+
+<!--The @WebServlet annotation is used in the ControllerServlet instead of
+    the <servlet> and <servlet-mapping> entries below-->
+<!--<servlet>
+        <servlet-name>Controller</servlet-name>
+        <servlet-class>controller.ControllerServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Controller</servlet-name>
+        <url-pattern>/category</url-pattern>
+        <url-pattern>/addToCart</url-pattern>
+        <url-pattern>/viewCart</url-pattern>
+        <url-pattern>/updateCart</url-pattern>
+        <url-pattern>/checkout</url-pattern>
+        <url-pattern>/purchase</url-pattern>
+        <url-pattern>/chooseLanguage</url-pattern>
+    </servlet-mapping>-->
+
+    <context-param>
+        <description>The relative path to product images</description>
+        <param-name>productImagePath</param-name>
+        <param-value>img/products/</param-value>
+    </context-param>
+
+    <context-param>
+        <description>The relative path to category images</description>
+        <param-name>categoryImagePath</param-name>
+        <param-value>img/categories/</param-value>
+    </context-param>
+
+    <context-param>
+        <description>The delivery surcharge applied to all orders</description>
+        <param-name>deliverySurcharge</param-name>
+        <param-value>3.00</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>javax.servlet.jsp.jstl.fmt.localizationContext</param-name>
+        <param-value>resources.messages</param-value>
+    </context-param>
+
+    <session-config>
+        <session-timeout>
+            10
+        </session-timeout>
+    </session-config>
+
+<!--Not required for Servlet 3.0 - index.jsp is default-->
+<!--<welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>-->
+
+<!--This is only needed for testing the datasource (TestDataSource.jsp)-->
+<!--<resource-ref>
+        <description>jdbc:mysql://localhost:3306/affablebean</description>
+        <res-ref-name>jdbc/affablebean</res-ref-name>
+        <res-type>javax.sql.DataSource</res-type>
+        <res-auth>Container</res-auth>
+        <res-sharing-scope>Shareable</res-sharing-scope>
+    </resource-ref>-->
+
+    <jsp-config>
+        <jsp-property-group>
+            <description>JSP configuration for the store front</description>
+            <url-pattern>/index.jsp</url-pattern>
+            <url-pattern>/WEB-INF/view/*</url-pattern>
+            <url-pattern>/WEB-INF/jspf/error/*</url-pattern>
+            <include-prelude>/WEB-INF/jspf/header.jspf</include-prelude>
+            <include-coda>/WEB-INF/jspf/footer.jspf</include-coda>
+        </jsp-property-group>
+
+        <jsp-property-group>
+            <description>JSP configuration for the admin console</description>
+            <url-pattern>/admin/index.jsp</url-pattern>
+            <url-pattern>/admin/login.jsp</url-pattern>
+            <url-pattern>/admin/error.jsp</url-pattern>
+            <include-prelude>/admin/jspf/header.jspf</include-prelude>
+            <include-coda>/admin/jspf/footer.jspf</include-coda>
+        </jsp-property-group>
+    </jsp-config>
+
+    <error-page>
+        <error-code>403</error-code>
+        <location>/WEB-INF/jspf/error/403.jspf</location>
+    </error-page>
+
+    <error-page>
+        <error-code>404</error-code>
+        <location>/WEB-INF/jspf/error/404.jspf</location>
+    </error-page>
+
+    <error-page>
+        <error-code>500</error-code>
+        <location>/WEB-INF/jspf/error/500.jspf</location>
+    </error-page>
+
+    <login-config>
+        <auth-method>FORM</auth-method>
+        <realm-name>file</realm-name>
+        <form-login-config>
+            <form-login-page>/admin/login.jsp</form-login-page>
+            <form-error-page>/admin/error.jsp</form-error-page>
+        </form-login-config>
+    </login-config>
+
+    <security-constraint>
+        <display-name>Checkout</display-name>
+        <web-resource-collection>
+            <web-resource-name>Checkout</web-resource-name>
+            <url-pattern>/checkout</url-pattern>
+            <http-method>GET</http-method>
+        </web-resource-collection>
+        <user-data-constraint>
+            <description/>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+
+<!--Annotations in the AdminServlet (@ServletSecurity and @HttpConstraint) are
+    used instead of the <security-constraint> entry below-->
+<!--<security-constraint>
+        <display-name>Admin</display-name>
+        <web-resource-collection>
+            <web-resource-name>Affable Bean Administration</web-resource-name>
+            <url-pattern>/admin/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>affableBeanAdmin</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>-->
+
+<!--The <security-role> entry is not required if role is declared using @HttpConstraint annotation-->
+<!--<security-role>
+        <description>access to administration console</description>
+        <role-name>affableBeanAdmin</role-name>
+    </security-role>-->
+
+</web-app>

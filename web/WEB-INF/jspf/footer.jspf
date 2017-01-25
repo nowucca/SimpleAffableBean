@@ -1,0 +1,24 @@
+<%--
+ * Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+ *
+ * You may not modify, use, reproduce, or distribute this software
+ * except in compliance with the terms of the license at:
+ * http://developer.sun.com/berkeley_license.html
+
+ * author: tgiunipero
+--%>
+
+
+            <div id="footer">
+                <br>
+                <hr id="footerDivider">
+                <p id="footerText" class="reallySmallText">
+                    <a href="<c:url value='#'/>"><fmt:message key="privacy" /></a>
+                    &nbsp;&nbsp;::&nbsp;&nbsp;
+                    <a href="<c:url value='#'/>"><fmt:message key="contact" /></a>
+                    &nbsp;&nbsp;&copy;&nbsp;&nbsp;
+                    2010 the affable bean</p>
+            </div>
+        </div>
+    </body>
+</html>
