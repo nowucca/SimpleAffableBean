@@ -1,4 +1,4 @@
-package dao;
+package business;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -13,12 +13,12 @@ public class JdbcUtils {
     private static final String JDBC_SIMPLEAFFABLEBEAN = "jdbc/simpleaffablebean";
 
     private static DataSource dataSource;
-    
+
     public static Connection getConnection()  {
         if (dataSource == null) {
             dataSource = getDataSource(JDBC_SIMPLEAFFABLEBEAN);
         }
-        
+
         try {
             return dataSource.getConnection();
         } catch (SQLException e) {
@@ -35,7 +35,7 @@ public class JdbcUtils {
             throw new IllegalArgumentException("Encountered an issue establishing an initial JNDI context", e);
         }
     }
-    
-    
-    
+
+
+
 }

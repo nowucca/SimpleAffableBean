@@ -1,6 +1,5 @@
-package dao;
+package business.category;
 
-import entity.Category;
 import java.util.List;
 
 /**

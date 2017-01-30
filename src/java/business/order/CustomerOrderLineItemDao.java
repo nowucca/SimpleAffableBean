@@ -1,6 +1,5 @@
-package dao;
+package business.order;
 
-import entity.CustomerOrderLineItem;
 import java.util.List;
 
 /**

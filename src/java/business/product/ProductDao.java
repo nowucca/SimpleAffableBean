@@ -1,6 +1,5 @@
-package dao;
+package business.product;
 
-import entity.Product;
 import java.util.List;
 
 /**

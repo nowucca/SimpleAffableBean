@@ -6,7 +6,7 @@
  * http://developer.sun.com/berkeley_license.html
  */
 
-package entity;
+package business.order;
 
 import java.util.Date;
 import java.util.List;
@@ -72,7 +72,7 @@ public class CustomerOrder {
 
     @Override
     public String toString() {
-        return "entity.CustomerOrder[customerOrderId=" + customerOrderId + "]";
+        return "business.order.CustomerOrder[customerOrderId=" + customerOrderId + "]";
     }
 
 }

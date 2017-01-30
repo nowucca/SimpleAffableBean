@@ -6,8 +6,9 @@
  * http://developer.sun.com/berkeley_license.html
  */
 
-package entity;
+package business.category;
 
+import business.product.Product;
 import java.util.List;
 
 /**
@@ -48,7 +49,7 @@ public class Category {
 
     @Override
     public String toString() {
-        return "entity.Category[id=" + categoryId + "]";
+        return "business.category.Category[id=" + categoryId + "]";
     }
 
 }

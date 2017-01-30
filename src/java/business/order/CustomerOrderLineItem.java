@@ -6,7 +6,7 @@
  * http://developer.sun.com/berkeley_license.html
  */
 
-package entity;
+package business.order;
 
 
 
@@ -38,7 +38,7 @@ public class CustomerOrderLineItem {
 
     @Override
     public String toString() {
-        return String.format("entity.CustomerOrderLineItem[customerOrderId=%d,productId=%d]",
+        return String.format("business.order.CustomerOrderLineItem[customerOrderId=%d,productId=%d]",
             customerOrderId, productId);
     }
 

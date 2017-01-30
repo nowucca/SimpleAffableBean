@@ -8,7 +8,7 @@
 
 package session;
 
-import entity.CustomerOrder;
+import business.order.CustomerOrder;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;

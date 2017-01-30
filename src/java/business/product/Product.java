@@ -6,7 +6,7 @@
  * http://developer.sun.com/berkeley_license.html
  */
 
-package entity;
+package business.product;
 
 import java.util.Date;
 
@@ -52,7 +52,7 @@ public class Product {
 
     @Override
     public String toString() {
-        return "entity.Product[product_id=" + productId + "]";
+        return "business.product.Product[product_id=" + productId + "]";
     }
 
 }

@@ -8,7 +8,7 @@
 
 package session;
 
-import entity.Customer;
+import business.customer.Customer;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

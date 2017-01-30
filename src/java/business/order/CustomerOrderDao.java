@@ -1,6 +1,5 @@
-package dao;
+package business.order;
 
-import entity.CustomerOrder;
 import java.util.List;
 
 /**

@@ -9,12 +9,12 @@
 package controller;
 
 import cart.ShoppingCart;
-import dao.CategoryDao;
-import dao.CategoryDaoJdbc;
-import dao.ProductDao;
-import dao.ProductDaoJdbc;
-import entity.Category;
-import entity.Product;
+import business.category.CategoryDao;
+import business.category.CategoryDaoJdbc;
+import business.product.ProductDao;
+import business.product.ProductDaoJdbc;
+import business.category.Category;
+import business.product.Product;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Locale;
@@ -23,9 +23,6 @@ import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
-import session.CategoryFacade;
-import session.OrderManager;
-import session.ProductFacade;
 import validate.Validator;
 
 /**
@@ -58,7 +55,7 @@ public class ControllerServlet extends HttpServlet {
         // initialize servlet with configuration information
         surcharge = servletConfig.getServletContext().getInitParameter("deliverySurcharge");
 
-        // wire up the dao layer "by hand"
+        // wire up the business.dao layer "by hand"
         productDao = new ProductDaoJdbc();
         categoryDao = new CategoryDaoJdbc();
         ((CategoryDaoJdbc)categoryDao).setProductDao(productDao);

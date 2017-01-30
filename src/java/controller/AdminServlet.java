@@ -8,8 +8,8 @@
 
 package controller;
 
-import entity.Customer;
-import entity.CustomerOrder;
+import business.customer.Customer;
+import business.order.CustomerOrder;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;

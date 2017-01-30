@@ -8,7 +8,7 @@
 
 package cart;
 
-import entity.Product;
+import business.product.Product;
 import java.util.*;
 
 /**
