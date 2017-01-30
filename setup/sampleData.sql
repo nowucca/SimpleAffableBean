@@ -8,7 +8,7 @@
 --
 
 --
--- Database: `affablebean`
+-- Database: `simpleaffablebean`
 --
 
 -- --------------------------------------------------------
@@ -105,60 +105,60 @@ INSERT INTO `product` (`name`, price, description, category_id) VALUES ('seedles
 
 
 --
--- Sample data for table `ordered_product`
+-- Sample data for table `customer_order_line_item`
 --
---INSERT INTO `ordered_product` (customer_order_id, product_id, quantity) VALUES (15, 1, 1);
---INSERT INTO `ordered_product` (customer_order_id, product_id, quantity) VALUES (15, 15, 3);
---INSERT INTO `ordered_product` (customer_order_id, product_id, quantity) VALUES (15, 3, 2);
---INSERT INTO `ordered_product` (customer_order_id, product_id, quantity) VALUES (14, 5, 4);
---INSERT INTO `ordered_product` (customer_order_id, product_id, quantity) VALUES (13, 13, 1);
---INSERT INTO `ordered_product` (customer_order_id, product_id, quantity) VALUES (13, 4, 1);
---INSERT INTO `ordered_product` (customer_order_id, product_id, quantity) VALUES (13, 10, 2);
---INSERT INTO `ordered_product` (customer_order_id, product_id, quantity) VALUES (13, 16, 1);
---INSERT INTO `ordered_product` (customer_order_id, product_id, quantity) VALUES (12, 1, 3);
---INSERT INTO `ordered_product` (customer_order_id, product_id, quantity) VALUES (12, 12, 4);
---INSERT INTO `ordered_product` (customer_order_id, product_id, quantity) VALUES (11, 13, 1);
---INSERT INTO `ordered_product` (customer_order_id, product_id, quantity) VALUES (11, 2, 2);
---INSERT INTO `ordered_product` (customer_order_id, product_id, quantity) VALUES (11, 9, 1);
---INSERT INTO `ordered_product` (customer_order_id, product_id, quantity) VALUES (11, 14, 2);
---INSERT INTO `ordered_product` (customer_order_id, product_id, quantity) VALUES (11, 16, 1);
---INSERT INTO `ordered_product` (customer_order_id, product_id, quantity) VALUES (11, 10, 1);
---INSERT INTO `ordered_product` (customer_order_id, product_id, quantity) VALUES (10, 13, 10);
---INSERT INTO `ordered_product` (customer_order_id, product_id, quantity) VALUES (9, 8, 5);
---INSERT INTO `ordered_product` (customer_order_id, product_id, quantity) VALUES (9, 7, 2);
---INSERT INTO `ordered_product` (customer_order_id, product_id, quantity) VALUES (9, 6, 2);
---INSERT INTO `ordered_product` (customer_order_id, product_id, quantity) VALUES (9, 5, 2);
---INSERT INTO `ordered_product` (customer_order_id, product_id, quantity) VALUES (8, 8, 2);
---INSERT INTO `ordered_product` (customer_order_id, product_id, quantity) VALUES (8, 15, 2);
---INSERT INTO `ordered_product` (customer_order_id, product_id, quantity) VALUES (8, 11, 1);
---INSERT INTO `ordered_product` (customer_order_id, product_id, quantity) VALUES (8, 9, 1);
---INSERT INTO `ordered_product` (customer_order_id, product_id, quantity) VALUES (8, 14, 1);
---INSERT INTO `ordered_product` (customer_order_id, product_id, quantity) VALUES (8, 16, 1);
---INSERT INTO `ordered_product` (customer_order_id, product_id, quantity) VALUES (7, 16, 1);
---INSERT INTO `ordered_product` (customer_order_id, product_id, quantity) VALUES (6, 15, 2);
---INSERT INTO `ordered_product` (customer_order_id, product_id, quantity) VALUES (6, 9, 1);
---INSERT INTO `ordered_product` (customer_order_id, product_id, quantity) VALUES (6, 4, 2);
---INSERT INTO `ordered_product` (customer_order_id, product_id, quantity) VALUES (6, 6, 1);
---INSERT INTO `ordered_product` (customer_order_id, product_id, quantity) VALUES (6, 3, 1);
---INSERT INTO `ordered_product` (customer_order_id, product_id, quantity) VALUES (5, 15, 1);
---INSERT INTO `ordered_product` (customer_order_id, product_id, quantity) VALUES (5, 7, 5);
---INSERT INTO `ordered_product` (customer_order_id, product_id, quantity) VALUES (4, 8, 1);
---INSERT INTO `ordered_product` (customer_order_id, product_id, quantity) VALUES (4, 1, 1);
---INSERT INTO `ordered_product` (customer_order_id, product_id, quantity) VALUES (4, 11, 1);
---INSERT INTO `ordered_product` (customer_order_id, product_id, quantity) VALUES (4, 14, 2);
---INSERT INTO `ordered_product` (customer_order_id, product_id, quantity) VALUES (4, 4, 1);
---INSERT INTO `ordered_product` (customer_order_id, product_id, quantity) VALUES (4, 16, 1);
---INSERT INTO `ordered_product` (customer_order_id, product_id, quantity) VALUES (3, 1, 1);
---INSERT INTO `ordered_product` (customer_order_id, product_id, quantity) VALUES (3, 8, 6);
---INSERT INTO `ordered_product` (customer_order_id, product_id, quantity) VALUES (2, 13, 1);
---INSERT INTO `ordered_product` (customer_order_id, product_id, quantity) VALUES (2, 5, 1);
---INSERT INTO `ordered_product` (customer_order_id, product_id, quantity) VALUES (2, 15, 1);
---INSERT INTO `ordered_product` (customer_order_id, product_id, quantity) VALUES (2, 2, 1);
---INSERT INTO `ordered_product` (customer_order_id, product_id, quantity) VALUES (2, 11, 2);
---INSERT INTO `ordered_product` (customer_order_id, product_id, quantity) VALUES (2, 16, 1);
---INSERT INTO `ordered_product` (customer_order_id, product_id, quantity) VALUES (2, 4, 1);
---INSERT INTO `ordered_product` (customer_order_id, product_id, quantity) VALUES (1, 12, 1);
---INSERT INTO `ordered_product` (customer_order_id, product_id, quantity) VALUES (1, 2, 2);
---INSERT INTO `ordered_product` (customer_order_id, product_id, quantity) VALUES (1, 13, 1);
---INSERT INTO `ordered_product` (customer_order_id, product_id, quantity) VALUES (1, 10, 1);
---INSERT INTO `ordered_product` (customer_order_id, product_id, quantity) VALUES (1, 8, 1);
+--INSERT INTO `customer_order_line_item` (customer_order_id, product_id, quantity) VALUES (15, 1, 1);
+--INSERT INTO `customer_order_line_item` (customer_order_id, product_id, quantity) VALUES (15, 15, 3);
+--INSERT INTO `customer_order_line_item` (customer_order_id, product_id, quantity) VALUES (15, 3, 2);
+--INSERT INTO `customer_order_line_item` (customer_order_id, product_id, quantity) VALUES (14, 5, 4);
+--INSERT INTO `customer_order_line_item` (customer_order_id, product_id, quantity) VALUES (13, 13, 1);
+--INSERT INTO `customer_order_line_item` (customer_order_id, product_id, quantity) VALUES (13, 4, 1);
+--INSERT INTO `customer_order_line_item` (customer_order_id, product_id, quantity) VALUES (13, 10, 2);
+--INSERT INTO `customer_order_line_item` (customer_order_id, product_id, quantity) VALUES (13, 16, 1);
+--INSERT INTO `customer_order_line_item` (customer_order_id, product_id, quantity) VALUES (12, 1, 3);
+--INSERT INTO `customer_order_line_item` (customer_order_id, product_id, quantity) VALUES (12, 12, 4);
+--INSERT INTO `customer_order_line_item` (customer_order_id, product_id, quantity) VALUES (11, 13, 1);
+--INSERT INTO `customer_order_line_item` (customer_order_id, product_id, quantity) VALUES (11, 2, 2);
+--INSERT INTO `customer_order_line_item` (customer_order_id, product_id, quantity) VALUES (11, 9, 1);
+--INSERT INTO `customer_order_line_item` (customer_order_id, product_id, quantity) VALUES (11, 14, 2);
+--INSERT INTO `customer_order_line_item` (customer_order_id, product_id, quantity) VALUES (11, 16, 1);
+--INSERT INTO `customer_order_line_item` (customer_order_id, product_id, quantity) VALUES (11, 10, 1);
+--INSERT INTO `customer_order_line_item` (customer_order_id, product_id, quantity) VALUES (10, 13, 10);
+--INSERT INTO `customer_order_line_item` (customer_order_id, product_id, quantity) VALUES (9, 8, 5);
+--INSERT INTO `customer_order_line_item` (customer_order_id, product_id, quantity) VALUES (9, 7, 2);
+--INSERT INTO `customer_order_line_item` (customer_order_id, product_id, quantity) VALUES (9, 6, 2);
+--INSERT INTO `customer_order_line_item` (customer_order_id, product_id, quantity) VALUES (9, 5, 2);
+--INSERT INTO `customer_order_line_item` (customer_order_id, product_id, quantity) VALUES (8, 8, 2);
+--INSERT INTO `customer_order_line_item` (customer_order_id, product_id, quantity) VALUES (8, 15, 2);
+--INSERT INTO `customer_order_line_item` (customer_order_id, product_id, quantity) VALUES (8, 11, 1);
+--INSERT INTO `customer_order_line_item` (customer_order_id, product_id, quantity) VALUES (8, 9, 1);
+--INSERT INTO `customer_order_line_item` (customer_order_id, product_id, quantity) VALUES (8, 14, 1);
+--INSERT INTO `customer_order_line_item` (customer_order_id, product_id, quantity) VALUES (8, 16, 1);
+--INSERT INTO `customer_order_line_item` (customer_order_id, product_id, quantity) VALUES (7, 16, 1);
+--INSERT INTO `customer_order_line_item` (customer_order_id, product_id, quantity) VALUES (6, 15, 2);
+--INSERT INTO `customer_order_line_item` (customer_order_id, product_id, quantity) VALUES (6, 9, 1);
+--INSERT INTO `customer_order_line_item` (customer_order_id, product_id, quantity) VALUES (6, 4, 2);
+--INSERT INTO `customer_order_line_item` (customer_order_id, product_id, quantity) VALUES (6, 6, 1);
+--INSERT INTO `customer_order_line_item` (customer_order_id, product_id, quantity) VALUES (6, 3, 1);
+--INSERT INTO `customer_order_line_item` (customer_order_id, product_id, quantity) VALUES (5, 15, 1);
+--INSERT INTO `customer_order_line_item` (customer_order_id, product_id, quantity) VALUES (5, 7, 5);
+--INSERT INTO `customer_order_line_item` (customer_order_id, product_id, quantity) VALUES (4, 8, 1);
+--INSERT INTO `customer_order_line_item` (customer_order_id, product_id, quantity) VALUES (4, 1, 1);
+--INSERT INTO `customer_order_line_item` (customer_order_id, product_id, quantity) VALUES (4, 11, 1);
+--INSERT INTO `customer_order_line_item` (customer_order_id, product_id, quantity) VALUES (4, 14, 2);
+--INSERT INTO `customer_order_line_item` (customer_order_id, product_id, quantity) VALUES (4, 4, 1);
+--INSERT INTO `customer_order_line_item` (customer_order_id, product_id, quantity) VALUES (4, 16, 1);
+--INSERT INTO `customer_order_line_item` (customer_order_id, product_id, quantity) VALUES (3, 1, 1);
+--INSERT INTO `customer_order_line_item` (customer_order_id, product_id, quantity) VALUES (3, 8, 6);
+--INSERT INTO `customer_order_line_item` (customer_order_id, product_id, quantity) VALUES (2, 13, 1);
+--INSERT INTO `customer_order_line_item` (customer_order_id, product_id, quantity) VALUES (2, 5, 1);
+--INSERT INTO `customer_order_line_item` (customer_order_id, product_id, quantity) VALUES (2, 15, 1);
+--INSERT INTO `customer_order_line_item` (customer_order_id, product_id, quantity) VALUES (2, 2, 1);
+--INSERT INTO `customer_order_line_item` (customer_order_id, product_id, quantity) VALUES (2, 11, 2);
+--INSERT INTO `customer_order_line_item` (customer_order_id, product_id, quantity) VALUES (2, 16, 1);
+--INSERT INTO `customer_order_line_item` (customer_order_id, product_id, quantity) VALUES (2, 4, 1);
+--INSERT INTO `customer_order_line_item` (customer_order_id, product_id, quantity) VALUES (1, 12, 1);
+--INSERT INTO `customer_order_line_item` (customer_order_id, product_id, quantity) VALUES (1, 2, 2);
+--INSERT INTO `customer_order_line_item` (customer_order_id, product_id, quantity) VALUES (1, 13, 1);
+--INSERT INTO `customer_order_line_item` (customer_order_id, product_id, quantity) VALUES (1, 10, 1);
+--INSERT INTO `customer_order_line_item` (customer_order_id, product_id, quantity) VALUES (1, 8, 1);

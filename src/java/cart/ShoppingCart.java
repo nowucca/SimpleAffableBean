@@ -42,7 +42,7 @@ public class ShoppingCart {
 
         for (ShoppingCartItem scItem : items) {
 
-            if (scItem.getProduct().getId() == product.getId()) {
+            if (scItem.getProduct().getProductId() == product.getProductId()) {
 
                 newItem = false;
                 scItem.incrementQuantity();
@@ -78,7 +78,7 @@ public class ShoppingCart {
 
             for (ShoppingCartItem scItem : items) {
 
-                if (scItem.getProduct().getId() == product.getId()) {
+                if (scItem.getProduct().getProductId() == product.getProductId()) {
 
                     if (qty != 0) {
                         // set item quantity to new value

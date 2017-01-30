@@ -11,44 +11,44 @@ SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL';
 
-DROP SCHEMA IF EXISTS `affablebean` ;
-CREATE SCHEMA IF NOT EXISTS `affablebean` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ;
-USE `affablebean` ;
+DROP SCHEMA IF EXISTS `simpleaffablebean` ;
+CREATE SCHEMA IF NOT EXISTS `simpleaffablebean` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ;
+USE `simpleaffablebean` ;
 
 -- -----------------------------------------------------
--- Table `affablebean`.`customer`
+-- Table `simpleaffablebean`.`customer`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `affablebean`.`customer` ;
+DROP TABLE IF EXISTS `simpleaffablebean`.`customer` ;
 
-CREATE  TABLE IF NOT EXISTS `affablebean`.`customer` (
-  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
+CREATE  TABLE IF NOT EXISTS `simpleaffablebean`.`customer` (
+  `customer_id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(45) NOT NULL ,
   `email` VARCHAR(45) NOT NULL ,
   `phone` VARCHAR(45) NOT NULL ,
   `address` VARCHAR(45) NOT NULL ,
   `city_region` VARCHAR(2) NOT NULL ,
   `cc_number` VARCHAR(19) NOT NULL ,
-  PRIMARY KEY (`id`) )
+  PRIMARY KEY (`customer_id`) )
 ENGINE = InnoDB
 COMMENT = 'maintains customer details';
 
 
 -- -----------------------------------------------------
--- Table `affablebean`.`customer_order`
+-- Table `simpleaffablebean`.`customer_order`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `affablebean`.`customer_order` ;
+DROP TABLE IF EXISTS `simpleaffablebean`.`customer_order` ;
 
-CREATE  TABLE IF NOT EXISTS `affablebean`.`customer_order` (
-  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
-  `amount` DECIMAL(6,2) NOT NULL ,
+CREATE  TABLE IF NOT EXISTS `simpleaffablebean`.`customer_order` (
+  `customer_order_id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
+  `customer_id` INT UNSIGNED NOT NULL ,
+  `amount` INT UNSIGNED NOT NULL ,
   `date_created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
   `confirmation_number` INT UNSIGNED NOT NULL ,
-  `customer_id` INT UNSIGNED NOT NULL ,
-  PRIMARY KEY (`id`) ,
+  PRIMARY KEY (`customer_order_id`) ,
   INDEX `fk_customer_order_customer` (`customer_id` ASC) ,
   CONSTRAINT `fk_customer_order_customer`
     FOREIGN KEY (`customer_id` )
-    REFERENCES `affablebean`.`customer` (`id` )
+    REFERENCES `simpleaffablebean`.`customer` (`customer_id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -56,38 +56,38 @@ COMMENT = 'maintains customer order details';
 
 
 -- -----------------------------------------------------
--- Table `affablebean`.`category`
+-- Table `simpleaffablebean`.`category`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `affablebean`.`category` ;
+DROP TABLE IF EXISTS `simpleaffablebean`.`category` ;
 
-CREATE  TABLE IF NOT EXISTS `affablebean`.`category` (
-  `id` TINYINT UNSIGNED NOT NULL AUTO_INCREMENT ,
+CREATE  TABLE IF NOT EXISTS `simpleaffablebean`.`category` (
+  `category_id` TINYINT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(45) NOT NULL ,
-  PRIMARY KEY (`id`) )
+  PRIMARY KEY (`category_id`) )
 ENGINE = InnoDB
 COMMENT = 'contains product categories, e.g., dairy, meats, etc.';
 
 
 -- -----------------------------------------------------
--- Table `affablebean`.`product`
+-- Table `simpleaffablebean`.`product`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `affablebean`.`product` ;
+DROP TABLE IF EXISTS `simpleaffablebean`.`product` ;
 
-CREATE  TABLE IF NOT EXISTS `affablebean`.`product` (
-  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
+CREATE TABLE IF NOT EXISTS `simpleaffablebean`.`product` (
+  `product_id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
+  `category_id` TINYINT UNSIGNED NOT NULL ,
   `name` VARCHAR(45) NOT NULL ,
-  `price` DECIMAL(5,2) NOT NULL ,
+  `price` INT UNSIGNED NOT NULL ,
 
   -- Delete after description is moved to resource bundle
   `description` TINYTEXT NULL ,
 
   `last_update` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP ,
-  `category_id` TINYINT UNSIGNED NOT NULL ,
-  PRIMARY KEY (`id`) ,
+  PRIMARY KEY (`product_id`) ,
   INDEX `fk_product_category` (`category_id` ASC) ,
   CONSTRAINT `fk_product_category`
     FOREIGN KEY (`category_id` )
-    REFERENCES `affablebean`.`category` (`id` )
+    REFERENCES `simpleaffablebean`.`category` (`category_id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -95,25 +95,25 @@ COMMENT = 'contains product details';
 
 
 -- -----------------------------------------------------
--- Table `affablebean`.`ordered_product`
+-- Table `simpleaffablebean`.`customer_order_line_item`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `affablebean`.`ordered_product` ;
+DROP TABLE IF EXISTS `simpleaffablebean`.`customer_order_line_item` ;
 
-CREATE  TABLE IF NOT EXISTS `affablebean`.`ordered_product` (
+CREATE TABLE IF NOT EXISTS `simpleaffablebean`.`customer_order_line_item` (
   `customer_order_id` INT UNSIGNED NOT NULL ,
   `product_id` INT UNSIGNED NOT NULL ,
   `quantity` SMALLINT UNSIGNED NOT NULL DEFAULT 1 ,
   PRIMARY KEY (`customer_order_id`, `product_id`) ,
-  INDEX `fk_ordered_product_customer_order` (`customer_order_id` ASC) ,
-  INDEX `fk_ordered_product_product` (`product_id` ASC) ,
-  CONSTRAINT `fk_ordered_product_customer_order`
+  INDEX `fk_customer_order_line_item_customer_order` (`customer_order_id` ASC) ,
+  INDEX `fk_customer_order_line_item_product` (`product_id` ASC) ,
+  CONSTRAINT `fk_customer_order_line_item_customer_order`
     FOREIGN KEY (`customer_order_id` )
-    REFERENCES `affablebean`.`customer_order` (`id` )
+    REFERENCES `simpleaffablebean`.`customer_order` (`customer_order_id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_ordered_product_product`
     FOREIGN KEY (`product_id` )
-    REFERENCES `affablebean`.`product` (`id` )
+    REFERENCES `simpleaffablebean`.`product` (`product_id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB

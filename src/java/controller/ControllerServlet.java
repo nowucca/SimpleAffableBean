@@ -9,13 +9,16 @@
 package controller;
 
 import cart.ShoppingCart;
+import dao.CategoryDao;
+import dao.CategoryDaoJdbc;
+import dao.ProductDao;
+import dao.ProductDaoJdbc;
 import entity.Category;
 import entity.Product;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Locale;
 import java.util.Map;
-import javax.ejb.EJB;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -42,12 +45,9 @@ public class ControllerServlet extends HttpServlet {
 
     private String surcharge;
 
-    @EJB
-    private CategoryFacade categoryFacade;
-    @EJB
-    private ProductFacade productFacade;
-    @EJB
-    private OrderManager orderManager;
+    private ProductDao productDao;
+    private CategoryDao categoryDao;
+
 
 
     @Override
@@ -58,8 +58,13 @@ public class ControllerServlet extends HttpServlet {
         // initialize servlet with configuration information
         surcharge = servletConfig.getServletContext().getInitParameter("deliverySurcharge");
 
+        // wire up the dao layer "by hand"
+        productDao = new ProductDaoJdbc();
+        categoryDao = new CategoryDaoJdbc();
+        ((CategoryDaoJdbc)categoryDao).setProductDao(productDao);
+
         // store category list in servlet context
-        getServletContext().setAttribute("categories", categoryFacade.findAll());
+        getServletContext().setAttribute("categories", categoryDao.findAll());
     }
 
 
@@ -89,13 +94,13 @@ public class ControllerServlet extends HttpServlet {
             if (categoryId != null) {
 
                 // get selected category
-                selectedCategory = categoryFacade.find(Short.parseShort(categoryId));
+                selectedCategory = categoryDao.findByCategoryId(Short.parseShort(categoryId));
 
                 // place selected category in session scope
                 session.setAttribute("selectedCategory", selectedCategory);
 
                 // get all products for selected category
-                categoryProducts = selectedCategory.getProductCollection();
+                categoryProducts = selectedCategory.getProducts();
 
                 // place category products in session scope
                 session.setAttribute("categoryProducts", categoryProducts);
@@ -200,8 +205,7 @@ public class ControllerServlet extends HttpServlet {
             String productId = request.getParameter("productId");
 
             if (!productId.isEmpty()) {
-
-                Product product = productFacade.find(Integer.parseInt(productId));
+                Product product = productDao.findByProductId(Integer.parseInt(productId));
                 cart.addItem(product);
             }
 
@@ -219,7 +223,7 @@ public class ControllerServlet extends HttpServlet {
 
             if (!invalidEntry) {
 
-                Product product = productFacade.find(Integer.parseInt(productId));
+                Product product = productDao.findByProductId((Integer.parseInt(productId));
                 cart.update(product, quantity);
             }
 

@@ -53,7 +53,7 @@ public class OrderManager {
             Customer customer = addCustomer(name, email, phone, address, cityRegion, ccNumber);
             CustomerOrder order = addOrder(customer, cart);
             addOrderedItems(order, cart);
-            return order.getId();
+            return order.getOrderId();
         } catch (Exception e) {
             context.setRollbackOnly();
             return 0;
@@ -99,15 +99,15 @@ public class OrderManager {
         // iterate through shopping cart and create OrderedProducts
         for (ShoppingCartItem scItem : items) {
 
-            int productId = scItem.getProduct().getId();
+            int productId = scItem.getProduct().getProductId();
 
             // set up primary key object
             OrderedProductPK orderedProductPK = new OrderedProductPK();
-            orderedProductPK.setCustomerOrderId(order.getId());
+            orderedProductPK.setCustomerOrderId(order.getOrderId());
             orderedProductPK.setProductId(productId);
 
             // create ordered item using PK object
-            OrderedProduct orderedItem = new OrderedProduct(orderedProductPK);
+            CustomerOrderLineItem orderedItem = new CustomerOrderLineItem(orderedProductPK);
 
             // set quantity
             orderedItem.setQuantity(scItem.getQuantity());
@@ -127,12 +127,12 @@ public class OrderManager {
         Customer customer = order.getCustomer();
 
         // get all ordered products
-        List<OrderedProduct> orderedProducts = orderedProductFacade.findByOrderId(orderId);
+        List<CustomerOrderLineItem> customerOrderLineItems = orderedProductFacade.findByOrderId(orderId);
 
         // get product details for ordered items
         List<Product> products = new ArrayList<Product>();
 
-        for (OrderedProduct op : orderedProducts) {
+        for (CustomerOrderLineItem op : customerOrderLineItems) {
 
             Product p = (Product) productFacade.find(op.getOrderedProductPK().getProductId());
             products.add(p);
@@ -141,7 +141,7 @@ public class OrderManager {
         // add each item to orderMap
         orderMap.put("orderRecord", order);
         orderMap.put("customer", customer);
-        orderMap.put("orderedProducts", orderedProducts);
+        orderMap.put("customerOrderLineItems", customerOrderLineItems);
         orderMap.put("products", products);
 
         return orderMap;

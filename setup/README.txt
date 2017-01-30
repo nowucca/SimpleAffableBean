@@ -1,3 +1,18 @@
+Steven Atkinson
+28 January, 2017
+
+Notes about Design Decisions for JDBC layer
+
+Use longs for ids in entity classes per:
+https://dev.mysql.com/doc/connector-j/5.1/en/connector-j-reference-type-conversions.html
+
+Stop using serializable for entity models
+
+Have a DAO layer
+
+Hide SQL exceptions in a DAO layer
+
+
 
 Troy Giunipero
 17 May 2010
@@ -24,7 +39,7 @@ Before running the application,
         mysql> UPDATE mysql.user SET Password = PASSWORD('nbuser') WHERE User = 'root';
         mysql> FLUSH PRIVILEGES;
 
-    *See GlassFish Issue 12221:  https://glassfish.dev.java.net/issues/show_bug.cgi?id=12221
+    *See GlassFish Issue 12221:  https://glassfish.dev.java.net/issues/show_bug.cgi?orderId=12221
 
  2. From the IDE's Services window, right-click the MySQL Server node and choose Create Database.
 
