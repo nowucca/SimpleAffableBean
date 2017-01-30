@@ -139,7 +139,7 @@
                             * if the requested view is not cart
                             * if the checkout view is returned with order failure message flagged
                             * if the checkout view is returned with server-side validation errors detected
-                       
+
                             <c:if test="${!empty sessionScope.cart}">
                                 CART EXISTS AND IS NOT NULL
                             </c:if>

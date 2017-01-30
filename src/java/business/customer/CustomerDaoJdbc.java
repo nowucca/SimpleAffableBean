@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import static business.JdbcUtils.getConnection;
@@ -11,6 +12,10 @@ import static business.JdbcUtils.getConnection;
 /**
  */
 public class CustomerDaoJdbc implements CustomerDao {
+
+    private static final String CREATE_CUSTOMER_SQL =
+        "INSERT INTO `customer` (`name`, email, phone, address, city_region, cc_number) " +
+            "VALUES (?, ?, ?, ?, ?, ?)";
 
     private static final String FIND_ALL_SQL =
         "SELECT " +
@@ -28,6 +33,33 @@ public class CustomerDaoJdbc implements CustomerDao {
         "WHERE " +
             "c.customer_id = ?";
 
+
+    @Override
+    public long create(final Connection connection, String name, String email, String phone, String address, String cityRegion, String ccNumber) {
+        try (PreparedStatement statement = connection.prepareStatement(CREATE_CUSTOMER_SQL, Statement.RETURN_GENERATED_KEYS)) {
+            statement.setString(1, name);
+            statement.setString(2, email);
+            statement.setString(3, phone);
+            statement.setString(4, address);
+            statement.setString(5, cityRegion);
+            statement.setString(6, ccNumber);
+            int affected = statement.executeUpdate();
+            if (affected != 1) {
+                throw new RuntimeException("Failed to insert a customer, affected row count = "+affected);
+            }
+            long customerId;
+            ResultSet rs = statement.getGeneratedKeys();
+            if (rs.next()) {
+                customerId = rs.getLong(1);
+            } else {
+                throw new RuntimeException("Failed to retrieve customerId auto-generated key");
+            }
+
+            return customerId;
+        } catch (SQLException e) {
+            throw new RuntimeException("Encountered problem creating a new customer ", e);
+        }
+    }
 
     @Override
     public Customer findByCustomerId(long customerId) {

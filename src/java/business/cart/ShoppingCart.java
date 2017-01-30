@@ -6,10 +6,10 @@
  * http://developer.sun.com/berkeley_license.html
  */
 
-package cart;
+package business.cart;
 
-import business.product.Product;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -19,7 +19,7 @@ public class ShoppingCart {
 
     List<ShoppingCartItem> items;
     int numberOfItems;
-    double total;
+    int total;
 
     public ShoppingCart() {
         items = new ArrayList<ShoppingCartItem>();
@@ -30,27 +30,26 @@ public class ShoppingCart {
     /**
      * Adds a <code>ShoppingCartItem</code> to the <code>ShoppingCart</code>'s
      * <code>items</code> list. If item of the specified <code>product</code>
-     * already exists in shopping cart list, the quantity of that item is
-     * incremented.
+     * already exists in shopping business.cart list, the quantity of that item is
+     * incremented, and the original price remains unchanged.
      *
-     * @param product the <code>Product</code> that defines the type of shopping cart item
      * @see ShoppingCartItem
      */
-    public synchronized void addItem(Product product) {
+    public synchronized void addItem(long productId, int price) {
 
         boolean newItem = true;
 
         for (ShoppingCartItem scItem : items) {
 
-            if (scItem.getProduct().getProductId() == product.getProductId()) {
+            if (scItem.getProductId() == productId) {
 
                 newItem = false;
-                scItem.incrementQuantity();
+                scItem.quantity++;
             }
         }
 
         if (newItem) {
-            ShoppingCartItem scItem = new ShoppingCartItem(product);
+            ShoppingCartItem scItem = new ShoppingCartItem(productId, price);
             items.add(scItem);
         }
     }
@@ -61,11 +60,10 @@ public class ShoppingCart {
      * is the given quantity, the <code>ShoppingCartItem</code> is removed
      * from the <code>ShoppingCart</code>'s <code>items</code> list.
      *
-     * @param product the <code>Product</code> that defines the type of shopping cart item
      * @param quantity the number which the <code>ShoppingCartItem</code> is updated to
      * @see ShoppingCartItem
      */
-    public synchronized void update(Product product, String quantity) {
+    public synchronized void update(long productId, String quantity) {
 
         short qty = -1;
 
@@ -78,11 +76,11 @@ public class ShoppingCart {
 
             for (ShoppingCartItem scItem : items) {
 
-                if (scItem.getProduct().getProductId() == product.getProductId()) {
+                if (scItem.getProductId() == productId) {
 
                     if (qty != 0) {
                         // set item quantity to new value
-                        scItem.setQuantity(qty);
+                        scItem.quantity = qty;
                     } else {
                         // if quantity equals 0, save item and break
                         item = scItem;
@@ -110,10 +108,10 @@ public class ShoppingCart {
     }
 
     /**
-     * Returns the sum of quantities for all items maintained in shopping cart
+     * Returns the sum of quantities for all items maintained in shopping business.cart
      * <code>items</code> list.
      *
-     * @return the number of items in shopping cart
+     * @return the number of items in shopping business.cart
      * @see ShoppingCartItem
      */
     public synchronized int getNumberOfItems() {
@@ -130,19 +128,18 @@ public class ShoppingCart {
 
     /**
      * Returns the sum of the product price multiplied by the quantity for all
-     * items in shopping cart list. This is the total cost excluding the surcharge.
+     * items in shopping business.cart list. This is the total cost excluding the surcharge.
      *
      * @return the cost of all items times their quantities
      * @see ShoppingCartItem
      */
-    public synchronized double getSubtotal() {
+    private synchronized int getSubtotal() {
 
-        double amount = 0;
+        int amount = 0;
 
         for (ShoppingCartItem scItem : items) {
 
-            Product product = (Product) scItem.getProduct();
-            amount += (scItem.getQuantity() * product.getPrice().doubleValue());
+            amount += (scItem.getQuantity() * scItem.getPrice());
         }
 
         return amount;
@@ -158,13 +155,10 @@ public class ShoppingCart {
      */
     public synchronized void calculateTotal(String surcharge) {
 
-        double amount = 0;
-
-        // cast surcharge as double
-        double s = Double.parseDouble(surcharge);
+        int amount = 0;
 
         amount = this.getSubtotal();
-        amount += s;
+        amount +=  Integer.parseInt(surcharge);
 
         total = amount;
     }
@@ -175,13 +169,13 @@ public class ShoppingCart {
      *
      * @return the cost of all items times their quantities plus surcharge
      */
-    public synchronized double getTotal() {
+    public synchronized int getTotal() {
 
         return total;
     }
 
     /**
-     * Empties the shopping cart. All items are removed from the shopping cart
+     * Empties the shopping business.cart. All items are removed from the shopping business.cart
      * <code>items</code> list, <code>numberOfItems</code> and
      * <code>total</code> are reset to '<code>0</code>'.
      *

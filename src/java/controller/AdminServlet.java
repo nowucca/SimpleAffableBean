@@ -9,12 +9,17 @@
 package controller;
 
 import business.customer.Customer;
+import business.customer.CustomerDao;
 import business.order.CustomerOrder;
+import business.order.CustomerOrderDao;
+import business.order.CustomerOrderDetails;
+import business.order.CustomerOrderService;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import javax.ejb.EJB;
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.HttpConstraint;
 import javax.servlet.annotation.ServletSecurity;
@@ -22,9 +27,7 @@ import javax.servlet.annotation.ServletSecurity.TransportGuarantee;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import javax.servlet.http.HttpSession;
-import session.CustomerFacade;
-import session.CustomerOrderFacade;
-import session.OrderManager;
+
 
 /**
  *
@@ -43,18 +46,19 @@ import session.OrderManager;
 )
 public class AdminServlet extends HttpServlet {
 
-    @EJB
-    private OrderManager orderManager;
-    @EJB
-    private CustomerFacade customerFacade;
-    @EJB
-    private CustomerOrderFacade customerOrderFacade;
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        ApplicationContext applicationContext = ApplicationContext.INSTANCE;
+        customerDao = applicationContext.getCustomerDao();
+        customerOrderDao = applicationContext.getCustomerOrderDao();
+    }
 
-    private String userPath;
-    private Customer customer;
-    private CustomerOrder order;
-    private List orderList = new ArrayList();
-    private List customerList = new ArrayList();
+    private CustomerDao customerDao;
+    private CustomerOrderDao customerOrderDao;
+    private CustomerOrderService customerOrderService;
+
+
 
 
     /**
@@ -68,17 +72,17 @@ public class AdminServlet extends HttpServlet {
             throws ServletException, IOException {
 
         HttpSession session = request.getSession(true);
-        userPath = request.getServletPath();
+        String userPath = request.getServletPath();
 
         // if viewCustomers is requested
         if (userPath.equals("/admin/viewCustomers")) {
-            customerList = customerFacade.findAll();
+            List<Customer> customerList = customerDao.findAll();
             request.setAttribute("customerList", customerList);
         }
 
         // if viewOrders is requested
         if (userPath.equals("/admin/viewOrders")) {
-            orderList = customerOrderFacade.findAll();
+            List<CustomerOrder> orderList = customerOrderDao.findAll();
             request.setAttribute("orderList", orderList);
         }
 
@@ -89,11 +93,11 @@ public class AdminServlet extends HttpServlet {
             String customerId = request.getQueryString();
 
             // get customer details
-            customer = customerFacade.find(Integer.parseInt(customerId));
+            Customer customer = customerDao.findByCustomerId(Integer.parseInt(customerId));
             request.setAttribute("customerRecord", customer);
 
             // get customer order details
-            order = customerOrderFacade.findByCustomer(customer);
+            CustomerOrder order = customerOrderDao.findByCustomerId(Integer.parseInt(customerId));
             request.setAttribute("order", order);
         }
 
@@ -104,13 +108,14 @@ public class AdminServlet extends HttpServlet {
             String orderId = request.getQueryString();
 
             // get order details
-            Map orderMap = orderManager.getOrderDetails(Integer.parseInt(orderId));
+            CustomerOrderDetails details = customerOrderService.getOrderDetails(Long.parseLong(orderId));
 
             // place order details in request scope
-            request.setAttribute("customer", orderMap.get("customer"));
-            request.setAttribute("products", orderMap.get("products"));
-            request.setAttribute("orderRecord", orderMap.get("orderRecord"));
-            request.setAttribute("orderedProducts", orderMap.get("orderedProducts"));
+            request.setAttribute("customer", details.getCustomer());
+            request.setAttribute("products", details.getProducts());
+            request.setAttribute("orderRecord", details.getCustomerOrder());
+            request.setAttribute("orderedProducts", details.getCustomerOrderLineItems());
+
         }
 
         // if logout is requested

@@ -8,17 +8,25 @@
 
 package controller;
 
-import cart.ShoppingCart;
+import business.cart.ShoppingCart;
 import business.category.CategoryDao;
-import business.category.CategoryDaoJdbc;
+import business.customer.Customer;
+import business.customer.CustomerDao;
+import business.order.CustomerOrder;
+import business.order.CustomerOrderDao;
+import business.order.CustomerOrderDetails;
+import business.order.CustomerOrderLineItem;
+import business.order.CustomerOrderService;
 import business.product.ProductDao;
-import business.product.ProductDaoJdbc;
 import business.category.Category;
 import business.product.Product;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -42,9 +50,9 @@ public class ControllerServlet extends HttpServlet {
 
     private String surcharge;
 
-    private ProductDao productDao;
     private CategoryDao categoryDao;
-
+    private ProductDao productDao;
+    private CustomerOrderService customerOrderService;
 
 
     @Override
@@ -55,13 +63,14 @@ public class ControllerServlet extends HttpServlet {
         // initialize servlet with configuration information
         surcharge = servletConfig.getServletContext().getInitParameter("deliverySurcharge");
 
-        // wire up the business.dao layer "by hand"
-        productDao = new ProductDaoJdbc();
-        categoryDao = new CategoryDaoJdbc();
-        ((CategoryDaoJdbc)categoryDao).setProductDao(productDao);
+        ApplicationContext applicationContext = ApplicationContext.INSTANCE;
+        categoryDao = applicationContext.getCategoryDao();
+        productDao = applicationContext.getProductDao();
+        customerOrderService = applicationContext.getCustomerOrderService();
+
 
         // store category list in servlet context
-        getServletContext().setAttribute("categories", categoryDao.findAll());
+        getServletContext().setAttribute("categories", applicationContext.getCategoryDao().findAll());
     }
 
 
@@ -104,14 +113,14 @@ public class ControllerServlet extends HttpServlet {
             }
 
 
-        // if cart page is requested
+        // if business.cart page is requested
         } else if (userPath.equals("/viewCart")) {
 
             String clear = request.getParameter("clear");
 
             if ((clear != null) && clear.equals("true")) {
 
-                ShoppingCart cart = (ShoppingCart) session.getAttribute("cart");
+                ShoppingCart cart = (ShoppingCart) session.getAttribute("business/cart");
                 cart.clear();
             }
 
@@ -121,7 +130,7 @@ public class ControllerServlet extends HttpServlet {
         // if checkout page is requested
         } else if (userPath.equals("/checkout")) {
 
-            ShoppingCart cart = (ShoppingCart) session.getAttribute("cart");
+            ShoppingCart cart = (ShoppingCart) session.getAttribute("business/cart");
 
             // calculate total
             cart.calculateTotal(surcharge);
@@ -202,8 +211,9 @@ public class ControllerServlet extends HttpServlet {
             String productId = request.getParameter("productId");
 
             if (!productId.isEmpty()) {
-                Product product = productDao.findByProductId(Integer.parseInt(productId));
-                cart.addItem(product);
+                final int id = Integer.parseInt(productId);
+                Product product = productDao.findByProductId(id);
+                cart.addItem(id, product.getPrice());
             }
 
             userPath = "/category";
@@ -220,8 +230,8 @@ public class ControllerServlet extends HttpServlet {
 
             if (!invalidEntry) {
 
-                Product product = productDao.findByProductId((Integer.parseInt(productId));
-                cart.update(product, quantity);
+                Product product = productDao.findByProductId((Integer.parseInt(productId)));
+                cart.update(product.getProductId(), quantity);
             }
 
             userPath = "/cart";
@@ -252,7 +262,7 @@ public class ControllerServlet extends HttpServlet {
                     // otherwise, save order to database
                 } else {
 
-                    int orderId = orderManager.placeOrder(name, email, phone, address, cityRegion, ccNumber, cart);
+                    long orderId = customerOrderService.placeOrder(name, email, phone, address, cityRegion, ccNumber, cart);
 
                     // if order processed successfully send user to confirmation page
                     if (orderId != 0) {
@@ -278,13 +288,13 @@ public class ControllerServlet extends HttpServlet {
                         }
 
                         // get order details
-                        Map orderMap = orderManager.getOrderDetails(orderId);
+                        CustomerOrderDetails details = customerOrderService.getOrderDetails(orderId);
 
                         // place order details in request scope
-                        request.setAttribute("customer", orderMap.get("customer"));
-                        request.setAttribute("products", orderMap.get("products"));
-                        request.setAttribute("orderRecord", orderMap.get("orderRecord"));
-                        request.setAttribute("orderedProducts", orderMap.get("orderedProducts"));
+                        request.setAttribute("customer", details.getCustomer());
+                        request.setAttribute("products", details.getProducts());
+                        request.setAttribute("orderRecord", details.getCustomerOrder());
+                        request.setAttribute("orderedProducts", details.getCustomerOrderLineItems());
 
                         userPath = "/confirmation";
 

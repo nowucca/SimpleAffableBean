@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 public class Validator {
 
     // ensures that quantity input is number between 0 and 99
-    // applies to quantity fields in cart page
+    // applies to quantity fields in business.cart page
     public boolean validateQuantity (String productId, String quantity) {
 
         boolean errorFlag = false;

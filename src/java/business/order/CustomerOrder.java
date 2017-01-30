@@ -50,6 +50,10 @@ public class CustomerOrder {
         return customerOrderId;
     }
 
+    public long getCustomerId() {
+        return customerId;
+    }
+
     public int getAmount() {
         return amount;
     }

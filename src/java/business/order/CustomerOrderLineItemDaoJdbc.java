@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import static business.JdbcUtils.getConnection;
@@ -12,6 +13,9 @@ import static business.JdbcUtils.getConnection;
  */
 public class CustomerOrderLineItemDaoJdbc implements CustomerOrderLineItemDao {
 
+    private static final String CREATE_LINE_ITEM_SQL =
+        "INSERT INTO customer_order_line_item (customer_order_id, product_id, quantity) " +
+         "VALUES (?, ?, ?)";
 
     private static final String FIND_BY_CUSTOMER_ORDER_ID_SQL =
         "SELECT " +
@@ -21,6 +25,21 @@ public class CustomerOrderLineItemDaoJdbc implements CustomerOrderLineItemDao {
         "WHERE " +
             "li.customer_order_id = ?";
 
+
+    @Override
+    public void create(Connection connection, long customerOrderId, long productId, short quantity) {
+        try (PreparedStatement statement = connection.prepareStatement(CREATE_LINE_ITEM_SQL)) {
+            statement.setLong(1, customerOrderId);
+            statement.setLong(2, productId);
+            statement.setShort(3, quantity);
+            int affected = statement.executeUpdate();
+            if (affected != 1) {
+                throw new RuntimeException("Failed to insert an order line item, affected row count = "+affected);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Encountered problem creating a new customer ", e);
+        }
+    }
 
     @Override
     public List<CustomerOrderLineItem> findByCustomerOrderId(long customerOrderId) {

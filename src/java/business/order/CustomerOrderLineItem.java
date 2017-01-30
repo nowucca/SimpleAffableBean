@@ -32,6 +32,14 @@ public class CustomerOrderLineItem {
         this.quantity = quantity;
     }
 
+    public long getCustomerOrderId() {
+        return customerOrderId;
+    }
+
+    public long getProductId() {
+        return productId;
+    }
+
     public short getQuantity() {
         return quantity;
     }

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -12,6 +13,10 @@ import static business.JdbcUtils.getConnection;
 /**
  */
 public class CustomerOrderDaoJdbc implements CustomerOrderDao {
+
+    private static final String CREATE_ORDER_SQL =
+        "INSERT INTO customer_order (amount, customer_id, confirmation_number) " +
+            "VALUES (?, ?, ?)";
 
     private static final String FIND_ALL_SQL =
         "SELECT " +
@@ -27,28 +32,49 @@ public class CustomerOrderDaoJdbc implements CustomerOrderDao {
         "WHERE " +
             "co.customer_id = ?";
 
+    private static final String FIND_BY_CUSTOMER_ORDER_ID_SQL =
+        "SELECT " +
+            "co.customer_order_id, co.customer_id, co.amount, co.date_created, co.confirmation_number " +
+            "FROM " +
+            "customer_order co " +
+            "WHERE " +
+            "co.customer_order_id = ?";
+
     private CustomerOrderLineItemDao lineItemDao;
 
 
     @Override
-    public CustomerOrder findByCustomerId(long customerId) {
-        CustomerOrder result = null;
-        try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(FIND_BY_CUSTOMER_ID_SQL)) {
-            statement.setLong(1, customerId);
-
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    result = readCustomerOrder(resultSet);
-                }
+    public long create(final Connection connection, long customerId, int amount, int confirmationNumber) {
+        try (PreparedStatement statement = connection.prepareStatement(CREATE_ORDER_SQL, Statement.RETURN_GENERATED_KEYS)) {
+            statement.setInt(1, amount);
+            statement.setLong(2, customerId);
+            statement.setInt(3, confirmationNumber);
+            int affected = statement.executeUpdate();
+            if (affected != 1) {
+                throw new RuntimeException("Failed to insert an order, affected row count = "+affected);
             }
+            long customerOrderId;
+            ResultSet rs = statement.getGeneratedKeys();
+            if (rs.next()) {
+                customerOrderId = rs.getLong(1);
+            } else {
+                throw new RuntimeException("Failed to retrieve customerOrderId auto-generated key");
+            }
+
+            return customerOrderId;
         } catch (SQLException e) {
-            throw new RuntimeException("Encountered problem finding customer "+customerId, e);
+            throw new RuntimeException("Encountered problem creating a new customer ", e);
         }
-        if (result != null) {
-            result.setCustomerOrderLineItems(lineItemDao.findByCustomerOrderId(result.getCustomerOrderId()));
-        }
-        return result;
+    }
+
+    @Override
+    public CustomerOrder findByCustomerId(long customerId) {
+        return getCustomerOrderBy(FIND_BY_CUSTOMER_ID_SQL, customerId);
+    }
+
+    @Override
+    public CustomerOrder findByCustomerOrderId(long customerOrderId) {
+        return getCustomerOrderBy(FIND_BY_CUSTOMER_ORDER_ID_SQL, customerOrderId);
     }
 
     @Override
@@ -66,6 +92,26 @@ public class CustomerOrderDaoJdbc implements CustomerOrderDao {
         result.forEach((order) ->
             order.setCustomerOrderLineItems(lineItemDao.findByCustomerOrderId(order.getCustomerOrderId())));
 
+        return result;
+    }
+
+    private CustomerOrder getCustomerOrderBy(String sql, long id) {
+        CustomerOrder result = null;
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setLong(1, id);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    result = readCustomerOrder(resultSet);
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Encountered problem finding customer order id="+id, e);
+        }
+        if (result != null) {
+            result.setCustomerOrderLineItems(lineItemDao.findByCustomerOrderId(result.getCustomerOrderId()));
+        }
         return result;
     }
 
