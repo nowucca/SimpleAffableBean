@@ -28,7 +28,7 @@
 <div orderId="indexRightColumn">
     <c:forEach var="category" items="${categories}">
         <div class="categoryBox">
-            <a href="<c:url value='category?${category.orderId}'/>">
+            <a href="<c:url value='category?${category.categoryId}'/>">
                 <span class="categoryLabel"></span>
                 <span class="categoryLabelText"><fmt:message key='${category.name}'/></span>
 

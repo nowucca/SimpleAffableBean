@@ -12,6 +12,11 @@ Have a DAO layer
 
 Hide SQL exceptions in a DAO layer
 
+JNDI and tomcat
+https://tomcat.apache.org/tomcat-8.5-doc/jndi-resources-howto.html
+
+load the driver
+http://stackoverflow.com/questions/5556664/how-to-fix-no-suitable-driver-found-for-jdbcmysql-localhost-dbname-error-w/19259608#19259608
 
 
 Troy Giunipero

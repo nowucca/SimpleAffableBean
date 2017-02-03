@@ -79,14 +79,19 @@
 
 
     <resource-ref>
-        <description>jdbc:mysql://localhost:3306/afb1</description>
-        <res-ref-name>jdbc/afb1</res-ref-name>
+        <description>jdbc:mysql://localhost:3306/simpleaffablebean</description>
+        <res-ref-name>jdbc/simpleaffablebean</res-ref-name>
         <res-type>javax.sql.DataSource</res-type>
         <res-auth>Container</res-auth>
         <res-sharing-scope>Shareable</res-sharing-scope>
     </resource-ref>
 
     <jsp-config>
+        <jsp-property-group>
+            <description>JSP configuration for testingt</description>
+            <url-pattern>/test.jsp</url-pattern>
+        </jsp-property-group>
+
         <jsp-property-group>
             <description>JSP configuration for the store front</description>
             <url-pattern>/index.jsp</url-pattern>

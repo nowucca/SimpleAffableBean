@@ -60,6 +60,14 @@ public class ControllerServlet extends HttpServlet {
 
         super.init(servletConfig);
 
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+
+            System.out.println("Error loading database driver: "+e.getMessage());
+            System.exit(1);
+        }
+
         // initialize servlet with configuration information
         surcharge = servletConfig.getServletContext().getInitParameter("deliverySurcharge");
 

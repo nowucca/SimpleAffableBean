@@ -1,5 +1,6 @@
 package business.category;
 
+import business.SimpleAffableDbException;
 import business.product.ProductDao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -59,8 +60,10 @@ public class CategoryDaoJdbc implements CategoryDao {
         try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_ALL_SQL);
              ResultSet resultSet = statement.executeQuery()) {
-            Category c = readCategory(resultSet);
-            result.add(c);
+            while (resultSet.next()) {
+                Category c = readCategory(resultSet);
+                result.add(c);
+            }
         } catch (SQLException e) {
             throw new RuntimeException("Encountered problem finding all categories", e);
         }

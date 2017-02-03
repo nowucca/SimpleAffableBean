@@ -2,6 +2,7 @@ package business;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
@@ -29,8 +30,10 @@ public class JdbcUtils {
 
     private static DataSource getDataSource(String dataSourceName)  {
         try {
-            InitialContext ctx = new InitialContext();
-            return (DataSource) ctx.lookup(dataSourceName);
+            InitialContext initCtx = new InitialContext();
+            Context envCtx = (Context) initCtx.lookup("java:comp/env");
+
+            return (DataSource) envCtx.lookup(dataSourceName);
         } catch (NamingException e) {
             throw new IllegalArgumentException("Encountered an issue establishing an initial JNDI context", e);
         }

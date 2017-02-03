@@ -47,8 +47,8 @@
                         wrap-jdbc-objects="false">
 
     <description>Connects to the affablebean database</description>
-    <property name="URL" value="jdbc:mysql://localhost:3306/afb1"/>
-    <property name="User" value="afb1"/>
-    <property name="Password" value="afb1"/>
+    <property name="URL" value="jdbc:mysql://localhost:3306/simpleaffablebean"/>
+    <property name="User" value="simpleaffablebean"/>
+    <property name="Password" value="simpleaffablebean"/>
   </jdbc-connection-pool>
 </resources>
