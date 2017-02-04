@@ -30,7 +30,7 @@
                 </div>
             </c:when>
             <c:otherwise>
-                <a href="<c:url value='category?${category.id}'/>" class="categoryButton">
+                <a href="<c:url value='category?${category.categoryId}'/>" class="categoryButton">
                     <span class="categoryText">
                         <fmt:message key="${category.name}"/>
                     </span>
@@ -68,7 +68,7 @@
                     <form action="<c:url value='addToCart'/>" method="post">
                         <input type="hidden"
                                name="productId"
-                               value="${product.id}">
+                               value="${product.productId}">
                         <input type="submit"
                                name="submit"
                                value="<fmt:message key='addToCart'/>">

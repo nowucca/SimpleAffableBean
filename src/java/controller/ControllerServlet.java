@@ -113,14 +113,14 @@ public class ControllerServlet extends HttpServlet {
             }
 
 
-        // if business.cart page is requested
+        // if cart page is requested
         } else if (userPath.equals("/viewCart")) {
 
             String clear = request.getParameter("clear");
 
             if ((clear != null) && clear.equals("true")) {
 
-                ShoppingCart cart = (ShoppingCart) session.getAttribute("business/cart");
+                ShoppingCart cart = (ShoppingCart) session.getAttribute("cart");
                 cart.clear();
             }
 
@@ -130,7 +130,7 @@ public class ControllerServlet extends HttpServlet {
         // if checkout page is requested
         } else if (userPath.equals("/checkout")) {
 
-            ShoppingCart cart = (ShoppingCart) session.getAttribute("business/cart");
+            ShoppingCart cart = (ShoppingCart) session.getAttribute("cart");
 
             // calculate total
             cart.calculateTotal(surcharge);
@@ -213,7 +213,7 @@ public class ControllerServlet extends HttpServlet {
             if (!productId.isEmpty()) {
                 final int id = Integer.parseInt(productId);
                 Product product = productDao.findByProductId(id);
-                cart.addItem(id, product.getPrice());
+                cart.addItem(product);
             }
 
             userPath = "/category";

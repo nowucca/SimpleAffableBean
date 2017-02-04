@@ -104,7 +104,7 @@
                 <form action="<c:url value='updateCart'/>" method="post">
                     <input type="hidden"
                            name="productId"
-                           value="${product.id}">
+                           value="${product.productId}">
                     <input type="text"
                            maxlength="2"
                            size="2"

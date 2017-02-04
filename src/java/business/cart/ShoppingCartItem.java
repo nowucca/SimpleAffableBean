@@ -8,35 +8,38 @@
 
 package business.cart;
 
+import business.product.Product;
+
 /**
  *
  * @author tgiunipero
  */
 public class ShoppingCartItem {
 
-    long productId;
-    int price;
+    Product product;
     short quantity;
 
-    public ShoppingCartItem(long productId, int price) {
-        this.productId = productId;
-        this.price = price;
+    public ShoppingCartItem(Product product) {
+        this.product = product;
         quantity = 1;
     }
 
     public long getProductId() {
-        return productId;
+        return product.getProductId();
     }
 
     public int getPrice() {
-        return price;
+        return product.getPrice();
     }
 
     public short getQuantity() {
         return quantity;
     }
 
-
-
-
+    public int getTotal() {
+        return quantity * getPrice();
+    }
+    public Product getProduct() {
+        return product;
+    }
 }
