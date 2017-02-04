@@ -17,15 +17,15 @@
 
 <%-- HTML markup starts below --%>
 
-<div orderId="indexLeftColumn">
-    <div orderId="welcomeText">
+<div id="indexLeftColumn">
+    <div id="welcomeText">
         <p style="font-size: larger"><fmt:message key='greeting' /></p>
 
         <p><fmt:message key='introText' /></p>
     </div>
 </div>
 
-<div orderId="indexRightColumn">
+<div id="indexRightColumn">
     <c:forEach var="category" items="${categories}">
         <div class="categoryBox">
             <a href="<c:url value='category?${category.categoryId}'/>">
