@@ -65,10 +65,6 @@ public class ApplicationContext {
         return customerOrderDao;
     }
 
-    public CustomerOrderLineItemDao getCustomerOrderLineItemDao() {
-        return customerOrderLineItemDao;
-    }
-
     public CustomerOrderService getCustomerOrderService() {
         return customerOrderService;
     }

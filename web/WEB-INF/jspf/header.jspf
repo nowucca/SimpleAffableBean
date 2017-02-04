@@ -24,11 +24,11 @@
 
 <html>
     <head>
-        <link rel="stylesheet" type="text/css" href="/AffableBean/css/affablebean.css">
-        <link rel="shortcut icon" href="/AffableBean/img/favicon.ico">
+        <link rel="stylesheet" type="text/css" href="<c:url value="/css/affablebean.css"/>">
+        <link rel="shortcut icon" href="<c:url value="/img/favicon.ico"/>">
 
-        <script src="/AffableBean/js/jquery-1.4.2.js" type="text/javascript"></script>
-        <script src="/AffableBean/js/jquery-ui-1.8.4.custom.min.js" type="text/javascript"></script>
+        <script src="<c:url value="/js/jquery-1.4.2.js"/>" type="text/javascript"></script>
+        <script src="<c:url value="/js/jquery-ui-1.8.4.custom.min.js"/>" type="text/javascript"></script>
 
         <script type="text/javascript">
             $(document).ready(function(){
@@ -184,7 +184,7 @@
                 <%-- shopping cart widget --%>
                   <div class="headerWidget" id="viewCart">
 
-                    <img src="/AffableBean/img/cart.gif" alt="shopping cart icon" id="cart">
+                    <img src="<c:url value="/img/cart.gif"/>" alt="shopping cart icon" id="cart">
 
                   <%-- If 'numberOfItems' property doesn't exist, or if number of items
                        in cart is 0, output '0', otherwise output 'numberOfItems' --%>
@@ -227,8 +227,8 @@
                 </div>
 
                 <a href="<c:url value='/'/>">
-                    <img src="/AffableBean/img/logo.png" id="logo" alt="Affable Bean logo">
+                    <img src="<c:url value="/img/logo.png"/>" id="logo" alt="Affable Bean logo">
                 </a>
 
-                <img src="/AffableBean/img/logoText.png" id="logoText" alt="the affable bean">
+                <img src="<c:url value="/img/logoText.png"/>" id="logoText" alt="the affable bean">
             </div>
