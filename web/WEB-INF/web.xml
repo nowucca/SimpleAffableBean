@@ -49,7 +49,7 @@
     <context-param>
         <description>The delivery surcharge applied to all orders</description>
         <param-name>deliverySurcharge</param-name>
-        <param-value>3.00</param-value>
+        <param-value>300</param-value>
     </context-param>
 
     <context-param>
@@ -144,7 +144,7 @@
         </web-resource-collection>
         <user-data-constraint>
             <description/>
-            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+            <transport-guarantee>NONE</transport-guarantee>
         </user-data-constraint>
     </security-constraint>
 
