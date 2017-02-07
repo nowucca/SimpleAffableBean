@@ -62,7 +62,7 @@
                     <span class="smallText"><fmt:message key='${product.name}Description'/></span>
                 </td>
 
-                <td><fmt:formatNumber type="currency" currencySymbol="&euro; " value="${product.price}"/></td>
+                <td><fmt:formatNumber type="currency" currencySymbol="&euro; " value="${product.price/100.0}"/></td>
 
                 <td>
                     <form action="<c:url value='addToCart'/>" method="post">

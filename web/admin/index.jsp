@@ -78,7 +78,7 @@
                 <td><a href="orderRecord?${order.id}" class="noDecoration">
                         <fmt:formatNumber type="currency"
                                           currencySymbol="&euro; "
-                                          value="${order.amount}"/></a></td>
+                                          value="${order.amount/100.0}"/></a></td>
 
                 <td><a href="orderRecord?${order.id}" class="noDecoration">
                         <fmt:formatDate value="${order.dateCreated}"
@@ -190,7 +190,7 @@
                             </td>
                             <td class="confirmationPriceColumn">
                                 <fmt:formatNumber type="currency" currencySymbol="&euro; "
-                                                  value="${products[iter.index].price * orderedProduct.quantity}"/>
+                                                  value="${products[iter.index].price * orderedProduct.quantity / 100.0}"/>
                             </td>
                         </tr>
 
@@ -203,7 +203,7 @@
                         <td id="deliverySurchargeCellRight">
                             <fmt:formatNumber type="currency"
                                               currencySymbol="&euro; "
-                                              value="${initParam.deliverySurcharge}"/></td>
+                                              value="${initParam.deliverySurcharge/100.0}"/></td>
                     </tr>
 
                     <tr>
@@ -211,7 +211,7 @@
                         <td id="totalCellRight">
                             <fmt:formatNumber type="currency"
                                               currencySymbol="&euro; "
-                                              value="${orderRecord.amount}"/></td>
+                                              value="${orderRecord.amount/100.0}"/></td>
                     </tr>
                 </table>
             </td>

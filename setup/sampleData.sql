@@ -22,46 +22,46 @@ INSERT INTO `category` (name) VALUES ('dairy'),('meats'),('bakery'),('fruit & ve
 --
 -- Sample data for table `product`
 --
-INSERT INTO `product` (`name`, price, description, category_id) VALUES ('milk', 1.70, 'semi skimmed (1L)', 1);
-INSERT INTO `product` (`name`, price, description, category_id) VALUES ('cheese', 2.39, 'mild cheddar (330g)', 1);
-INSERT INTO `product` (`name`, price, description, category_id) VALUES ('butter', 1.09, 'unsalted (250g)', 1);
-INSERT INTO `product` (`name`, price, description, category_id) VALUES ('free range eggs', 1.76, 'medium-sized (6 eggs)', 1);
+INSERT INTO `product` (`name`, price, description, category_id) VALUES ('milk', 170, 'semi skimmed (1L)', 1);
+INSERT INTO `product` (`name`, price, description, category_id) VALUES ('cheese', 239, 'mild cheddar (330g)', 1);
+INSERT INTO `product` (`name`, price, description, category_id) VALUES ('butter', 109, 'unsalted (250g)', 1);
+INSERT INTO `product` (`name`, price, description, category_id) VALUES ('free range eggs', 176, 'medium-sized (6 eggs)', 1);
 
-INSERT INTO `product` (`name`, price, description, category_id) VALUES ('organic meat patties', 2.29, 'rolled in fresh herbs<br>2 patties (250g)', 2);
-INSERT INTO `product` (`name`, price, description, category_id) VALUES ('parma ham', 3.49, 'matured, organic (70g)', 2);
-INSERT INTO `product` (`name`, price, description, category_id) VALUES ('chicken leg', 2.59, 'free range (250g)', 2);
-INSERT INTO `product` (`name`, price, description, category_id) VALUES ('sausages', 3.55, 'reduced fat, pork<br>3 sausages (350g)', 2);
+INSERT INTO `product` (`name`, price, description, category_id) VALUES ('organic meat patties', 229, 'rolled in fresh herbs<br>2 patties (250g)', 2);
+INSERT INTO `product` (`name`, price, description, category_id) VALUES ('parma ham', 349, 'matured, organic (70g)', 2);
+INSERT INTO `product` (`name`, price, description, category_id) VALUES ('chicken leg', 259, 'free range (250g)', 2);
+INSERT INTO `product` (`name`, price, description, category_id) VALUES ('sausages', 355, 'reduced fat, pork<br>3 sausages (350g)', 2);
 
-INSERT INTO `product` (`name`, price, description, category_id) VALUES ('sunflower seed loaf', 1.89, '600g', 3);
-INSERT INTO `product` (`name`, price, description, category_id) VALUES ('sesame seed bagel', 1.19, '4 bagels', 3);
-INSERT INTO `product` (`name`, price, description, category_id) VALUES ('pumpkin seed bun', 1.15, '4 buns', 3);
-INSERT INTO `product` (`name`, price, description, category_id) VALUES ('chocolate cookies', 2.39, 'contain peanuts<br>(3 cookies)', 3);
+INSERT INTO `product` (`name`, price, description, category_id) VALUES ('sunflower seed loaf', 189, '600g', 3);
+INSERT INTO `product` (`name`, price, description, category_id) VALUES ('sesame seed bagel', 119, '4 bagels', 3);
+INSERT INTO `product` (`name`, price, description, category_id) VALUES ('pumpkin seed bun', 115, '4 buns', 3);
+INSERT INTO `product` (`name`, price, description, category_id) VALUES ('chocolate cookies', 239, 'contain peanuts<br>(3 cookies)', 3);
 
-INSERT INTO `product` (`name`, price, description, category_id) VALUES ('corn on the cob', 1.59, '2 pieces', 4);
-INSERT INTO `product` (`name`, price, description, category_id) VALUES ('red currants', 2.49, '150g', 4);
-INSERT INTO `product` (`name`, price, description, category_id) VALUES ('broccoli', 1.29, '500g', 4);
-INSERT INTO `product` (`name`, price, description, category_id) VALUES ('seedless watermelon', 1.49, '250g', 4);
+INSERT INTO `product` (`name`, price, description, category_id) VALUES ('corn on the cob', 159, '2 pieces', 4);
+INSERT INTO `product` (`name`, price, description, category_id) VALUES ('red currants', 249, '150g', 4);
+INSERT INTO `product` (`name`, price, description, category_id) VALUES ('broccoli', 129, '500g', 4);
+INSERT INTO `product` (`name`, price, description, category_id) VALUES ('seedless watermelon', 149, '250g', 4);
 
 -- (without description)
---INSERT INTO `product` (`name`, price, category_id) VALUES ('milk', 1.70, 1);
---INSERT INTO `product` (`name`, price, category_id) VALUES ('cheese', 2.39, 1);
---INSERT INTO `product` (`name`, price, category_id) VALUES ('butter', 1.09, 1);
---INSERT INTO `product` (`name`, price, category_id) VALUES ('free range eggs', 1.76, 1);
+--INSERT INTO `product` (`name`, price, category_id) VALUES ('milk', 170, 1);
+--INSERT INTO `product` (`name`, price, category_id) VALUES ('cheese', 239, 1);
+--INSERT INTO `product` (`name`, price, category_id) VALUES ('butter', 109, 1);
+--INSERT INTO `product` (`name`, price, category_id) VALUES ('free range eggs', 176, 1);
 --
---INSERT INTO `product` (`name`, price, category_id) VALUES ('organic meat patties', 2.29, 2);
---INSERT INTO `product` (`name`, price, category_id) VALUES ('parma ham', 3.49, 2);
---INSERT INTO `product` (`name`, price, category_id) VALUES ('chicken leg', 2.59, 2);
---INSERT INTO `product` (`name`, price, category_id) VALUES ('sausages', 3.55, 2);
+--INSERT INTO `product` (`name`, price, category_id) VALUES ('organic meat patties', 229, 2);
+--INSERT INTO `product` (`name`, price, category_id) VALUES ('parma ham', 349, 2);
+--INSERT INTO `product` (`name`, price, category_id) VALUES ('chicken leg', 259, 2);
+--INSERT INTO `product` (`name`, price, category_id) VALUES ('sausages', 355, 2);
 --
---INSERT INTO `product` (`name`, price, category_id) VALUES ('sunflower seed loaf', 1.89, 3);
---INSERT INTO `product` (`name`, price, category_id) VALUES ('sesame seed bagel', 1.19, 3);
---INSERT INTO `product` (`name`, price, category_id) VALUES ('pumpkin seed bunbun', 1.15, 3);
---INSERT INTO `product` (`name`, price, category_id) VALUES ('chocolate cookies', 2.39, 3);
+--INSERT INTO `product` (`name`, price, category_id) VALUES ('sunflower seed loaf', 189, 3);
+--INSERT INTO `product` (`name`, price, category_id) VALUES ('sesame seed bagel', 119, 3);
+--INSERT INTO `product` (`name`, price, category_id) VALUES ('pumpkin seed bunbun', 115, 3);
+--INSERT INTO `product` (`name`, price, category_id) VALUES ('chocolate cookies', 239, 3);
 --
---INSERT INTO `product` (`name`, price, category_id) VALUES ('corn on the cob', 1.59, 4);
---INSERT INTO `product` (`name`, price, category_id) VALUES ('red currants', 2.49, 4);
---INSERT INTO `product` (`name`, price, category_id) VALUES ('broccoli', 1.29, 4);
---INSERT INTO `product` (`name`, price, category_id) VALUES ('seedless watermelon', 1.49, 4);
+--INSERT INTO `product` (`name`, price, category_id) VALUES ('corn on the cob', 159, 4);
+--INSERT INTO `product` (`name`, price, category_id) VALUES ('red currants', 249, 4);
+--INSERT INTO `product` (`name`, price, category_id) VALUES ('broccoli', 129, 4);
+--INSERT INTO `product` (`name`, price, category_id) VALUES ('seedless watermelon', 149, 4);
 
 
 --
@@ -87,21 +87,21 @@ INSERT INTO `product` (`name`, price, description, category_id) VALUES ('seedles
 --
 -- Sample data for table `customer_order`
 --
---INSERT INTO `customer_order` (amount, date_created, customer_id, confirmation_number) VALUES (16.50, '2010-05-14 18:00:11.0', 15, 285434339);
---INSERT INTO `customer_order` (amount, date_created, customer_id, confirmation_number) VALUES (16.11, '2010-05-14 17:56:23.0', 14, 428278565);
---INSERT INTO `customer_order` (amount, date_created, customer_id, confirmation_number) VALUES (26.00, '2010-05-14 17:51:37.0', 13, 503113888);
---INSERT INTO `customer_order` (amount, date_created, customer_id, confirmation_number) VALUES (17.63, '2010-05-14 17:47:46.0', 12, 916407556);
---INSERT INTO `customer_order` (amount, date_created, customer_id, confirmation_number) VALUES (17.24, '2010-05-14 17:45:21.0', 11, 189191209);
---INSERT INTO `customer_order` (amount, date_created, customer_id, confirmation_number) VALUES (15.57, '2010-05-14 17:43:12.0', 10, 274027361);
---INSERT INTO `customer_order` (amount, date_created, customer_id, confirmation_number) VALUES (4.49, '2010-05-14 18:04:09.0', 9, 250764732);
---INSERT INTO `customer_order` (amount, date_created, customer_id, confirmation_number) VALUES (19.70, '2010-05-14 18:10:09.0', 8, 766244032);
---INSERT INTO `customer_order` (amount, date_created, customer_id, confirmation_number) VALUES (37.49, '2010-05-14 18:23:08.0', 7, 53395157);
---INSERT INTO `customer_order` (amount, date_created, customer_id, confirmation_number) VALUES (18.90, '2010-05-14 18:25:56.0', 6, 818358116);
---INSERT INTO `customer_order` (amount, date_created, customer_id, confirmation_number) VALUES (18.92, '2010-05-14 18:32:03.0', 5, 244956320);
---INSERT INTO `customer_order` (amount, date_created, customer_id, confirmation_number) VALUES (17.66, '2010-05-14 18:35:07.0', 4, 868642371);
---INSERT INTO `customer_order` (amount, date_created, customer_id, confirmation_number) VALUES (10.22, '2010-05-14 18:40:38.0', 3, 344549009);
---INSERT INTO `customer_order` (amount, date_created, customer_id, confirmation_number) VALUES (12.16, '2010-05-14 18:51:58.0', 2, 475644436);
---INSERT INTO `customer_order` (amount, date_created, customer_id, confirmation_number) VALUES (10.75, '2010-05-14 18:56:13.0', 1, 247455344);
+--INSERT INTO `customer_order` (amount, date_created, customer_id, confirmation_number) VALUES (1650, '2010-05-14 18:00:11.0', 15, 285434339);
+--INSERT INTO `customer_order` (amount, date_created, customer_id, confirmation_number) VALUES (1611, '2010-05-14 17:56:23.0', 14, 428278565);
+--INSERT INTO `customer_order` (amount, date_created, customer_id, confirmation_number) VALUES (2600, '2010-05-14 17:51:37.0', 13, 503113888);
+--INSERT INTO `customer_order` (amount, date_created, customer_id, confirmation_number) VALUES (1763, '2010-05-14 17:47:46.0', 12, 916407556);
+--INSERT INTO `customer_order` (amount, date_created, customer_id, confirmation_number) VALUES (1724, '2010-05-14 17:45:21.0', 11, 189191209);
+--INSERT INTO `customer_order` (amount, date_created, customer_id, confirmation_number) VALUES (1557, '2010-05-14 17:43:12.0', 10, 274027361);
+--INSERT INTO `customer_order` (amount, date_created, customer_id, confirmation_number) VALUES (449, '2010-05-14 18:04:09.0', 9, 250764732);
+--INSERT INTO `customer_order` (amount, date_created, customer_id, confirmation_number) VALUES (1970, '2010-05-14 18:10:09.0', 8, 766244032);
+--INSERT INTO `customer_order` (amount, date_created, customer_id, confirmation_number) VALUES (3749, '2010-05-14 18:23:08.0', 7, 53395157);
+--INSERT INTO `customer_order` (amount, date_created, customer_id, confirmation_number) VALUES (1890, '2010-05-14 18:25:56.0', 6, 818358116);
+--INSERT INTO `customer_order` (amount, date_created, customer_id, confirmation_number) VALUES (1892, '2010-05-14 18:32:03.0', 5, 244956320);
+--INSERT INTO `customer_order` (amount, date_created, customer_id, confirmation_number) VALUES (1766, '2010-05-14 18:35:07.0', 4, 868642371);
+--INSERT INTO `customer_order` (amount, date_created, customer_id, confirmation_number) VALUES (1022, '2010-05-14 18:40:38.0', 3, 344549009);
+--INSERT INTO `customer_order` (amount, date_created, customer_id, confirmation_number) VALUES (1216, '2010-05-14 18:51:58.0', 2, 475644436);
+--INSERT INTO `customer_order` (amount, date_created, customer_id, confirmation_number) VALUES (1075, '2010-05-14 18:56:13.0', 1, 247455344);
 
 
 --

@@ -48,7 +48,7 @@
                     </td>
                     <td class="confirmationPriceColumn">
                         <fmt:formatNumber type="currency" currencySymbol="&euro; "
-                                          value="${products[iter.index].price * orderedProduct.quantity}"/>
+                                          value="${(products[iter.index].price * orderedProduct.quantity)/100.0}"/>
                     </td>
                 </tr>
 
@@ -61,7 +61,7 @@
                 <td id="deliverySurchargeCellRight">
                     <fmt:formatNumber type="currency"
                                       currencySymbol="&euro; "
-                                      value="${initParam.deliverySurcharge}"/></td>
+                                      value="${initParam.deliverySurcharge/100.0}"/></td>
             </tr>
 
             <tr class="lightBlue">
@@ -69,7 +69,7 @@
                 <td id="totalCellRight">
                     <fmt:formatNumber type="currency"
                                       currencySymbol="&euro; "
-                                      value="${orderRecord.amount}"/></td>
+                                      value="${orderRecord.amount/100.0}"/></td>
             </tr>
 
             <tr class="lightBlue"><td colspan="3" style="padding: 0 20px"><hr></td></tr>

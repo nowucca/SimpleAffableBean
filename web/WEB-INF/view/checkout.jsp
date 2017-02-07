@@ -181,25 +181,25 @@
         <ul>
             <li><fmt:message key="nextDayGuarantee"/></li>
             <li><fmt:message key="deliveryFee1"/>
-                <fmt:formatNumber type="currency" currencySymbol="&euro; " value="${initParam.deliverySurcharge}"/>
-                <fmt:message key="deliveryFee2"/></li>
+              <fmt:formatNumber type="currency" currencySymbol="&euro; " value="${initParam.deliverySurcharge/100.0}"/>
+              <fmt:message key="deliveryFee2"/></li>
         </ul>
 
         <table id="priceBox">
             <tr>
                 <td><fmt:message key="subtotal"/>:</td>
                 <td class="checkoutPriceColumn">
-                    <fmt:formatNumber type="currency" currencySymbol="&euro; " value="${cart.subtotal}"/></td>
+                    <fmt:formatNumber type="currency" currencySymbol="&euro; " value="${cart.subtotal/100.0}"/></td>
             </tr>
             <tr>
                 <td><fmt:message key="surcharge"/>:</td>
                 <td class="checkoutPriceColumn">
-                    <fmt:formatNumber type="currency" currencySymbol="&euro; " value="${initParam.deliverySurcharge}"/></td>
+                    <fmt:formatNumber type="currency" currencySymbol="&euro; " value="${initParam.deliverySurcharge/100.0}"/></td>
             </tr>
             <tr>
                 <td class="total"><fmt:message key="total"/>:</td>
                 <td class="total checkoutPriceColumn">
-                    <fmt:formatNumber type="currency" currencySymbol="&euro; " value="${cart.total}"/></td>
+                    <fmt:formatNumber type="currency" currencySymbol="&euro; " value="${cart.total/100.0}"/></td>
             </tr>
         </table>
     </div>
