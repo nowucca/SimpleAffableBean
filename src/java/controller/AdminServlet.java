@@ -40,10 +40,10 @@ import javax.servlet.http.HttpSession;
                            "/admin/customerRecord",
                            "/admin/orderRecord",
                            "/admin/logout"})
-//@ServletSecurity(
-//    @HttpConstraint(transportGuarantee = TransportGuarantee.CONFIDENTIAL,
-//                    rolesAllowed = {"affableBeanAdmin"})
-//)
+@ServletSecurity(
+    @HttpConstraint(transportGuarantee = TransportGuarantee.CONFIDENTIAL,
+                    rolesAllowed = {"simpleAffableBeanAdmin"})
+)
 public class AdminServlet extends HttpServlet {
 
     @Override

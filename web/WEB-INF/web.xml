@@ -144,7 +144,7 @@
         </web-resource-collection>
         <user-data-constraint>
             <description/>
-            <transport-guarantee>NONE</transport-guarantee>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
         </user-data-constraint>
     </security-constraint>
 
@@ -157,7 +157,7 @@
             <url-pattern>/admin/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>affableBeanAdmin</role-name>
+            <role-name>simpleAffableBeanAdmin</role-name>
         </auth-constraint>
         <user-data-constraint>
             <transport-guarantee>CONFIDENTIAL</transport-guarantee>
@@ -167,7 +167,7 @@
 <!--The <security-role> entry is not required if role is declared using @HttpConstraint annotation-->
 <!--<security-role>
         <description>access to administration console</description>
-        <role-name>affableBeanAdmin</role-name>
+        <role-name>simpleAffableBeanAdmin</role-name>
     </security-role>-->
 
 </web-app>
