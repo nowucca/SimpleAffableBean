@@ -85,8 +85,10 @@ public class CustomerDaoJdbc implements CustomerDao {
         try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_ALL_SQL);
              ResultSet resultSet = statement.executeQuery()) {
-            Customer c = readCustomer(resultSet);
-            result.add(c);
+            while(resultSet.next()) {
+                Customer c = readCustomer(resultSet);
+                result.add(c);
+            }
         } catch (SQLException e) {
             throw new RuntimeException("Encountered problem finding all categories", e);
         }

@@ -83,8 +83,10 @@ public class CustomerOrderDaoJdbc implements CustomerOrderDao {
         try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_ALL_SQL);
              ResultSet resultSet = statement.executeQuery()) {
-            CustomerOrder customerOrder = readCustomerOrder(resultSet);
-            result.add(customerOrder);
+            while(resultSet.next()) {
+                CustomerOrder customerOrder = readCustomerOrder(resultSet);
+                result.add(customerOrder);
+            }
         } catch (SQLException e) {
             throw new RuntimeException("Encountered problem finding all categories", e);
         }

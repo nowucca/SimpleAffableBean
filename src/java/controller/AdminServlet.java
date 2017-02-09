@@ -40,10 +40,10 @@ import javax.servlet.http.HttpSession;
                            "/admin/customerRecord",
                            "/admin/orderRecord",
                            "/admin/logout"})
-@ServletSecurity(
-    @HttpConstraint(transportGuarantee = TransportGuarantee.CONFIDENTIAL,
-                    rolesAllowed = {"affableBeanAdmin"})
-)
+//@ServletSecurity(
+//    @HttpConstraint(transportGuarantee = TransportGuarantee.CONFIDENTIAL,
+//                    rolesAllowed = {"affableBeanAdmin"})
+//)
 public class AdminServlet extends HttpServlet {
 
     @Override
@@ -52,6 +52,7 @@ public class AdminServlet extends HttpServlet {
         ApplicationContext applicationContext = ApplicationContext.INSTANCE;
         customerDao = applicationContext.getCustomerDao();
         customerOrderDao = applicationContext.getCustomerOrderDao();
+        customerOrderService = applicationContext.getCustomerOrderService();
     }
 
     private CustomerDao customerDao;
@@ -122,7 +123,7 @@ public class AdminServlet extends HttpServlet {
         if (userPath.equals("/admin/logout")) {
             session = request.getSession();
             session.invalidate();   // terminate session
-            response.sendRedirect("/AffableBean/admin/");
+            response.sendRedirect(request.getContextPath() + "/admin/");
             return;
         }
 
