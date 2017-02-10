@@ -1,4 +1,4 @@
-<Context path="/SimpleAffableBean">
+<Context path="/SimpleAffableBean" useHttpOnly="true">
 
     <!-- maxTotal: Maximum number of database connections in pool. Make sure you
          configure your mysqld max_connections large enough to handle
@@ -43,4 +43,8 @@
               logAbandoned="true"
               timeBetweenEvictionRunsMillis="300000"
               url="jdbc:mysql://localhost:3306/simpleaffablebean"/>
+
+    <!-- Turn off session serialization -->
+    <Manager pathname=""/>
+
 </Context>
