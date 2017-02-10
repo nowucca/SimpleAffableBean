@@ -8,25 +8,17 @@
 
 package controller;
 
+import business.ApplicationContext;
 import business.cart.ShoppingCart;
 import business.category.CategoryDao;
-import business.customer.Customer;
-import business.customer.CustomerDao;
-import business.order.CustomerOrder;
-import business.order.CustomerOrderDao;
 import business.order.CustomerOrderDetails;
-import business.order.CustomerOrderLineItem;
 import business.order.CustomerOrderService;
 import business.product.ProductDao;
 import business.category.Category;
 import business.product.Product;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.List;
 import java.util.Locale;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

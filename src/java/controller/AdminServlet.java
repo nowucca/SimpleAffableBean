@@ -8,6 +8,7 @@
 
 package controller;
 
+import business.ApplicationContext;
 import business.customer.Customer;
 import business.customer.CustomerDao;
 import business.order.CustomerOrder;
@@ -15,10 +16,7 @@ import business.order.CustomerOrderDao;
 import business.order.CustomerOrderDetails;
 import business.order.CustomerOrderService;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import javax.ejb.EJB;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.HttpConstraint;

@@ -1,4 +1,4 @@
-package controller;
+package business;
 
 import business.category.CategoryDao;
 import business.category.CategoryDaoJdbc;
