@@ -1,5 +1,7 @@
 package business.product;
 
+import business.SimpleAffableDbException;
+import business.SimpleAffableDbException.SimpleAffableQueryDbException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -51,7 +53,7 @@ public class ProductDaoJdbc implements ProductDao {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Encountered problem reading products by category", e);
+            throw new SimpleAffableQueryDbException("Encountered problem reading products by category", e);
         }
 
         return result;
@@ -70,7 +72,7 @@ public class ProductDaoJdbc implements ProductDao {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Encountered problem reading products by product id", e);
+            throw new SimpleAffableQueryDbException("Encountered problem reading products by product id", e);
         }
 
         return result;

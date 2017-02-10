@@ -1,5 +1,8 @@
 package business.customer;
 
+import business.SimpleAffableDbException;
+import business.SimpleAffableDbException.SimpleAffableQueryDbException;
+import business.SimpleAffableDbException.SimpleAffableUpdateDbException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -45,19 +48,19 @@ public class CustomerDaoJdbc implements CustomerDao {
             statement.setString(6, ccNumber);
             int affected = statement.executeUpdate();
             if (affected != 1) {
-                throw new RuntimeException("Failed to insert a customer, affected row count = "+affected);
+                throw new SimpleAffableUpdateDbException("Failed to insert a customer, affected row count = "+affected);
             }
             long customerId;
             ResultSet rs = statement.getGeneratedKeys();
             if (rs.next()) {
                 customerId = rs.getLong(1);
             } else {
-                throw new RuntimeException("Failed to retrieve customerId auto-generated key");
+                throw new SimpleAffableQueryDbException("Failed to retrieve customerId auto-generated key");
             }
 
             return customerId;
         } catch (SQLException e) {
-            throw new RuntimeException("Encountered problem creating a new customer ", e);
+            throw new SimpleAffableUpdateDbException("Encountered problem creating a new customer ", e);
         }
     }
 
@@ -74,7 +77,7 @@ public class CustomerDaoJdbc implements CustomerDao {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Encountered problem finding customer "+customerId, e);
+            throw new SimpleAffableQueryDbException("Encountered problem finding customer "+customerId, e);
         }
         return result;
     }
@@ -90,7 +93,7 @@ public class CustomerDaoJdbc implements CustomerDao {
                 result.add(c);
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Encountered problem finding all categories", e);
+            throw new SimpleAffableQueryDbException("Encountered problem finding all categories", e);
         }
 
         return result;

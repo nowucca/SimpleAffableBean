@@ -1,5 +1,6 @@
 package business;
 
+import business.SimpleAffableDbException.SimpleAffableConnectionDbException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import javax.naming.Context;
@@ -23,7 +24,7 @@ public class JdbcUtils {
         try {
             return dataSource.getConnection();
         } catch (SQLException e) {
-            throw new RuntimeException("Encountered a SQL issue getting a connection", e);
+            throw new SimpleAffableConnectionDbException("Encountered a SQL issue getting a connection", e);
         }
 
     }

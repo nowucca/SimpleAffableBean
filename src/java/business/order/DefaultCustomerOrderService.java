@@ -1,6 +1,7 @@
 package business.order;
 
 import business.JdbcUtils;
+import business.SimpleAffableDbException;
 import business.cart.ShoppingCart;
 import business.customer.Customer;
 import business.customer.CustomerDao;
@@ -42,7 +43,7 @@ public class DefaultCustomerOrderService implements CustomerOrderService {
             try {
                 connection.rollback();
             } catch (SQLException e1) {
-                throw new RuntimeException("Failed to roll back transaction", e1);
+                throw new SimpleAffableDbException("Failed to roll back transaction", e1);
             }
             return 0;
         }

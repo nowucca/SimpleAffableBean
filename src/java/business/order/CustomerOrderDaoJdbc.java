@@ -1,5 +1,8 @@
 package business.order;
 
+import business.SimpleAffableDbException;
+import business.SimpleAffableDbException.SimpleAffableQueryDbException;
+import business.SimpleAffableDbException.SimpleAffableUpdateDbException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -51,19 +54,19 @@ public class CustomerOrderDaoJdbc implements CustomerOrderDao {
             statement.setInt(3, confirmationNumber);
             int affected = statement.executeUpdate();
             if (affected != 1) {
-                throw new RuntimeException("Failed to insert an order, affected row count = "+affected);
+                throw new SimpleAffableUpdateDbException("Failed to insert an order, affected row count = "+affected);
             }
             long customerOrderId;
             ResultSet rs = statement.getGeneratedKeys();
             if (rs.next()) {
                 customerOrderId = rs.getLong(1);
             } else {
-                throw new RuntimeException("Failed to retrieve customerOrderId auto-generated key");
+                throw new SimpleAffableQueryDbException("Failed to retrieve customerOrderId auto-generated key");
             }
 
             return customerOrderId;
         } catch (SQLException e) {
-            throw new RuntimeException("Encountered problem creating a new customer ", e);
+            throw new SimpleAffableUpdateDbException("Encountered problem creating a new customer ", e);
         }
     }
 
@@ -88,7 +91,7 @@ public class CustomerOrderDaoJdbc implements CustomerOrderDao {
                 result.add(customerOrder);
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Encountered problem finding all categories", e);
+            throw new SimpleAffableQueryDbException("Encountered problem finding all orders", e);
         }
 
         result.forEach((order) ->
@@ -109,7 +112,7 @@ public class CustomerOrderDaoJdbc implements CustomerOrderDao {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Encountered problem finding customer order id="+id, e);
+            throw new SimpleAffableQueryDbException("Encountered problem finding customer order id="+id, e);
         }
         if (result != null) {
             result.setCustomerOrderLineItems(lineItemDao.findByCustomerOrderId(result.getCustomerOrderId()));

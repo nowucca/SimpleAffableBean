@@ -1,5 +1,8 @@
 package business.order;
 
+import business.SimpleAffableDbException;
+import business.SimpleAffableDbException.SimpleAffableQueryDbException;
+import business.SimpleAffableDbException.SimpleAffableUpdateDbException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -34,10 +37,10 @@ public class CustomerOrderLineItemDaoJdbc implements CustomerOrderLineItemDao {
             statement.setShort(3, quantity);
             int affected = statement.executeUpdate();
             if (affected != 1) {
-                throw new RuntimeException("Failed to insert an order line item, affected row count = "+affected);
+                throw new SimpleAffableUpdateDbException("Failed to insert an order line item, affected row count = "+affected);
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Encountered problem creating a new customer ", e);
+            throw new SimpleAffableQueryDbException("Encountered problem creating a new customer ", e);
         }
     }
 
@@ -54,7 +57,8 @@ public class CustomerOrderLineItemDaoJdbc implements CustomerOrderLineItemDao {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Encountered problem finding customer "+customerOrderId, e);
+            throw new SimpleAffableQueryDbException("Encountered problem finding customer order line items for customer order "
+                +customerOrderId, e);
         }
         return result;
     }
