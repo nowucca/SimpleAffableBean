@@ -10,33 +10,35 @@ package controller;
 
 import business.ApplicationContext;
 import business.cart.ShoppingCart;
+import business.category.Category;
 import business.category.CategoryDao;
 import business.order.CustomerOrderDetails;
 import business.order.CustomerOrderService;
-import business.product.ProductDao;
-import business.category.Category;
 import business.product.Product;
+import business.product.ProductDao;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Locale;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.*;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import validate.Validator;
 
 /**
  *
- * @author tgiunipero
  */
-@WebServlet(name = "Controller",
-            loadOnStartup = 1,
-            urlPatterns = {"/chooseLanguage"})
-public class ControllerServlet extends HttpServlet {
+@WebServlet(name = "Cart",
+            urlPatterns = {"/addToCart",
+                           "/viewCart",
+                           "/updateCart"
+                           })
+public class CartServlet extends HttpServlet {
 
-    private String surcharge;
-
-    private CustomerOrderService customerOrderService;
+    private ProductDao productDao;
 
 
     @Override
@@ -45,11 +47,8 @@ public class ControllerServlet extends HttpServlet {
         super.init(servletConfig);
 
         // initialize servlet with configuration information
-        surcharge = servletConfig.getServletContext().getInitParameter("deliverySurcharge");
-
         ApplicationContext applicationContext = ApplicationContext.INSTANCE;
-        customerOrderService = applicationContext.getCustomerOrderService();
-
+        productDao = applicationContext.getProductDao();
 
         // store category list in servlet context
         getServletContext().setAttribute("categories", applicationContext.getCategoryDao().findAll());
@@ -70,33 +69,23 @@ public class ControllerServlet extends HttpServlet {
         String userPath = request.getServletPath();
         HttpSession session = request.getSession();
 
-        // if user switches language
-        if (userPath.equals("/chooseLanguage")) {
+        // if cart page is requested
+        if (userPath.equals("/viewCart")) {
+            String clear = request.getParameter("clear");
 
-            // get language choice
-            String language = request.getParameter("language");
+            if ((clear != null) && clear.equals("true")) {
 
-            // place in request scope
-            request.setAttribute("language", language);
-
-            String userView = (String) session.getAttribute("view");
-
-            if ((userView != null) &&
-                (!userView.equals("/index"))) {     // index.jsp exists outside 'view' folder
-                                                    // so must be forwarded separately
-                userPath = userView;
-            } else {
-
-                // if previous view is index or cannot be determined, send user to welcome page
-                try {
-                    request.getRequestDispatcher("/index.jsp").forward(request, response);
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-                return;
+                ShoppingCart cart = (ShoppingCart) session.getAttribute("cart");
+                cart.clear();
             }
+            userPath = "/cart";
         }
+        forwardToJSP(request, response, userPath);
 
+
+    }
+
+    private void forwardToJSP(HttpServletRequest request, HttpServletResponse response, String userPath) {
         // use RequestDispatcher to forward request internally
         String url = "/WEB-INF/view" + userPath + ".jsp";
 
@@ -124,17 +113,56 @@ public class ControllerServlet extends HttpServlet {
 
         String userPath = request.getServletPath();
         HttpSession session = request.getSession();
+        ShoppingCart cart = (ShoppingCart) session.getAttribute("cart");
+        Validator validator = new Validator();
 
 
+        // if addToCart action is called
+        if (userPath.equals("/addToCart")) {
+
+            // if user is adding item to cart for first time
+            // create cart object and attach it to user session
+            if (cart == null) {
+
+                cart = new ShoppingCart();
+                session.setAttribute("cart", cart);
+            }
+
+            // get user input from request
+            String productId = request.getParameter("productId");
+
+            if (!productId.isEmpty()) {
+                final int id = Integer.parseInt(productId);
+                Product product = productDao.findByProductId(id);
+                cart.addItem(product);
+            }
+
+            userPath = "/category";
+
+
+        // if updateCart action is called
+        } else if (userPath.equals("/updateCart")) {
+
+            // get input from request
+            String productId = request.getParameter("productId");
+            String quantity = request.getParameter("quantity");
+
+            boolean invalidEntry = validator.validateQuantity(productId, quantity);
+
+            if (!invalidEntry) {
+
+                Product product = productDao.findByProductId((Integer.parseInt(productId)));
+                cart.update(product.getProductId(), quantity);
+            }
+
+            userPath = "/cart";
+
+
+
+        }
 
         // use RequestDispatcher to forward request internally
-        String url = "/WEB-INF/view" + userPath + ".jsp";
-
-        try {
-            request.getRequestDispatcher(url).forward(request, response);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        forwardToJSP(request, response, userPath);
     }
 
 }
