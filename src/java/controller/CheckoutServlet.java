@@ -29,7 +29,7 @@ import validate.Validator;
 @WebServlet(name = "Checkout",
             urlPatterns = {"/checkout",
                            "/purchase"})
-public class CheckoutServlet extends HttpServlet {
+public class CheckoutServlet extends SimpleAffableBeanServlet {
 
     private String surcharge;
 
@@ -76,13 +76,7 @@ public class CheckoutServlet extends HttpServlet {
         }
 
         // use RequestDispatcher to forward request internally
-        String url = "/WEB-INF/view" + userPath + ".jsp";
-
-        try {
-            request.getRequestDispatcher(url).forward(request, response);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        forwardToJSP(request, response, userPath);
     }
 
 
@@ -177,13 +171,7 @@ public class CheckoutServlet extends HttpServlet {
         }
 
         // use RequestDispatcher to forward request internally
-        String url = "/WEB-INF/view" + userPath + ".jsp";
-
-        try {
-            request.getRequestDispatcher(url).forward(request, response);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        forwardToJSP(request, response, userPath);
     }
 
 }

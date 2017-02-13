@@ -29,14 +29,10 @@ import validate.Validator;
  *
  * @author tgiunipero
  */
-@WebServlet(name = "Controller",
+@WebServlet(name = "SimpleAffableBean",
             loadOnStartup = 1,
             urlPatterns = {"/chooseLanguage"})
-public class ControllerServlet extends HttpServlet {
-
-    private String surcharge;
-
-    private CustomerOrderService customerOrderService;
+public class SimpleAffableBeanServlet extends HttpServlet {
 
 
     @Override
@@ -45,14 +41,12 @@ public class ControllerServlet extends HttpServlet {
         super.init(servletConfig);
 
         // initialize servlet with configuration information
-        surcharge = servletConfig.getServletContext().getInitParameter("deliverySurcharge");
-
         ApplicationContext applicationContext = ApplicationContext.INSTANCE;
-        customerOrderService = applicationContext.getCustomerOrderService();
-
 
         // store category list in servlet context
-        getServletContext().setAttribute("categories", applicationContext.getCategoryDao().findAll());
+        if (getServletContext().getAttribute("categories") == null) {
+            getServletContext().setAttribute("categories", applicationContext.getCategoryDao().findAll());
+        }
     }
 
 
@@ -107,26 +101,7 @@ public class ControllerServlet extends HttpServlet {
         }
     }
 
-
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
-        request.setCharacterEncoding("UTF-8");  // ensures that user input is interpreted as
-                                                // 8-bit Unicode (e.g., for Czech characters)
-
-        String userPath = request.getServletPath();
-        HttpSession session = request.getSession();
-
-
-
+    protected void forwardToJSP(HttpServletRequest request, HttpServletResponse response, String userPath) {
         // use RequestDispatcher to forward request internally
         String url = "/WEB-INF/view" + userPath + ".jsp";
 
@@ -136,5 +111,4 @@ public class ControllerServlet extends HttpServlet {
             ex.printStackTrace();
         }
     }
-
 }

@@ -15,11 +15,11 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
 
-<!--The @WebServlet annotation is used in the ControllerServlet instead of
+<!--The @WebServlet annotation is used in the SimpleAffableBeanServlet instead of
     the <servlet> and <servlet-mapping> entries below-->
 <!--<servlet>
         <servlet-name>Controller</servlet-name>
-        <servlet-class>controller.ControllerServlet</servlet-class>
+        <servlet-class>controller.SimpleAffableBeanServletServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
 

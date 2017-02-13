@@ -33,7 +33,7 @@ import validate.Validator;
  */
 @WebServlet(name = "Category",
             urlPatterns = {"/category"})
-public class CategoryServlet extends HttpServlet {
+public class CategoryServlet extends SimpleAffableBeanServlet {
 
     private CategoryDao categoryDao;
 
@@ -82,13 +82,7 @@ public class CategoryServlet extends HttpServlet {
         }
 
         // use RequestDispatcher to forward request internally
-        String url = "/WEB-INF/view" + userPath + ".jsp";
-
-        try {
-            request.getRequestDispatcher(url).forward(request, response);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        forwardToJSP(request, response, userPath);
     }
 
 

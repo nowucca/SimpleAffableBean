@@ -36,7 +36,7 @@ import validate.Validator;
                            "/viewCart",
                            "/updateCart"
                            })
-public class CartServlet extends HttpServlet {
+public class CartServlet extends SimpleAffableBeanServlet {
 
     private ProductDao productDao;
 
@@ -83,17 +83,6 @@ public class CartServlet extends HttpServlet {
         forwardToJSP(request, response, userPath);
 
 
-    }
-
-    private void forwardToJSP(HttpServletRequest request, HttpServletResponse response, String userPath) {
-        // use RequestDispatcher to forward request internally
-        String url = "/WEB-INF/view" + userPath + ".jsp";
-
-        try {
-            request.getRequestDispatcher(url).forward(request, response);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
     }
 
 
