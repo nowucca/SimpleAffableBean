@@ -108,4 +108,10 @@
             </tr>
         </table>
     </div>
+
+    <div class="summaryColumn" >
+        <form method="get" action="<c:url value="/home"/>">
+            <input type="submit" value="<fmt:message key="goBackHome"/>"/>
+        </form>
+    </div>
 </div>
