@@ -35,7 +35,7 @@
         <%-- clear cart widget --%>
         <c:if test="${!empty cart && cart.numberOfItems != 0}">
 
-            <c:url var="url" value="viewCart">
+            <c:url var="url" value="cart">
                 <c:param name="clear" value="true"/>
             </c:url>
 
@@ -101,10 +101,13 @@
             </td>
 
             <td>
-                <form action="<c:url value='updateCart'/>" method="post">
+                <form action="<c:url value='cart'/>" method="post">
                     <input type="hidden"
                            name="productId"
                            value="${product.productId}">
+                   <input type="hidden"
+                          name="action"
+                          value="update"/>
                     <input type="text"
                            maxlength="2"
                            size="2"

@@ -18,6 +18,10 @@ https://tomcat.apache.org/tomcat-8.5-doc/jndi-resources-howto.html
 load the driver
 http://stackoverflow.com/questions/5556664/how-to-fix-no-suitable-driver-found-for-jdbcmysql-localhost-dbname-error-w/19259608#19259608
 
+Enabling SSL in Tomcat: https://tomcat.apache.org/tomcat-8.5-doc/ssl-howto.html
+
+Split servlets into one per page
+
 
 Troy Giunipero
 17 May 2010

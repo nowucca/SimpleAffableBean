@@ -73,7 +73,10 @@
         <p class="error"><fmt:message key="orderFailureError"/></p>
     </c:if>
 
-    <form id="checkoutForm" action="<c:url value='purchase'/>" method="post">
+    <form id="checkoutForm" action="<c:url value='checkout'/>" method="post">
+      <input type="hidden"
+             name="action"
+             value="purchase"/>
         <table id="checkoutTable">
           <c:if test="${!empty validationErrorFlag}">
             <tr>
