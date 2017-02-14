@@ -43,6 +43,10 @@ public class CartServlet extends SimpleAffableBeanServlet {
         getServletContext().setAttribute("categories", applicationContext.getCategoryDao().findAll());
     }
 
+    // do not cache the cart contents in the browser - we want to display the latest cart always
+    protected boolean allowBrowserCaching() {
+        return false;
+    }
 
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -65,7 +69,7 @@ public class CartServlet extends SimpleAffableBeanServlet {
             ShoppingCart cart = (ShoppingCart) session.getAttribute("cart");
             cart.clear();
         }
-        forwardToJSP(request, response, "/cart");
+        doForwardToJSP(request, response, "/cart");
     }
 
 
@@ -128,8 +132,8 @@ public class CartServlet extends SimpleAffableBeanServlet {
             userPath = "/cart";
         }
 
-        // use RequestDispatcher to forward request internally
-        forwardToJSP(request, response, userPath);
+        // use RequestDispatcher to redirect request externally
+        doTemporaryRedirect(request, response, userPath);
     }
 
 }

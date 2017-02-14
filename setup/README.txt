@@ -22,7 +22,16 @@ Enabling SSL in Tomcat: https://tomcat.apache.org/tomcat-8.5-doc/ssl-howto.html
 
 Split servlets into one per page
 
+Servlets have hierarchy
 
+Use a single url per resource operated upon (/cart, /checkout)
+
+Homepage servlet exists so that everything is controlled through a servlet except static resources to prepare for MVVM
+
+Feature: Post/Redirect/Get http://www.theserverside.com/news/1365146/Redirect-After-Post
+
+
+----
 Troy Giunipero
 17 May 2010
 
