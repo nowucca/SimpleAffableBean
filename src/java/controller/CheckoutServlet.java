@@ -17,7 +17,6 @@ import java.util.Locale;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -27,8 +26,7 @@ import validate.Validator;
  *
  */
 @WebServlet(name = "Checkout",
-            urlPatterns = {"/checkout",
-                           "/purchase"})
+            urlPatterns = {"/checkout"})
 public class CheckoutServlet extends SimpleAffableBeanServlet {
 
     private String surcharge;
@@ -64,16 +62,14 @@ public class CheckoutServlet extends SimpleAffableBeanServlet {
         String userPath = request.getServletPath();
         HttpSession session = request.getSession();
 
-        // if checkout page is requested
-        if (userPath.equals("/checkout")) {
+        // checkout page is requested
 
-            ShoppingCart cart = (ShoppingCart) session.getAttribute("cart");
+        ShoppingCart cart = (ShoppingCart) session.getAttribute("cart");
 
-            // calculate total
-            cart.calculateTotal(surcharge);
+        // calculate total
+        cart.calculateTotal(surcharge);
 
-            // forward to checkout page and switch to a secure channel
-        }
+        // forward to checkout page and switch to a secure channel
 
         // use RequestDispatcher to forward request internally
         forwardToJSP(request, response, userPath);
@@ -95,13 +91,14 @@ public class CheckoutServlet extends SimpleAffableBeanServlet {
                                                 // 8-bit Unicode (e.g., for Czech characters)
 
         String userPath = request.getServletPath();
+        String action = request.getParameter("action");
         HttpSession session = request.getSession();
         ShoppingCart cart = (ShoppingCart) session.getAttribute("cart");
         Validator validator = new Validator();
 
 
         // if purchase action is called
-        if (userPath.equals("/purchase")) {
+        if ("purchase".equals(action)) {
 
             if (cart != null) {
 

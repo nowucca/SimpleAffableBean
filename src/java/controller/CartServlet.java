@@ -30,7 +30,6 @@ public class CartServlet extends SimpleAffableBeanServlet {
 
     private ProductDao productDao;
 
-
     @Override
     public void init(ServletConfig servletConfig) throws ServletException {
 
