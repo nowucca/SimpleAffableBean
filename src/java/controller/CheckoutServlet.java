@@ -48,6 +48,11 @@ public class CheckoutServlet extends SimpleAffableBeanServlet {
     }
 
 
+    // do not cache the checkout details in the browser - we want always want to display the latest checkout details
+    protected boolean allowBrowserCaching() {
+        return false;
+    }
+
     /**
      * Handles the HTTP <code>GET</code> method.
      * @param request servlet request
@@ -72,7 +77,7 @@ public class CheckoutServlet extends SimpleAffableBeanServlet {
         // forward to checkout page and switch to a secure channel
 
         // use RequestDispatcher to forward request internally
-        forwardToJSP(request, response, userPath);
+        doForwardToJSP(request, response, userPath);
     }
 
 
@@ -167,8 +172,8 @@ public class CheckoutServlet extends SimpleAffableBeanServlet {
             }
         }
 
-        // use RequestDispatcher to forward request internally
-        forwardToJSP(request, response, userPath);
+        // use RequestDispatcher to redirect request externally
+        doTemporaryRedirect(request, response, userPath);
     }
 
 }

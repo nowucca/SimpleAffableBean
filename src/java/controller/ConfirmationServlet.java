@@ -17,9 +17,15 @@ import javax.servlet.http.HttpServletResponse;
 /**
  *
  */
-@WebServlet(name = "Homepage",
-            urlPatterns = {"/home"})
-public class HomepageServlet extends SimpleAffableBeanServlet {
+@WebServlet(name = "Confirmation",
+            urlPatterns = {"/confirmation"})
+public class ConfirmationServlet extends SimpleAffableBeanServlet {
+
+
+    // do not cache the confirmation in the browser
+    protected boolean allowBrowserCaching() {
+        return false;
+    }
 
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -32,9 +38,6 @@ public class HomepageServlet extends SimpleAffableBeanServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         // use RequestDispatcher to forward request internally
-        doForwardToJSP(request, response, "/homepage");
+        doForwardToJSP(request, response, "/confirmation");
     }
-
-
-
 }

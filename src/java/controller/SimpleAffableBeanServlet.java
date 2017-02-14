@@ -101,7 +101,25 @@ public class SimpleAffableBeanServlet extends HttpServlet {
         }
     }
 
-    protected void forwardToJSP(HttpServletRequest request, HttpServletResponse response, String userPath) {
+    @Override
+    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        initHttpHeaders(req, resp);
+        super.service(req, resp);
+    }
+
+    private void initHttpHeaders(HttpServletRequest request, HttpServletResponse response) {
+        if (!allowBrowserCaching()) {
+            response.setHeader("Pragma", "no-cache");
+            response.setHeader("Cache-Control", "no-cache, no-store, private, must-revalidate, proxy-revalidate");
+            response.setDateHeader("Expires", System.currentTimeMillis() - 86400000); // 1000 (millis) * 60 (seconds) * 60 (minutes) * 24 (hours) == 1 day -or- yesterday
+        }
+    }
+
+    protected boolean allowBrowserCaching() {
+        return true;
+    }
+
+    protected void doForwardToJSP(HttpServletRequest request, HttpServletResponse response, String userPath) {
         // use RequestDispatcher to forward request internally
         String url = "/WEB-INF/view" + userPath + ".jsp";
 
@@ -111,4 +129,11 @@ public class SimpleAffableBeanServlet extends HttpServlet {
             ex.printStackTrace();
         }
     }
+
+    protected void doTemporaryRedirect(HttpServletRequest request, HttpServletResponse response, String location) {
+        response.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
+
+        response.setHeader("Location", getServletContext().getContextPath()+location);
+    }
+
 }

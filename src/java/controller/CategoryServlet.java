@@ -9,24 +9,17 @@
 package controller;
 
 import business.ApplicationContext;
-import business.cart.ShoppingCart;
 import business.category.Category;
 import business.category.CategoryDao;
-import business.order.CustomerOrderDetails;
-import business.order.CustomerOrderService;
 import business.product.Product;
-import business.product.ProductDao;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Locale;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import validate.Validator;
 
 /**
  *
@@ -82,7 +75,7 @@ public class CategoryServlet extends SimpleAffableBeanServlet {
         }
 
         // use RequestDispatcher to forward request internally
-        forwardToJSP(request, response, userPath);
+        doForwardToJSP(request, response, userPath);
     }
 
 
