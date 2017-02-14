@@ -169,9 +169,6 @@
                                   !fn:contains(pageContext.request.servletPath,'/checkout') &&
                                   requestScope['javax.servlet.forward.servlet_path'] ne '/checkout' &&
 
-                                  !fn:contains(pageContext.request.servletPath,'/cart') &&
-                                  requestScope['javax.servlet.forward.servlet_path'] ne '/cart' &&
-
                                   validationErrorFlag ne true &&
                                   orderFailureFlag ne true}">
 
@@ -215,11 +212,10 @@
                     </span>
 
                     <c:if test="${!empty cart && cart.numberOfItems != 0 &&
+                                  !(fn:contains(pageContext.request.method, 'GET') &&
+                                   fn:contains(pageContext.request.servletPath,'/cart'))}">
 
-                                  !fn:contains(pageContext.request.servletPath,'/cart') &&
-                                  requestScope['javax.servlet.forward.servlet_path'] ne '/cart'}">
-
-                      <a href="<c:url value='viewCart'/>" class="bubble">
+                      <a href="<c:url value='cart'/>" class="bubble">
                           <fmt:message key="cart" />
                       </a>
                     </c:if>

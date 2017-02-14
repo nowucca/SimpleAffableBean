@@ -10,19 +10,12 @@ package controller;
 
 import business.ApplicationContext;
 import business.cart.ShoppingCart;
-import business.category.Category;
-import business.category.CategoryDao;
-import business.order.CustomerOrderDetails;
-import business.order.CustomerOrderService;
 import business.product.Product;
 import business.product.ProductDao;
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Locale;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -32,10 +25,7 @@ import validate.Validator;
  *
  */
 @WebServlet(name = "Cart",
-            urlPatterns = {"/addToCart",
-                           "/viewCart",
-                           "/updateCart"
-                           })
+            urlPatterns = {"/cart"})
 public class CartServlet extends SimpleAffableBeanServlet {
 
     private ProductDao productDao;
@@ -66,23 +56,17 @@ public class CartServlet extends SimpleAffableBeanServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String userPath = request.getServletPath();
         HttpSession session = request.getSession();
 
         // if cart page is requested
-        if (userPath.equals("/viewCart")) {
-            String clear = request.getParameter("clear");
+        String clear = request.getParameter("clear");
 
-            if ((clear != null) && clear.equals("true")) {
+        if ((clear != null) && clear.equals("true")) {
 
-                ShoppingCart cart = (ShoppingCart) session.getAttribute("cart");
-                cart.clear();
-            }
-            userPath = "/cart";
+            ShoppingCart cart = (ShoppingCart) session.getAttribute("cart");
+            cart.clear();
         }
-        forwardToJSP(request, response, userPath);
-
-
+        forwardToJSP(request, response, "/cart");
     }
 
 
@@ -101,13 +85,13 @@ public class CartServlet extends SimpleAffableBeanServlet {
                                                 // 8-bit Unicode (e.g., for Czech characters)
 
         String userPath = request.getServletPath();
+        String action = request.getParameter("action");
         HttpSession session = request.getSession();
         ShoppingCart cart = (ShoppingCart) session.getAttribute("cart");
         Validator validator = new Validator();
 
-
         // if addToCart action is called
-        if (userPath.equals("/addToCart")) {
+        if ("add".equals(action)) {
 
             // if user is adding item to cart for first time
             // create cart object and attach it to user session
@@ -125,12 +109,10 @@ public class CartServlet extends SimpleAffableBeanServlet {
                 Product product = productDao.findByProductId(id);
                 cart.addItem(product);
             }
-
             userPath = "/category";
 
-
         // if updateCart action is called
-        } else if (userPath.equals("/updateCart")) {
+        } else if ("update".equals(action)) {
 
             // get input from request
             String productId = request.getParameter("productId");
@@ -145,9 +127,6 @@ public class CartServlet extends SimpleAffableBeanServlet {
             }
 
             userPath = "/cart";
-
-
-
         }
 
         // use RequestDispatcher to forward request internally
