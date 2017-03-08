@@ -10,9 +10,8 @@ package controller;
 
 import business.ApplicationContext;
 import business.customer.Customer;
-import business.customer.CustomerDao;
+import business.customer.CustomerService;
 import business.order.CustomerOrder;
-import business.order.CustomerOrderDao;
 import business.order.CustomerOrderDetails;
 import business.order.CustomerOrderService;
 import java.io.IOException;
@@ -23,7 +22,9 @@ import javax.servlet.annotation.HttpConstraint;
 import javax.servlet.annotation.ServletSecurity;
 import javax.servlet.annotation.ServletSecurity.TransportGuarantee;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.*;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 
@@ -48,13 +49,11 @@ public class AdminServlet extends HttpServlet {
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         ApplicationContext applicationContext = ApplicationContext.INSTANCE;
-        customerDao = applicationContext.getCustomerDao();
-        customerOrderDao = applicationContext.getCustomerOrderDao();
+        customerService = applicationContext.getCustomerService();
         customerOrderService = applicationContext.getCustomerOrderService();
     }
 
-    private CustomerDao customerDao;
-    private CustomerOrderDao customerOrderDao;
+    private CustomerService customerService;
     private CustomerOrderService customerOrderService;
 
 
@@ -75,13 +74,13 @@ public class AdminServlet extends HttpServlet {
 
         // if viewCustomers is requested
         if (userPath.equals("/admin/viewCustomers")) {
-            List<Customer> customerList = customerDao.findAll();
+            List<Customer> customerList = customerService.findAll();
             request.setAttribute("customerList", customerList);
         }
 
         // if viewOrders is requested
         if (userPath.equals("/admin/viewOrders")) {
-            List<CustomerOrder> orderList = customerOrderDao.findAll();
+            List<CustomerOrder> orderList = customerOrderService.findAll();
             request.setAttribute("orderList", orderList);
         }
 
@@ -92,11 +91,11 @@ public class AdminServlet extends HttpServlet {
             String customerId = request.getQueryString();
 
             // get customer details
-            Customer customer = customerDao.findByCustomerId(Integer.parseInt(customerId));
+            Customer customer = customerService.findByCustomerId(Integer.parseInt(customerId));
             request.setAttribute("customerRecord", customer);
 
             // get customer order details
-            CustomerOrder order = customerOrderDao.findByCustomerId(Integer.parseInt(customerId));
+            CustomerOrder order = customerOrderService.findByCustomerId(Integer.parseInt(customerId));
             request.setAttribute("order", order);
         }
 

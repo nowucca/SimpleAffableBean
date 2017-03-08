@@ -11,7 +11,7 @@ package controller;
 import business.ApplicationContext;
 import business.cart.ShoppingCart;
 import business.product.Product;
-import business.product.ProductDao;
+import business.product.ProductService;
 import java.io.IOException;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -27,7 +27,7 @@ import javax.servlet.http.HttpSession;
             urlPatterns = {"/cart"})
 public class CartServlet extends SimpleAffableBeanServlet {
 
-    private ProductDao productDao;
+    private ProductService productService;
 
     @Override
     public void init(ServletConfig servletConfig) throws ServletException {
@@ -36,10 +36,7 @@ public class CartServlet extends SimpleAffableBeanServlet {
 
         // initialize servlet with configuration information
         ApplicationContext applicationContext = ApplicationContext.INSTANCE;
-        productDao = applicationContext.getProductDao();
-
-        // store category list in servlet context
-        getServletContext().setAttribute("categories", applicationContext.getCategoryDao().findAll());
+        productService = applicationContext.getProductService();
     }
 
     // do not cache the cart contents in the browser - we want to display the latest cart always
@@ -107,7 +104,7 @@ public class CartServlet extends SimpleAffableBeanServlet {
 
             if (!productId.isEmpty()) {
                 final int id = Integer.parseInt(productId);
-                Product product = productDao.findByProductId(id);
+                Product product = productService.findByProductId(id);
                 cart.addItem(product);
             }
             userPath = "/category";
@@ -120,7 +117,7 @@ public class CartServlet extends SimpleAffableBeanServlet {
             String quantity = request.getParameter("quantity");
 
             try {
-                cart.update(productDao.findByProductId(Integer.parseInt(productId)), Short.parseShort(quantity));
+                cart.update(productService.findByProductId(Integer.parseInt(productId)), Short.parseShort(quantity));
             } catch (Exception e) {
                 // no message was sent to user in affable bean project
             }

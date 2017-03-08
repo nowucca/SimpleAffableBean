@@ -11,6 +11,7 @@ package controller;
 import business.ApplicationContext;
 import business.category.Category;
 import business.category.CategoryDao;
+import business.category.CategoryService;
 import business.product.Product;
 import java.io.IOException;
 import java.util.Collection;
@@ -28,7 +29,7 @@ import javax.servlet.http.HttpSession;
             urlPatterns = {"/category"})
 public class CategoryServlet extends SimpleAffableBeanServlet {
 
-    private CategoryDao categoryDao;
+    private CategoryService categoryService;
 
     @Override
     public void init(ServletConfig servletConfig) throws ServletException {
@@ -36,7 +37,7 @@ public class CategoryServlet extends SimpleAffableBeanServlet {
         super.init(servletConfig);
 
         ApplicationContext applicationContext = ApplicationContext.INSTANCE;
-        categoryDao = applicationContext.getCategoryDao();
+        categoryService = applicationContext.getCategoryService();
     }
 
 
@@ -62,7 +63,7 @@ public class CategoryServlet extends SimpleAffableBeanServlet {
         if (categoryId != null) {
 
             // get selected category
-            selectedCategory = categoryDao.findByCategoryId(Short.parseShort(categoryId));
+            selectedCategory = categoryService.findByCategoryId(Short.parseShort(categoryId));
 
             // place selected category in session scope
             session.setAttribute("selectedCategory", selectedCategory);

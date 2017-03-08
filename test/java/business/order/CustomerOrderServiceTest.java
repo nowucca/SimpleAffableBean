@@ -1,10 +1,10 @@
 package business.order;
 
 import business.ApplicationContext;
-import business.SimpleAffableDbException;
 import business.IntegrationTestPlatform;
+import business.SimpleAffableDbException;
 import business.cart.ShoppingCart;
-import business.product.ProductDao;
+import business.product.ProductService;
 import java.sql.Connection;
 import java.sql.JDBCType;
 import java.sql.PreparedStatement;
@@ -27,13 +27,13 @@ public class CustomerOrderServiceTest extends IntegrationTestPlatform {
 
     private static final int MILK_PRODUCT_ID = 1;
     private CustomerOrderService orderService;
-    private ProductDao productDao;
+    private ProductService productService;
 
 
     @BeforeEach
     public void setupBusinessObjects() throws Exception {
         orderService = ApplicationContext.INSTANCE.getCustomerOrderService();
-        productDao = ApplicationContext.INSTANCE.getProductDao();
+        productService = ApplicationContext.INSTANCE.getProductService();
     }
 
     private static final String FIND_CUSTOMER_ORDER_BY_ID_SQL =
@@ -58,7 +58,7 @@ public class CustomerOrderServiceTest extends IntegrationTestPlatform {
         String validCityRegion = "1";
         String validCCNumber = "4444333322221111";
         ShoppingCart validCart = new ShoppingCart();
-        validCart.addItem(productDao.findByProductId(MILK_PRODUCT_ID));
+        validCart.addItem(productService.findByProductId(MILK_PRODUCT_ID));
         validCart.calculateTotal("300");
         long customerOrderId = orderService.placeOrder(validName, validEmail, validPhone, validAddress, validCityRegion, validCCNumber, validCart);
 

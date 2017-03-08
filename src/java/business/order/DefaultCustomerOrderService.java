@@ -70,6 +70,21 @@ public class DefaultCustomerOrderService implements CustomerOrderService {
 
     }
 
+    @Override
+    public List<CustomerOrder> findAll() {
+        return customerOrderDao.findAll();
+    }
+
+    @Override
+    public CustomerOrder findByCustomerId(long customerId) {
+        return customerOrderDao.findByCustomerId(customerId);
+    }
+
+    @Override
+    public CustomerOrder findByCustomerOrderId(long customerOrderId) {
+        return customerOrderDao.findByCustomerOrderId(customerOrderId);
+    }
+
     void validateForm(String name,
                          String email,
                          String phone,

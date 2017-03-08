@@ -38,7 +38,7 @@ public class SimpleAffableBeanServlet extends HttpServlet {
 
         // store category list in servlet context
         if (getServletContext().getAttribute("categories") == null) {
-            getServletContext().setAttribute("categories", applicationContext.getCategoryDao().findAll());
+            getServletContext().setAttribute("categories", applicationContext.getCategoryService().findAll());
         }
     }
 
