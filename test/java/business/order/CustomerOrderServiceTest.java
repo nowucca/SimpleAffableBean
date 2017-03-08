@@ -62,82 +62,38 @@ public class CustomerOrderServiceTest extends IntegrationTestPlatform {
         validCart.calculateTotal("300");
         long customerOrderId = orderService.placeOrder(validName, validEmail, validPhone, validAddress, validCityRegion, validCCNumber, validCart);
 
-        assertObjectStoredByKey(FIND_CUSTOMER_BY_EMAIL, validEmail, JDBCType.VARCHAR,
-            ()->String.format("Could not locate customer by email %s", validEmail),
-            (ResultSet resultSet) -> {
-                try {
-                    Long dbCustomerId = resultSet.getLong("customer_id");
-                    String dbCustomerName = resultSet.getString("name");
-                    String dbCustomerEmail = resultSet.getString("email");
-                    String dbCustomerPhone = resultSet.getString("phone");
-                    String dbCustomerAddress = resultSet.getString("address");
-                    String dbCustomerCityRegion = resultSet.getString("city_region");
-                    String dbCustomerCCNumber = resultSet.getString("cc_number");
+        assertObjectStoredByKey(FIND_CUSTOMER_BY_EMAIL, validEmail, JDBCType.VARCHAR, () -> String.format("Could not locate customer by email %s", validEmail), (ResultSet resultSet) -> {
 
-                    assertAll("Customer read looks valid",
-                        () -> assertNotNull(dbCustomerId, "Missing customerId"),
-                        () -> assertEquals(validName, dbCustomerName, "Mismatched customer name"),
-                        () -> assertEquals(validEmail, dbCustomerEmail, "Mismatched email"),
-                        () -> assertEquals(validPhone, dbCustomerPhone, "Mismatched phone"),
-                        () -> assertEquals(validAddress, dbCustomerAddress, "Mismatched address"),
-                        () -> assertEquals(validCityRegion, dbCustomerCityRegion, "Mismatched city region"),
-                        () -> assertEquals(validCCNumber, dbCustomerCCNumber, "Mismatched cc number")
-                        );
-                } catch (SQLException e) {
-                    throw new SimpleAffableDbException("Customer email assertions failed with a SQL exception", e);
-                }
+            try {
+                Long dbCustomerId = resultSet.getLong("customer_id");
+                String dbCustomerName = resultSet.getString("name");
+                String dbCustomerEmail = resultSet.getString("email");
+                String dbCustomerPhone = resultSet.getString("phone");
+                String dbCustomerAddress = resultSet.getString("address");
+                String dbCustomerCityRegion = resultSet.getString("city_region");
+                String dbCustomerCCNumber = resultSet.getString("cc_number");
+
+                assertAll("Customer read looks valid", () -> assertNotNull(dbCustomerId, "Missing customerId"), () -> assertEquals(validName, dbCustomerName, "Mismatched customer name"), () -> assertEquals(validEmail, dbCustomerEmail, "Mismatched email"), () -> assertEquals(validPhone, dbCustomerPhone, "Mismatched phone"), () -> assertEquals(validAddress, dbCustomerAddress, "Mismatched address"), () -> assertEquals(validCityRegion, dbCustomerCityRegion, "Mismatched city region"), () -> assertEquals(validCCNumber, dbCustomerCCNumber, "Mismatched cc number"));
+            } catch (SQLException e) {
+                throw new SimpleAffableDbException("Customer email assertions failed with a SQL exception", e);
             }
-            );
+        });
 
-        assertObjectStoredById(FIND_CUSTOMER_ORDER_BY_ID_SQL,
-            customerOrderId,
-            ()->String.format("Could not locate customer order %d", customerOrderId),
-            (ResultSet resultSet) -> {
-                try {
-                    Long actualCustomerOrderId = resultSet.getLong("customer_order_id");
-                    Long customerId = resultSet.getLong("customer_id");
-                    int amount = resultSet.getInt("amount");
-                    Date dateCreated = resultSet.getTimestamp("date_created");
-                    Date now = new Date();
-                    int confirmationNumber = resultSet.getInt("confirmation_number");
+        assertObjectStoredById(FIND_CUSTOMER_ORDER_BY_ID_SQL, customerOrderId, () -> String.format("Could not locate customer order %d", customerOrderId), (ResultSet resultSet) -> {
+            try {
+                Long actualCustomerOrderId = resultSet.getLong("customer_order_id");
+                Long customerId = resultSet.getLong("customer_id");
+                int amount = resultSet.getInt("amount");
+                Date dateCreated = resultSet.getTimestamp("date_created");
+                Date now = new Date();
+                int confirmationNumber = resultSet.getInt("confirmation_number");
 
-                    assertAll("Customer Order read looks valid",
-                        () -> assertNotNull(customerOrderId, "Missing customerOrderId"),
-                        () -> assertEquals(470, amount, "Expected amount to be price of milk plus surcharge"),
-                        () -> assertTrue(now.getTime() - dateCreated.getTime() < TimeUnit.SECONDS.toMillis(30),
-                            "Expected created timestamp close to the current time"),
-                        () -> assertTrue(confirmationNumber > 0, "Valid positive confirmation number"));
-                } catch (SQLException e) {
-                    throw new SimpleAffableDbException("Assertions failed with a SQL exception", e);
-                }
-            });
-
-        assertObjectStoredById(FIND_CUSTOMER_ORDER_LINE_BY_ID, customerOrderId,
-            ()->String.format("Could not locate customer order line by id %s", customerOrderId),
-            (ResultSet resultSet) -> {
-                try {
-                    Long dbCustomerId = resultSet.getLong("customer_id");
-                    String dbCustomerName = resultSet.getString("name");
-                    String dbCustomerEmail = resultSet.getString("email");
-                    String dbCustomerPhone = resultSet.getString("phone");
-                    String dbCustomerAddress = resultSet.getString("address");
-                    String dbCustomerCityRegion = resultSet.getString("city_region");
-                    String dbCustomerCCNumber = resultSet.getString("cc_number");
-
-                    assertAll("Customer read looks valid",
-                        () -> assertNotNull(dbCustomerId, "Missing customerId"),
-                        () -> assertEquals(validName, dbCustomerName, "Mismatched customer name"),
-                        () -> assertEquals(validEmail, dbCustomerEmail, "Mismatched email"),
-                        () -> assertEquals(validPhone, dbCustomerPhone, "Mismatched phone"),
-                        () -> assertEquals(validAddress, dbCustomerAddress, "Mismatched address"),
-                        () -> assertEquals(validCityRegion, dbCustomerCityRegion, "Mismatched city region"),
-                        () -> assertEquals(validCCNumber, dbCustomerCCNumber, "Mismatched cc number")
-                    );
-                } catch (SQLException e) {
-                    throw new SimpleAffableDbException("Customer email assertions failed with a SQL exception", e);
-                }
+                assertAll("Customer Order read looks valid", () -> assertNotNull(customerOrderId, "Missing customerOrderId"), () -> assertEquals(470, amount, "Expected amount to be price of milk plus surcharge"), () -> assertTrue(now.getTime() - dateCreated.getTime() < TimeUnit.SECONDS.toMillis(30), "Expected created timestamp close to the current time"), () -> assertTrue(confirmationNumber > 0, "Valid positive confirmation number"));
+            } catch (SQLException e) {
+                throw new SimpleAffableDbException("Assertions failed with a SQL exception", e);
             }
-        );
+        });
+
     }
 
     private void assertObjectStoredById(String byIdSql, long objectId, Supplier<String> failedToReadObject, Consumer<ResultSet> assertions) throws Exception {
