@@ -1,30 +1,28 @@
 package business;
 
 import java.sql.Connection;
-import org.hamcrest.core.IsNot;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  */
 public class JdbcUtilsTest {
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
-
+        IntegrationTestPlatform.setupJNDIContext();
     }
 
-    @After
+    @AfterEach
     public void tearDown() throws Exception {
-
+        IntegrationTestPlatform.teardownJNDIContext();
     }
 
     @Test
-    public void getConnection() throws Exception {
+    public void canGetAConnectionFromTheTestJNDIContext() throws Exception {
         Connection c = JdbcUtils.getConnection();
         assertNotNull(c);
-
     }
 
 }

@@ -9,6 +9,7 @@
 package controller;
 
 import business.ApplicationContext;
+import business.ValidationException;
 import business.cart.ShoppingCart;
 import business.order.CustomerOrderDetails;
 import business.order.CustomerOrderService;
@@ -20,7 +21,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import validate.Validator;
 
 /**
  *
@@ -99,7 +99,6 @@ public class CheckoutServlet extends SimpleAffableBeanServlet {
         String action = request.getParameter("action");
         HttpSession session = request.getSession();
         ShoppingCart cart = (ShoppingCart) session.getAttribute("cart");
-        Validator validator = new Validator();
 
 
         // if purchase action is called
@@ -115,18 +114,8 @@ public class CheckoutServlet extends SimpleAffableBeanServlet {
                 String cityRegion = request.getParameter("cityRegion");
                 String ccNumber = request.getParameter("creditcard");
 
-                // validate user data
-                boolean validationErrorFlag = false;
-                validationErrorFlag = validator.validateForm(name, email, phone, address, cityRegion, ccNumber, request);
-
-                // if validation error found, return user to checkout
-                if (validationErrorFlag == true) {
-                    request.setAttribute("validationErrorFlag", validationErrorFlag);
-                    userPath = "/checkout";
-
-                    // otherwise, save order to database
-                } else {
-
+                // otherwise, save order to database
+                try {
                     long orderId = customerOrderService.placeOrder(name, email, phone, address, cityRegion, ccNumber, cart);
 
                     // if order processed successfully send user to confirmation page
@@ -148,7 +137,7 @@ public class CheckoutServlet extends SimpleAffableBeanServlet {
                         session.invalidate();
 
                         if (!language.isEmpty()) {                       // if user changed language using the toggle,
-                                                                         // reset the language attribute - otherwise
+                            // reset the language attribute - otherwise
                             request.setAttribute("language", language);  // language will be switched on confirmation page!
                         }
 
@@ -163,11 +152,18 @@ public class CheckoutServlet extends SimpleAffableBeanServlet {
 
                         userPath = "/confirmation";
 
-                    // otherwise, send back to checkout page and display error
+                        // otherwise, send back to checkout page and display error
                     } else {
                         userPath = "/checkout";
                         request.setAttribute("orderFailureFlag", true);
                     }
+                } catch (ValidationException e) {
+                    // If validation error found, set attributes expected by JSP, return user to checkout
+                    for (String fieldName: e.getInvalidFieldNames()) {
+                        request.setAttribute(fieldName+"Error", true);
+                    }
+                    request.setAttribute("validationErrorFlag", true);
+                    userPath = "/checkout";
                 }
             }
         }

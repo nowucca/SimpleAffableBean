@@ -19,7 +19,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import validate.Validator;
 
 /**
  *
@@ -91,7 +90,6 @@ public class CartServlet extends SimpleAffableBeanServlet {
         String action = request.getParameter("action");
         HttpSession session = request.getSession();
         ShoppingCart cart = (ShoppingCart) session.getAttribute("cart");
-        Validator validator = new Validator();
 
         // if addToCart action is called
         if ("add".equals(action)) {
@@ -121,13 +119,12 @@ public class CartServlet extends SimpleAffableBeanServlet {
             String productId = request.getParameter("productId");
             String quantity = request.getParameter("quantity");
 
-            boolean invalidEntry = validator.validateQuantity(productId, quantity);
-
-            if (!invalidEntry) {
-
-                Product product = productDao.findByProductId((Integer.parseInt(productId)));
-                cart.update(product.getProductId(), quantity);
+            try {
+                cart.update(productDao.findByProductId(Integer.parseInt(productId)), Short.parseShort(quantity));
+            } catch (Exception e) {
+                // no message was sent to user in affable bean project
             }
+
 
             userPath = "/cart";
         }

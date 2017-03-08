@@ -8,6 +8,7 @@
 
 package business.cart;
 
+import business.ValidationException;
 import business.product.Product;
 import java.util.ArrayList;
 import java.util.List;
@@ -65,38 +66,41 @@ public class ShoppingCart {
      * @param quantity the number which the <code>ShoppingCartItem</code> is updated to
      * @see ShoppingCartItem
      */
-    public synchronized void update(long productId, String quantity) {
+    public synchronized void update(Product product , short quantity) throws ValidationException {
 
-        short qty = -1;
+        validateQuantity(quantity);
 
-        // cast quantity as short
-        qty = Short.parseShort(quantity);
+        ShoppingCartItem item = null;
 
-        if (qty >= 0) {
+        for (ShoppingCartItem scItem : items) {
 
-            ShoppingCartItem item = null;
+            if (scItem.getProductId() == product.getProductId()) {
 
-            for (ShoppingCartItem scItem : items) {
-
-                if (scItem.getProductId() == productId) {
-
-                    if (qty != 0) {
-                        // set item quantity to new value
-                        scItem.quantity = qty;
-                    } else {
-                        // if quantity equals 0, save item and break
-                        item = scItem;
-                        break;
-                    }
+                if (quantity != 0) {
+                    // set item quantity to new value
+                    scItem.quantity = quantity;
+                } else {
+                    // if quantity equals 0, save item and break
+                    item = scItem;
+                    break;
                 }
             }
+        }
 
-            if (item != null) {
-                // remove from cart
-                items.remove(item);
-            }
+        if (item != null) {
+            // remove from cart
+            items.remove(item);
         }
     }
+
+    // ensures that quantity input is number between 0 and 99
+    // applies to quantity fields in cart page
+    void validateQuantity (int quantity) throws ValidationException {
+        if (quantity < 0 || quantity > 99) {
+            throw new ValidationException("quantity");
+        }
+    }
+
 
     /**
      * Returns the list of <code>ShoppingCartItems</code>.

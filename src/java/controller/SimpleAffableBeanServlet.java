@@ -9,21 +9,14 @@
 package controller;
 
 import business.ApplicationContext;
-import business.cart.ShoppingCart;
-import business.category.CategoryDao;
-import business.order.CustomerOrderDetails;
-import business.order.CustomerOrderService;
-import business.product.ProductDao;
-import business.category.Category;
-import business.product.Product;
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Locale;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.*;
-import validate.Validator;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *

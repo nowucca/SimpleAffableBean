@@ -12,7 +12,7 @@ import javax.sql.DataSource;
  */
 public class JdbcUtils {
 
-    private static final String JDBC_SIMPLEAFFABLEBEAN = "jdbc/simpleaffablebean";
+    static final String JDBC_SIMPLEAFFABLEBEAN = "jdbc/simpleaffablebean";
 
     private static DataSource dataSource;
 

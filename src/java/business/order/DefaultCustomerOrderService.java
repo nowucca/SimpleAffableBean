@@ -2,6 +2,7 @@ package business.order;
 
 import business.JdbcUtils;
 import business.SimpleAffableDbException;
+import business.ValidationException;
 import business.cart.ShoppingCart;
 import business.customer.Customer;
 import business.customer.CustomerDao;
@@ -25,7 +26,10 @@ public class DefaultCustomerOrderService implements CustomerOrderService {
     private Random random = new Random();
 
     @Override
-    public long placeOrder(String name, String email, String phone, String address, String cityRegion, String ccNumber, ShoppingCart cart) {
+    public long placeOrder(String name, String email, String phone, String address, String cityRegion, String ccNumber, ShoppingCart cart) throws ValidationException {
+
+        validateForm(name, email, phone, address, cityRegion, ccNumber);
+
         Connection connection = JdbcUtils.getConnection();
         try {
             connection.setAutoCommit(false);
@@ -63,6 +67,53 @@ public class DefaultCustomerOrderService implements CustomerOrderService {
             .collect(Collectors.toList());
 
         return new CustomerOrderDetails(order, customer, products);
+
+    }
+
+    void validateForm(String name,
+                         String email,
+                         String phone,
+                         String address,
+                         String cityRegion,
+                         String ccNumber) throws ValidationException {
+
+        ValidationException e = new ValidationException();
+
+
+        if (name == null
+            || name.equals("")
+            || name.length() > 45) {
+            e.fieldError("name");
+        }
+        if (email == null
+            || email.equals("")
+            || !email.contains("@")) {
+            e.fieldError("email");
+        }
+        if (phone == null
+            || phone.equals("")
+            || phone.length() < 9) {
+            e.fieldError("phone");
+        }
+        if (address == null
+            || address.equals("")
+            || address.length() > 45) {
+            e.fieldError("address");
+        }
+        if (cityRegion == null
+            || cityRegion.equals("")
+            || cityRegion.length() > 2) {
+            e.fieldError("cityRegion");
+        }
+        if (ccNumber == null
+            || ccNumber.equals("")
+            || ccNumber.length() > 19) {
+            e.fieldError("ccNumber");
+        }
+
+        if (e.hasErrors()) {
+            throw e;
+        }
 
     }
 
