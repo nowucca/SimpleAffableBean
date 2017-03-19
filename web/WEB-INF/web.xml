@@ -94,8 +94,12 @@
         </jsp-property-group>
 
         <jsp-property-group>
-            <description>JSP configuration for the store front</description>
+            <description>JSP configuration for the first page hit</description>
             <url-pattern>/index.jsp</url-pattern>
+        </jsp-property-group>
+
+        <jsp-property-group>
+            <description>JSP configuration for the store front</description>
             <url-pattern>/WEB-INF/view/*</url-pattern>
             <url-pattern>/WEB-INF/jspf/error/*</url-pattern>
             <include-prelude>/WEB-INF/jspf/header.jspf</include-prelude>

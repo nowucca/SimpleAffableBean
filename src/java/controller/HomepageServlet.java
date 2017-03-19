@@ -13,6 +13,7 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import viewmodel.HomepageViewModel;
 
 /**
  *
@@ -32,6 +33,7 @@ public class HomepageServlet extends SimpleAffableBeanServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         // use RequestDispatcher to forward request internally
+        request.setAttribute("p", new HomepageViewModel(request));
         doForwardToJSP(request, response, "/homepage");
     }
 

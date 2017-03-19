@@ -79,10 +79,11 @@
                             <c:otherwise>
                               <c:url var="url" value="chooseLanguage">
                                 <c:param name="language" value="en"/>
+                                <c:param name="relativeReturnUrl" value="${p.header.relativeReturnUrl}"/>
                               </c:url>
                               <div class="bubble"><a href="${url}">english</a></div>
                             </c:otherwise>
-                          </c:choose> |
+                          </c:choose>
 
                           <c:choose>
                             <c:when test="${pageContext.request.locale.language eq 'cs'}">
@@ -91,6 +92,7 @@
                             <c:otherwise>
                               <c:url var="url" value="chooseLanguage">
                                 <c:param name="language" value="cs"/>
+                                <c:param name="relativeReturnUrl" value="${p.header.relativeReturnUrl}"/>
                               </c:url>
                               <div class="bubble"><a href="${url}">česky</a></div>
                             </c:otherwise>
@@ -106,6 +108,7 @@
                             <c:otherwise>
                               <c:url var="url" value="chooseLanguage">
                                 <c:param name="language" value="en"/>
+                                <c:param name="relativeReturnUrl" value="${p.header.relativeReturnUrl}"/>
                               </c:url>
                               <div class="bubble"><a href="${url}">english</a></div>
                             </c:otherwise>
@@ -118,6 +121,7 @@
                             <c:otherwise>
                               <c:url var="url" value="chooseLanguage">
                                 <c:param name="language" value="cs"/>
+                                <c:param name="relativeReturnUrl" value="${p.header.relativeReturnUrl}"/>
                               </c:url>
                               <div class="bubble"><a href="${url}">česky</a></div>
                             </c:otherwise>

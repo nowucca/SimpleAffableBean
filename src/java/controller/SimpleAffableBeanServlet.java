@@ -23,8 +23,7 @@ import javax.servlet.http.HttpSession;
  * @author tgiunipero
  */
 @WebServlet(name = "SimpleAffableBean",
-            loadOnStartup = 1,
-            urlPatterns = {"/chooseLanguage"})
+            loadOnStartup = 1)
 public class SimpleAffableBeanServlet extends HttpServlet {
 
 
@@ -43,59 +42,9 @@ public class SimpleAffableBeanServlet extends HttpServlet {
     }
 
 
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
-        String userPath = request.getServletPath();
-        HttpSession session = request.getSession();
-
-        // if user switches language
-        if (userPath.equals("/chooseLanguage")) {
-
-            // get language choice
-            String language = request.getParameter("language");
-
-            // place in request scope
-            request.setAttribute("language", language);
-
-            String userView = (String) session.getAttribute("view");
-
-            if ((userView != null) &&
-                (!userView.equals("/index"))) {     // index.jsp exists outside 'view' folder
-                                                    // so must be forwarded separately
-                userPath = userView;
-            } else {
-
-                // if previous view is index or cannot be determined, send user to welcome page
-                try {
-                    request.getRequestDispatcher("/index.jsp").forward(request, response);
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-                return;
-            }
-        }
-
-        // use RequestDispatcher to forward request internally
-        String url = "/WEB-INF/view" + userPath + ".jsp";
-
-        try {
-            request.getRequestDispatcher(url).forward(request, response);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
-
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        // Set generic HTTP Headers that are useful for all requests.
         initHttpHeaders(req, resp);
         super.service(req, resp);
     }
@@ -108,6 +57,12 @@ public class SimpleAffableBeanServlet extends HttpServlet {
         }
     }
 
+    /**
+     * Allow browser caching on all responses by default.
+     * Some pages may override this when the page displays customer-specific information.
+     *
+     * @return true iff it is safe for the browser to cache information in the response
+     */
     protected boolean allowBrowserCaching() {
         return true;
     }
@@ -125,7 +80,6 @@ public class SimpleAffableBeanServlet extends HttpServlet {
 
     protected void doTemporaryRedirect(HttpServletRequest request, HttpServletResponse response, String location) {
         response.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
-
         response.setHeader("Location", getServletContext().getContextPath()+location);
     }
 
