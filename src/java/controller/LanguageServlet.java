@@ -45,7 +45,6 @@ public class LanguageServlet extends SimpleAffableBeanServlet {
         // get relative url to redirect back to
         String relativeReturnUrl = request.getParameter("relativeReturnUrl");
 
-
         // make a locale out of the language
         Locale locale;
         if (isUnsupported(language)) {

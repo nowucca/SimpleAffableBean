@@ -31,4 +31,8 @@ public class ValidationException extends Exception {
     public List<String> getInvalidFieldNames() {
         return invalidFieldNames;
     }
+
+    public boolean hasInvalidField(String name) {
+        return invalidFieldNames.contains(name);
+    }
 }

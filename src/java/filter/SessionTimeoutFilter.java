@@ -25,7 +25,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author tgiunipero
  */
-@WebFilter(servletNames = {"Cart", "Category", "Checkout", "Homepage", "AdminServlet", "Confirmation", "Language"})
+@WebFilter(servletNames = {"Cart", "Category", "Checkout", "AdminServlet", "Confirmation", "Language"})
 public class SessionTimeoutFilter implements Filter {
 
     @Override

@@ -8,30 +8,14 @@
  * author: tgiunipero
 --%>
 
-
-<%-- Set session-scoped variable to track the view user is coming from.
-     This is used by the language mechanism in the Controller so that
-     users view the same page when switching between English and Czech. --%>
-<c:set var="view" value="/checkout" scope="session"/>
-
+<jsp:useBean id="p" scope="request" type="viewmodel.CheckoutViewModel"/>
 
 <script src="js/jquery.validate.js" type="text/javascript"></script>
 
 <%-- Add Czech field validation messages if 'cs' is the chosen locale --%>
-<c:choose>
-  <%-- When 'language' session attribute hasn't been set, check browser's preferred locale --%>
-  <c:when test="${empty language}">
-    <c:if test="${pageContext.request.locale.language eq 'cs'}">
-      <script src="js/localization/messages_cs.js" type="text/javascript"></script>
-    </c:if>
-  </c:when>
-  <%-- Otherwise, check 'language' session attribute --%>
-  <c:otherwise>
-    <c:if test="${sessionScope['javax.servlet.jsp.jstl.fmt.locale.session'] eq 'cs'}">
-      <script src="js/localization/messages_cs.js" type="text/javascript"></script>
-    </c:if>
-  </c:otherwise>
-</c:choose>
+<c:if test="${p.isEffectiveLocaleCzech}">
+  <script src="js/localization/messages_cs.js" type="text/javascript"></script>
+</c:if>
 
 <script type="text/javascript">
 
@@ -69,7 +53,7 @@
 
     <p><fmt:message key="checkoutText"/></p>
 
-    <c:if test="${!empty orderFailureFlag}">
+    <c:if test="${p.hasOrderFailureFlag}">
         <p class="error"><fmt:message key="orderFailureError"/></p>
     </c:if>
 
@@ -78,27 +62,27 @@
              name="action"
              value="purchase"/>
         <table id="checkoutTable">
-          <c:if test="${!empty validationErrorFlag}">
+          <c:if test="${p.hasValidationErrorFlag}">
             <tr>
                 <td colspan="2" style="text-align:left">
                     <span class="error smallText"><fmt:message key="validationErrorMessage"/>
 
-                      <c:if test="${!empty nameError}">
+                      <c:if test="${p.hasNameError}">
                         <br><span class="indent"><fmt:message key="nameError"/></span>
                       </c:if>
-                      <c:if test="${!empty emailError}">
+                      <c:if test="${p.hasEmailError}">
                         <br><span class="indent"><fmt:message key="emailError"/></span>
                       </c:if>
-                      <c:if test="${!empty phoneError}">
+                      <c:if test="${p.hasPhoneError}">
                         <br><span class="indent"><fmt:message key="phoneError"/></span>
                       </c:if>
-                      <c:if test="${!empty addressError}">
+                      <c:if test="${p.hasAddressError}">
                         <br><span class="indent"><fmt:message key="addressError"/></span>
                       </c:if>
-                      <c:if test="${!empty cityRegionError}">
+                      <c:if test="${p.hasCityRegionError}">
                         <br><span class="indent"><fmt:message key="cityRegionError"/></span>
                       </c:if>
-                      <c:if test="${!empty ccNumberError}">
+                      <c:if test="${p.hasCCNumberError}">
                         <br><span class="indent"><fmt:message key="ccNumberError"/></span>
                       </c:if>
 
@@ -114,7 +98,7 @@
                            maxlength="45"
                            id="name"
                            name="name"
-                           value="${param.name}">
+                           value="<c:out value="${p.name}"/>">
                 </td>
             </tr>
             <tr>
@@ -125,7 +109,7 @@
                            maxlength="45"
                            id="email"
                            name="email"
-                           value="${param.email}">
+                           value="<c:out value="${p.email}"/>">
                 </td>
             </tr>
             <tr>
@@ -136,7 +120,7 @@
                            maxlength="16"
                            id="phone"
                            name="phone"
-                           value="${param.phone}">
+                           value="<c:out value="${p.phone}"/>">
                 </td>
             </tr>
             <tr>
@@ -147,14 +131,14 @@
                            maxlength="45"
                            id="address"
                            name="address"
-                           value="${param.address}">
+                           value="<c:out value="${p.address}"/>">
 
                     <br>
                     <fmt:message key="prague"/>
                     <select name="cityRegion">
                       <c:forEach begin="1" end="10" var="regionNumber">
                         <option value="${regionNumber}"
-                                <c:if test="${param.cityRegion eq regionNumber}">selected</c:if>>${regionNumber}</option>
+                                <c:if test="${p.cityRegion eq regionNumber}">selected</c:if>>${regionNumber}</option>
                       </c:forEach>
                     </select>
                 </td>
@@ -168,7 +152,7 @@
                            id="creditcard"
                            name="creditcard"
                            class="creditcard"
-                           value="${param.creditcard}">
+                           value="<c:out value="${p.creditcard}"/>">
                 </td>
             </tr>
             <tr>
@@ -184,7 +168,7 @@
         <ul>
             <li><fmt:message key="nextDayGuarantee"/></li>
             <li><fmt:message key="deliveryFee1"/>
-              <fmt:formatNumber type="currency" currencySymbol="&euro; " value="${initParam.deliverySurcharge/100.0}"/>
+              <fmt:formatNumber type="currency" currencySymbol="&euro; " value="${p.deliverySurcharge/100.0}"/>
               <fmt:message key="deliveryFee2"/></li>
         </ul>
 
@@ -192,17 +176,17 @@
             <tr>
                 <td><fmt:message key="subtotal"/>:</td>
                 <td class="checkoutPriceColumn">
-                    <fmt:formatNumber type="currency" currencySymbol="&euro; " value="${cart.subtotal/100.0}"/></td>
+                    <fmt:formatNumber type="currency" currencySymbol="&euro; " value="${p.cart.subtotal/100.0}"/></td>
             </tr>
             <tr>
                 <td><fmt:message key="surcharge"/>:</td>
                 <td class="checkoutPriceColumn">
-                    <fmt:formatNumber type="currency" currencySymbol="&euro; " value="${initParam.deliverySurcharge/100.0}"/></td>
+                    <fmt:formatNumber type="currency" currencySymbol="&euro; " value="${p.deliverySurcharge/100.0}"/></td>
             </tr>
             <tr>
                 <td class="total"><fmt:message key="total"/>:</td>
                 <td class="total checkoutPriceColumn">
-                    <fmt:formatNumber type="currency" currencySymbol="&euro; " value="${cart.total/100.0}"/></td>
+                    <fmt:formatNumber type="currency" currencySymbol="&euro; " value="${p.cart.total/100.0}"/></td>
             </tr>
         </table>
     </div>

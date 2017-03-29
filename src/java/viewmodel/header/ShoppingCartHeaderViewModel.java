@@ -8,10 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 public class ShoppingCartHeaderViewModel extends CartAwareHeaderViewModel {
 
     protected HttpServletRequest request;
-    protected ShoppingCart cart;
 
-    ShoppingCartHeaderViewModel(HttpServletRequest request) {
-        super(request);
+    ShoppingCartHeaderViewModel(HttpServletRequest request, ShoppingCart cart) {
+        super(request, cart);
     }
 
 

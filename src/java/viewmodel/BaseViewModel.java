@@ -1,6 +1,7 @@
 package viewmodel;
 
 import business.ApplicationContext;
+import business.cart.ShoppingCart;
 import business.category.Category;
 import business.category.CategoryService;
 import java.util.List;
@@ -25,16 +26,33 @@ public class BaseViewModel {
     protected HttpSession session;
 
     private List<Category> categories;
+    private ShoppingCart cart;
     private HeaderViewModel header;
+    private int deliverySurcharge;
 
 
     @SuppressWarnings("unchecked")
     public BaseViewModel(HttpServletRequest request) {
         this.request = request;
         this.session = request.getSession(false);
-        this.header = new HeaderViewModel(request);
+        this.cart = initCart();
+        this.header = new HeaderViewModel(request, cart);
         this.categories = (List<Category>) request.getServletContext().getAttribute("categories");
+        this.deliverySurcharge = Integer.valueOf(request.getServletContext().getInitParameter("deliverySurcharge"));
+    }
 
+    private ShoppingCart initCart() {
+        if (session != null) {
+            final Object cart = session.getAttribute("cart");
+            if (cart != null && cart instanceof ShoppingCart) {
+                return (ShoppingCart) cart;
+            }
+        }
+        return null;
+    }
+
+    public int getDeliverySurcharge() {
+        return deliverySurcharge;
     }
 
     public String getCategoryImagePath() {
@@ -67,17 +85,38 @@ public class BaseViewModel {
 
     }
 
-    public boolean getHasSelectedCategory() {
-        return session.getAttribute("selectedCategory") != null;
-    }
 
-    protected CategoryService getCategoryService() {
-        return ApplicationContext.INSTANCE.getCategoryService();
-    }
 
     public List<Category> getCategories() {
         return categories;
     }
+    public ShoppingCart getCart() {
+        return cart;
+    }
+
+    public boolean getHasCart() {
+        return this.cart != null;
+    }
+
+    public int getNumberOfCartItems() {
+        if (getHasCart()) {
+            return cart.getNumberOfItems();
+        } else {
+            return 0;
+        }
+
+    }
+    public boolean getHasNonEmptyCart() {
+        return this.cart != null && getNumberOfCartItems() > 0;
+    }
+
+    public boolean getHasSelectedCategory() {
+        return session.getAttribute("selectedCategory") != null;
+    }
+    protected CategoryService getCategoryService() {
+        return ApplicationContext.INSTANCE.getCategoryService();
+    }
+
 
     // Good place to put support for common header and footer elements that are dynamic.
     // Also a good place to put elements onto a page that are generally useful

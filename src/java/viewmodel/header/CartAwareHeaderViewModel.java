@@ -3,7 +3,6 @@ package viewmodel.header;
 import business.cart.ShoppingCart;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import static viewmodel.common.ShoppingCartViewCommon.initCartFromSession;
 
 /**
  * Any header view model that needs to know anything about the shopping cart
@@ -16,10 +15,10 @@ public class CartAwareHeaderViewModel {
 
     protected ShoppingCart cart;
 
-    CartAwareHeaderViewModel(HttpServletRequest request) {
+    CartAwareHeaderViewModel(HttpServletRequest request, ShoppingCart cart) {
         this.request = request;
         this.session = request.getSession(false);
-        this.cart = initCartFromSession(session);
+        this.cart = cart;
     }
 
 

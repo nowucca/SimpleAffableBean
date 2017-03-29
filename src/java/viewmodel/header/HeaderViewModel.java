@@ -1,5 +1,6 @@
 package viewmodel.header;
 
+import business.cart.ShoppingCart;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -12,11 +13,11 @@ public class HeaderViewModel {
     private ShoppingCartHeaderViewModel shoppingCartHeaderViewModel;
     private CheckoutHeaderViewModel checkoutHeaderViewModel;
 
-    public HeaderViewModel(HttpServletRequest request) {
+    public HeaderViewModel(HttpServletRequest request, ShoppingCart cart) {
         this.relativeReturnUrl = getRelativeReturnUrl(request);
         this.languageSelectionHeaderViewModel = new LanguageSelectionHeaderViewModel(request);
-        this.shoppingCartHeaderViewModel = new ShoppingCartHeaderViewModel(request);
-        this.checkoutHeaderViewModel = new CheckoutHeaderViewModel(request);
+        this.shoppingCartHeaderViewModel = new ShoppingCartHeaderViewModel(request, cart);
+        this.checkoutHeaderViewModel = new CheckoutHeaderViewModel(request, cart);
     }
 
     public LanguageSelectionHeaderViewModel getLanguageSelectionHeader() {

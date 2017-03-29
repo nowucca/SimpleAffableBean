@@ -21,6 +21,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import viewmodel.CategoryViewModel;
+import viewmodel.CheckoutViewModel;
 
 /**
  *
@@ -77,6 +79,7 @@ public class CheckoutServlet extends SimpleAffableBeanServlet {
         // forward to checkout page and switch to a secure channel
 
         // use RequestDispatcher to forward request internally
+        request.setAttribute("p", new CheckoutViewModel(request));
         doForwardToJSP(request, response, userPath);
     }
 
@@ -158,11 +161,8 @@ public class CheckoutServlet extends SimpleAffableBeanServlet {
                         session.setAttribute("orderFailureFlag", true);
                     }
                 } catch (ValidationException e) {
-                    // If validation error found, set attributes expected by JSP, return user to checkout
-                    for (String fieldName: e.getInvalidFieldNames()) {
-                        request.setAttribute(fieldName+"Error", true);
-                    }
                     session.setAttribute("validationErrorFlag", true);
+                    session.setAttribute("validationException", e);
                     userPath = "/checkout";
                 }
             }

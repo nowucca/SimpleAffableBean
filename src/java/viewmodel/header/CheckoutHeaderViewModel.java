@@ -1,5 +1,6 @@
 package viewmodel.header;
 
+import business.cart.ShoppingCart;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -9,14 +10,10 @@ public class CheckoutHeaderViewModel extends CartAwareHeaderViewModel {
     private Boolean hasValidationErrorFlag;
     private Boolean hasOrderFailureFlag;
 
-    CheckoutHeaderViewModel(HttpServletRequest request) {
-        super(request);
+    CheckoutHeaderViewModel(HttpServletRequest request, ShoppingCart cart) {
+        super(request, cart);
         this.hasValidationErrorFlag = (Boolean) session.getAttribute("validationErrorFlag");
         this.hasOrderFailureFlag = (Boolean) session.getAttribute("orderFailureFlag");
-
-        // Now that we have captured these error conditions in the view model, let's clear them for future pages in the session.
-        session.setAttribute("validationErrorFlag", null);
-        session.setAttribute("orderFailureFlag", null);
     }
 
     public boolean getIsViewable() {

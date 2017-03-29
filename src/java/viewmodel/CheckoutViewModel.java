@@ -1,0 +1,141 @@
+package viewmodel;
+
+import business.ValidationException;
+import javax.servlet.http.HttpServletRequest;
+
+/**
+ *
+ */
+@SuppressWarnings("unchecked")
+public class CheckoutViewModel extends BaseViewModel {
+
+    private Boolean hasValidationErrorFlag;
+    private Boolean hasOrderFailureFlag;
+    private ValidationException validationException;
+
+
+    // Form parameters
+    private String name;
+    private String email;
+    private String phone;
+    private String address;
+    private String cityRegion;
+    private String creditcard;
+
+
+    public CheckoutViewModel(HttpServletRequest request) {
+        super(request);
+
+        this.hasValidationErrorFlag = (Boolean) session.getAttribute("validationErrorFlag");
+        this.hasOrderFailureFlag = (Boolean) session.getAttribute("orderFailureFlag");
+        this.validationException = (ValidationException) session.getAttribute("validationException");
+
+        this.name = request.getParameter("name");
+        this.email = request.getParameter("email");
+        this.phone = request.getParameter("phone");
+        this.address = request.getParameter("address");
+        this.cityRegion = request.getParameter("cityRegion");
+        this.creditcard = request.getParameter("creditcard");
+
+        // Now that we have captured these error conditions in the view model, let's clear them for future pages in the session.
+        session.setAttribute("validationErrorFlag", null);
+        session.setAttribute("validationException", null);
+        session.setAttribute("orderFailureFlag", null);
+    }
+
+    public boolean isIsEffectiveLocaleCzech() {
+        /*
+        Replaces:
+        <c:choose>
+              <%-- When 'language' session attribute hasn't been set, check browser's preferred locale --%>
+              <c:when test="${!p.hasCustomerSpecifiedLocale}">
+                <c:if test="${p.isRequestLocaleCzech}">
+                  <script src="js/localization/messages_cs.js" type="text/javascript"></script>
+                </c:if>
+              </c:when>
+              <%-- Otherwise, check 'language' session attribute --%>
+              <c:otherwise>
+                <c:if test="${p.customerSpecifiedLocaleCzech}">
+                  <script src="js/localization/messages_cs.js" type="text/javascript"></script>
+                </c:if>
+              </c:otherwise>
+            </c:choose>
+         */
+        return (!getHasCustomerSpecifiedLocale() && getIsRequestLocaleCzech()) ||
+            (getHasCustomerSpecifiedLocale() && isCustomerSpecifiedLocaleCzech());
+    }
+
+
+    public boolean getHasOrderFailureFlag() {
+        return this.hasOrderFailureFlag != null && this.hasOrderFailureFlag;
+    }
+
+    public boolean getHasValidationErrorFlag() {
+        return this.hasValidationErrorFlag != null && this.hasValidationErrorFlag;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getCityRegion() {
+        return cityRegion;
+    }
+
+    public String getCreditcard() {
+        return creditcard;
+    }
+
+    /*
+    Replaces:
+     <c:if test="${!empty nameError}">
+                        <br><span class="indent"><fmt:message key="nameError"/></span>
+                      </c:if>
+                      <c:if test="${!empty emailError}">
+                        <br><span class="indent"><fmt:message key="emailError"/></span>
+                      </c:if>
+                      <c:if test="${!empty phoneError}">
+                        <br><span class="indent"><fmt:message key="phoneError"/></span>
+                      </c:if>
+                      <c:if test="${!empty addressError}">
+                        <br><span class="indent"><fmt:message key="addressError"/></span>
+                      </c:if>
+                      <c:if test="${!empty cityRegionError}">
+                        <br><span class="indent"><fmt:message key="cityRegionError"/></span>
+                      </c:if>
+                      <c:if test="${!empty ccNumberError}">
+                        <br><span class="indent"><fmt:message
+     */
+
+    public boolean getHasNameError() {
+        return this.validationException.hasInvalidField("name");
+    }
+    public boolean getHasEmailError() {
+        return this.validationException.hasInvalidField("email");
+    }
+    public boolean getHasPhoneError() {
+        return this.validationException.hasInvalidField("phone");
+    }
+    public boolean getHasAddressError() {
+        return this.validationException.hasInvalidField("address");
+    }
+    public boolean getHasCityRegionError() {
+        return this.validationException.hasInvalidField("cityRegion");
+    }
+    public boolean getHasCCNumberError() {
+        return this.validationException.hasInvalidField("ccNumber");
+    }
+
+}
