@@ -1,4 +1,4 @@
-package viewmodel;
+package viewmodel.header;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.jstl.core.Config;

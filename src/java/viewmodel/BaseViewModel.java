@@ -1,35 +1,48 @@
 package viewmodel;
 
+import business.ApplicationContext;
+import business.category.Category;
+import business.category.CategoryService;
+import java.util.List;
 import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.servlet.jsp.jstl.core.Config;
+import viewmodel.header.HeaderViewModel;
 
 /**
  */
 public class BaseViewModel {
 
-    private HeaderViewModel header;
 
     // The relative path to category images
-    private static final String categoryImagePath = "img/categories/";
+    private static final String CATEGORY_IMAGE_PATH = "img/categories/";
 
     // The relative path to product images
-    private static final String productImagePath = "img/products/";
-
+    private static final String PRODUCT_IMAGE_PATH = "img/products/";
 
     protected HttpServletRequest request;
+    protected HttpSession session;
 
+    private List<Category> categories;
+    private HeaderViewModel header;
+
+
+    @SuppressWarnings("unchecked")
     public BaseViewModel(HttpServletRequest request) {
         this.request = request;
+        this.session = request.getSession(false);
         this.header = new HeaderViewModel(request);
+        this.categories = (List<Category>) request.getServletContext().getAttribute("categories");
+
     }
 
     public String getCategoryImagePath() {
-        return categoryImagePath;
+        return CATEGORY_IMAGE_PATH;
     }
 
     public String getProductImagePath() {
-        return productImagePath;
+        return PRODUCT_IMAGE_PATH;
     }
 
     public HeaderViewModel getHeader() {
@@ -52,6 +65,18 @@ public class BaseViewModel {
         Locale sessionLocale = (Locale) Config.get(request.getSession(), Config.FMT_LOCALE);
         return sessionLocale != null && "cs".equals(sessionLocale.getLanguage());
 
+    }
+
+    public boolean getHasSelectedCategory() {
+        return session.getAttribute("selectedCategory") != null;
+    }
+
+    protected CategoryService getCategoryService() {
+        return ApplicationContext.INSTANCE.getCategoryService();
+    }
+
+    public List<Category> getCategories() {
+        return categories;
     }
 
     // Good place to put support for common header and footer elements that are dynamic.

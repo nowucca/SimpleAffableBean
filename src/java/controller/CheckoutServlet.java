@@ -155,14 +155,14 @@ public class CheckoutServlet extends SimpleAffableBeanServlet {
                         // otherwise, send back to checkout page and display error
                     } else {
                         userPath = "/checkout";
-                        request.setAttribute("orderFailureFlag", true);
+                        session.setAttribute("orderFailureFlag", true);
                     }
                 } catch (ValidationException e) {
                     // If validation error found, set attributes expected by JSP, return user to checkout
                     for (String fieldName: e.getInvalidFieldNames()) {
                         request.setAttribute(fieldName+"Error", true);
                     }
-                    request.setAttribute("validationErrorFlag", true);
+                    session.setAttribute("validationErrorFlag", true);
                     userPath = "/checkout";
                 }
             }

@@ -9,20 +9,16 @@
 --%>
 
 
-<%-- Set session-scoped variable to track the view user is coming from.
-     This is used by the language mechanism in the Controller so that
-     users view the same page when switching between English and Czech. --%>
-<c:set var="view" value="/category" scope="session" />
-
+<jsp:useBean id="p" scope="request" type="viewmodel.CategoryViewModel"/>
 
 <%-- HTML markup starts below --%>
 
 <div id="categoryLeftColumn">
 
-    <c:forEach var="category" items="${categories}">
+    <c:forEach var="category" items="${p.categories}">
 
         <c:choose>
-            <c:when test="${category.name == selectedCategory.name}">
+            <c:when test="${category.name == p.selectedCategory.name}">
                 <div class="categoryButton" id="selectedCategory">
                     <span class="categoryText">
                         <fmt:message key="${category.name}"/>
@@ -44,15 +40,15 @@
 
 <div id="categoryRightColumn">
 
-    <p id="categoryTitle"><fmt:message key="${selectedCategory.name}" /></p>
+    <p id="categoryTitle"><fmt:message key="${p.selectedCategory.name}" /></p>
 
     <table id="productTable">
 
-        <c:forEach var="product" items="${categoryProducts}" varStatus="iter">
+        <c:forEach var="product" items="${p.selectedCategoryProducts}" varStatus="iter">
 
             <tr class="${((iter.index % 2) == 0) ? 'lightBlue' : 'white'}">
                 <td>
-                    <img src="${initParam.productImagePath}${product.name}.png"
+                    <img src="${p.productImagePath}${product.name}.png"
                          alt="<fmt:message key='${product.name}'/>">
                 </td>
 

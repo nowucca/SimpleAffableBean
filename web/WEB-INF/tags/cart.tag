@@ -8,41 +8,18 @@
 
   <img src="<c:url value="/img/cart.gif"/>" alt="shopping cart icon" id="cart">
 
-  <%-- If 'numberOfItems' property doesn't exist, or if number of items
-       in cart is 0, output '0', otherwise output 'numberOfItems' --%>
+  <c:set var="cart" scope="request" value="${page.header.shoppingCartHeader}"/>
+
   <span class="horizontalMargin">
-                      <c:choose>
-                        <c:when test="${cart.numberOfItems == null}">
-                          0
-                        </c:when>
-                        <c:otherwise>
-                          ${cart.numberOfItems}
-                        </c:otherwise>
-                      </c:choose>
+    <%-- Show number of items --%>
+    ${cart.numberOfItems}
+    <%-- Handle singular/plural forms of 'item' --%>
+    <fmt:message key="${cart.itemsTextKey}" />
+  </span>
 
-                  <%-- Handle singular/plural forms of 'item' --%>
-                      <c:choose>
-                        <c:when test="${cart.numberOfItems == 1}">
-                          <fmt:message key="item" />
-                        </c:when>
-                        <c:when test="${cart.numberOfItems == 2 ||
-                                        cart.numberOfItems == 3 ||
-                                        cart.numberOfItems == 4}">
-                          <fmt:message key="items2-4" />
-                        </c:when>
-                        <c:otherwise>
-                          <fmt:message key="items" />
-                        </c:otherwise>
-                      </c:choose>
-                    </span>
-
-  <c:if test="${!empty cart && cart.numberOfItems != 0 &&
-                                  !(fn:contains(pageContext.request.method, 'GET') &&
-                                   fn:contains(pageContext.request.servletPath,'/cart'))}">
-
+  <c:if test="${cart.isViewable}">
     <a href="<c:url value='cart'/>" class="bubble">
       <fmt:message key="cart" />
     </a>
   </c:if>
-</div>
 </div>

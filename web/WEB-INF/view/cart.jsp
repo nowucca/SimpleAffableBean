@@ -8,22 +8,17 @@
  * author: tgiunipero
 --%>
 
-
-<%-- Set session-scoped variable to track the view user is coming from.
-     This is used by the language mechanism in the Controller so that
-     users view the same page when switching between English and Czech. --%>
-<c:set var="view" value="/cart" scope="session"/>
-
+<jsp:useBean id="p" scope="request" type="viewmodel.CartViewModel"/>
 
 <%-- HTML markup starts below --%>
 
 <div id="singleColumn">
 
     <c:choose>
-        <c:when test="${cart.numberOfItems > 1}">
+        <c:when test="${p.numberOfCartItems > 1}">
             <p><fmt:message key="yourCartContains"/> ${cart.numberOfItems} <fmt:message key="items"/>.</p>
         </c:when>
-        <c:when test="${cart.numberOfItems == 1}">
+        <c:when test="${p.numberOfCartItems == 1}">
             <p><fmt:message key="yourCartContains"/> ${cart.numberOfItems} <fmt:message key="item"/>.</p>
         </c:when>
         <c:otherwise>
@@ -33,42 +28,42 @@
 
     <div id="actionBar">
         <%-- clear cart widget --%>
-        <c:if test="${!empty cart && cart.numberOfItems != 0}">
+        <c:if test="${p.hasNonEmptyCart}">
 
-            <c:url var="url" value="cart">
+            <c:url var="clear_url" value="cart">
                 <c:param name="clear" value="true"/>
             </c:url>
 
-            <a href="${url}" class="bubble hMargin"><fmt:message key="clearCart"/></a>
+            <a href="${clear_url}" class="bubble hMargin"><fmt:message key="clearCart"/></a>
         </c:if>
 
         <%-- continue shopping widget --%>
-        <c:set var="value">
+        <c:set var="continue_shopping_location">
             <c:choose>
                 <%-- if 'selectedCategory' session object exists, send user to previously viewed category --%>
-                <c:when test="${!empty selectedCategory}">
+                <c:when test="${p.hasSelectedCategory}">
                     category
                 </c:when>
                 <%-- otherwise send user to welcome page --%>
                 <c:otherwise>
-                    index.jsp
+                    home
                 </c:otherwise>
             </c:choose>
         </c:set>
 
-        <c:url var="url" value="${value}"/>
-        <a href="${url}" class="bubble hMargin"><fmt:message key="continueShopping"/></a>
+        <c:url var="continue_shopping_url" value="${continue_shopping_location}"/>
+        <a href="${continue_shopping_url}" class="bubble hMargin"><fmt:message key="continueShopping"/></a>
 
         <%-- checkout widget --%>
-        <c:if test="${!empty cart && cart.numberOfItems != 0}">
+        <c:if test="${p.hasNonEmptyCart}">
             <a href="<c:url value='checkout'/>" class="bubble hMargin"><fmt:message key="proceedCheckout"/></a>
         </c:if>
     </div>
 
-    <c:if test="${!empty cart && cart.numberOfItems != 0}">
+    <c:if test="${p.hasNonEmptyCart}">
 
       <h4 id="subtotal"><fmt:message key="subtotal"/>:
-          <fmt:formatNumber type="currency" currencySymbol="&euro; " value="${cart.subtotal/100.0}"/>
+          <fmt:formatNumber type="currency" currencySymbol="&euro; " value="${p.cart.subtotal/100.0}"/>
       </h4>
 
       <table id="cartTable">
@@ -80,7 +75,7 @@
             <th><fmt:message key="quantity"/></th>
         </tr>
 
-        <c:forEach var="cartItem" items="${cart.items}" varStatus="iter">
+        <c:forEach var="cartItem" items="${p.cart.items}" varStatus="iter">
 
           <c:set var="product" value="${cartItem.product}"/>
 

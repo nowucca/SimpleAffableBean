@@ -42,17 +42,19 @@
             <div id="header">
                 <div id="widgetBar">
 
-                  <sab:languageSelection page="${p}"/>
+                    <%-- language selection widget --%>
+                    <sab:languageSelection page="${p}"/>
 
-                <%-- checkout widget --%>
-                  <sab:checkout page="${p}"/>
+                    <%-- checkout widget --%>
+                    <sab:checkout page="${p}"/>
 
-                <%-- shopping cart widget --%>
-                  <sab:cart page="${p}"/>
+                    <%-- shopping cart widget --%>
+                    <sab:cart page="${p}"/>
 
-                <a href="<c:url value='/'/>">
-                    <img src="<c:url value="/img/logo.png"/>" id="logo" alt="Affable Bean logo">
-                </a>
+                    <a href="<c:url value='/'/>">
+                        <img src="<c:url value="/img/logo.png"/>" id="logo" alt="Affable Bean logo">
+                    </a>
 
-                <img src="<c:url value="/img/logoText.png"/>" id="logoText" alt="the affable bean">
+                    <img src="<c:url value="/img/logoText.png"/>" id="logoText" alt="the affable bean">
+                </div>
             </div>

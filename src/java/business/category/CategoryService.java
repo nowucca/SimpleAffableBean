@@ -8,4 +8,7 @@ public interface CategoryService {
     Category findByCategoryId(long categoryId);
 
     List<Category> findAll();
+
+    Category getDefaultCategory();
+
 }

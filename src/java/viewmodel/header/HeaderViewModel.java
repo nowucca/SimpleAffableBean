@@ -1,8 +1,9 @@
-package viewmodel;
+package viewmodel.header;
 
 import javax.servlet.http.HttpServletRequest;
 
 /**
+ * Models all elements of the header.
  */
 public class HeaderViewModel {
 

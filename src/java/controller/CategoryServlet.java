@@ -21,6 +21,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import viewmodel.CategoryViewModel;
+import viewmodel.HomepageViewModel;
 
 /**
  *
@@ -52,31 +54,10 @@ public class CategoryServlet extends SimpleAffableBeanServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String userPath = request.getServletPath();
-        HttpSession session = request.getSession();
-        Category selectedCategory;
-        Collection<Product> categoryProducts;
-
-        // get categoryId from request
-        String categoryId = request.getQueryString();
-
-        if (categoryId != null) {
-
-            // get selected category
-            selectedCategory = categoryService.findByCategoryId(Short.parseShort(categoryId));
-
-            // place selected category in session scope
-            session.setAttribute("selectedCategory", selectedCategory);
-
-            // get all products for selected category
-            categoryProducts = selectedCategory.getProducts();
-
-            // place category products in session scope
-            session.setAttribute("categoryProducts", categoryProducts);
-        }
 
         // use RequestDispatcher to forward request internally
-        doForwardToJSP(request, response, userPath);
+        request.setAttribute("p", new CategoryViewModel(request));
+        doForwardToJSP(request, response, "/category");
     }
 
 

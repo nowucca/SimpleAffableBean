@@ -19,6 +19,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import viewmodel.CartViewModel;
+import viewmodel.CategoryViewModel;
 
 /**
  *
@@ -65,6 +67,7 @@ public class CartServlet extends SimpleAffableBeanServlet {
             ShoppingCart cart = (ShoppingCart) session.getAttribute("cart");
             cart.clear();
         }
+        request.setAttribute("p", new CartViewModel(request));
         doForwardToJSP(request, response, "/cart");
     }
 

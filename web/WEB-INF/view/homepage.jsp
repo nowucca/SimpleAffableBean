@@ -8,10 +8,6 @@
  * author: tgiunipero
 --%>
 
-
-<%-- Set session-scoped variable to track the view user is coming from.
-     This is used by the language mechanism in the Controller so that
-     users view the same page when switching between English and Czech. --%>
 <jsp:useBean id="p" scope="request" type="viewmodel.HomepageViewModel"/>
 
 
