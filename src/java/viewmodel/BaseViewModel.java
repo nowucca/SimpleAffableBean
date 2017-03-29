@@ -1,12 +1,14 @@
 package viewmodel;
 
+import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.jsp.jstl.core.Config;
 
 /**
  */
 public class BaseViewModel {
 
-    private HeaderModel header;
+    private HeaderViewModel header;
 
     // The relative path to category images
     private static final String categoryImagePath = "img/categories/";
@@ -19,7 +21,7 @@ public class BaseViewModel {
 
     public BaseViewModel(HttpServletRequest request) {
         this.request = request;
-        this.header = new HeaderModel(request);
+        this.header = new HeaderViewModel(request);
     }
 
     public String getCategoryImagePath() {
@@ -30,8 +32,26 @@ public class BaseViewModel {
         return productImagePath;
     }
 
-    public HeaderModel getHeader() {
+    public HeaderViewModel getHeader() {
         return header;
+    }
+
+
+    public boolean getHasCustomerSpecifiedLocale() {
+        // replaced:  <c:when test="${empty sessionScope['javax.servlet.jsp.jstl.fmt.locale.session']}">
+        return null != Config.get(request.getSession(), Config.FMT_LOCALE);
+    }
+
+    public boolean getIsRequestLocaleCzech() {
+        // replaced: ${pageContext.request.locale.language ne 'cs'}
+        return "cs".equals(request.getLocale().getLanguage());
+    }
+
+    public boolean isCustomerSpecifiedLocaleCzech() {
+        // replaces: ${sessionScope['javax.servlet.jsp.jstl.fmt.locale.session'] eq 'cs'
+        Locale sessionLocale = (Locale) Config.get(request.getSession(), Config.FMT_LOCALE);
+        return sessionLocale != null && "cs".equals(sessionLocale.getLanguage());
+
     }
 
     // Good place to put support for common header and footer elements that are dynamic.

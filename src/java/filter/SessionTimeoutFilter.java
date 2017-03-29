@@ -17,6 +17,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 
@@ -24,7 +25,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author tgiunipero
  */
-@WebFilter(servletNames = {"Controller"})
+@WebFilter(servletNames = {"Cart", "Category", "Checkout", "Homepage", "AdminServlet", "Confirmation", "Language"})
 public class SessionTimeoutFilter implements Filter {
 
     @Override
@@ -32,20 +33,20 @@ public class SessionTimeoutFilter implements Filter {
             throws IOException, ServletException {
 
         HttpServletRequest req = (HttpServletRequest) request;
+        HttpServletResponse res = (HttpServletResponse) response;
 
         HttpSession session = req.getSession(false);
 
         // if session doesn't exist, forward user to welcome page
-        if (session == null) {
+        if (session != null && !"true".equals(req.getParameter("forceFilter"))) {
+            chain.doFilter(request, response);
+        } else {
             try {
-                req.getRequestDispatcher("/index.jsp").forward(request, response);
+                res.sendRedirect(req.getContextPath()+"/home");
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
-            return;
         }
-
-        chain.doFilter(request, response);
     }
 
     @Override
