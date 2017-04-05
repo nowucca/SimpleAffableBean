@@ -18,7 +18,7 @@
     <fmt:message key="${cart.itemsTextKey}" />
   </span>
 
-  <c:if test="${cart.isViewable}">
+  <c:if test="${cart.isVisible}">
     <a href="<c:url value='cart'/>" class="bubble">
       <fmt:message key="cart" />
     </a>

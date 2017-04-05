@@ -44,8 +44,7 @@ public class CheckoutServlet extends SimpleAffableBeanServlet {
         // initialize servlet with configuration information
         surcharge = servletConfig.getServletContext().getInitParameter("deliverySurcharge");
 
-        ApplicationContext applicationContext = ApplicationContext.INSTANCE;
-        customerOrderService = applicationContext.getCustomerOrderService();
+        customerOrderService = ApplicationContext.INSTANCE.getCustomerOrderService();
 
     }
 
@@ -92,72 +91,66 @@ public class CheckoutServlet extends SimpleAffableBeanServlet {
                                                 // 8-bit Unicode (e.g., for Czech characters)
 
         String userPath = request.getServletPath();
-        String action = request.getParameter("action");
         HttpSession session = request.getSession();
         ShoppingCart cart = (ShoppingCart) session.getAttribute("cart");
 
+        if (cart != null) {
 
-        // if purchase action is called
-        if ("purchase".equals(action)) {
+            // extract user data from request
+            String name = request.getParameter("name");
+            String email = request.getParameter("email");
+            String phone = request.getParameter("phone");
+            String address = request.getParameter("address");
+            String cityRegion = request.getParameter("cityRegion");
+            String creditcard = request.getParameter("creditcard");
 
-            if (cart != null) {
+            // otherwise, save order to database
+            try {
 
-                // extract user data from request
-                String name = request.getParameter("name");
-                String email = request.getParameter("email");
-                String phone = request.getParameter("phone");
-                String address = request.getParameter("address");
-                String cityRegion = request.getParameter("cityRegion");
-                String creditcard = request.getParameter("creditcard");
+                long orderId = customerOrderService.placeOrder(name, email, phone, address, cityRegion, creditcard, cart);
 
-                // otherwise, save order to database
-                try {
+                // if order processed successfully send user to confirmation page
+                if (orderId != 0) {
 
-                    long orderId = customerOrderService.placeOrder(name, email, phone, address, cityRegion, creditcard, cart);
+                    // in case language was set using toggle, get language choice before destroying session
+                    Locale locale = (Locale) session.getAttribute("javax.servlet.jsp.jstl.fmt.locale.session");
 
-                    // if order processed successfully send user to confirmation page
-                    if (orderId != 0) {
+                    // dissociate shopping cart from session
+                    cart = null;
 
-                        // in case language was set using toggle, get language choice before destroying session
-                        Locale locale = (Locale) session.getAttribute("javax.servlet.jsp.jstl.fmt.locale.session");
+                    // clear session
+                    forgetSession(session);
 
-                        // dissociate shopping cart from session
-                        cart = null;
-
-                        // clear session
-                        forgetSession(session);
-
-                        if (locale != null) {                       // if user changed language using the toggle,
-                            // reset the language attribute - otherwise
-                            Config.set(session, Config.FMT_LOCALE, locale);
-                            response.setLocale(locale);
-                        }
-
-                        // place order id in the fresh session scope
-                        session.setAttribute("customerOrderId", orderId);
-
-                        userPath = "/confirmation";
-
-                    } else {
-                        // send back to checkout page and display error
-
-                        // remember that we have an error
-                        session.setAttribute("orderFailureFlag", true);
-
-                        //remember the form inputs for redisplay except for credit card
-                        rememberSession(session, name, email, phone, address, cityRegion);
-                        userPath = "/checkout";
+                    if (locale != null) {                       // if user changed language using the toggle,
+                        // reset the language attribute - otherwise
+                        Config.set(session, Config.FMT_LOCALE, locale);
+                        response.setLocale(locale);
                     }
-                } catch (ValidationException e) {
+
+                    // place order id in the fresh session scope
+                    session.setAttribute("customerOrderId", orderId);
+
+                    userPath = "/confirmation";
+
+                } else {
                     // send back to checkout page and display error
 
-                    // remember which fields were in error and that we have an error
-                    session.setAttribute("validationException", e);
-                    session.setAttribute("validationErrorFlag", true);
+                    // remember that we have an error
+                    session.setAttribute("orderFailureFlag", true);
+
                     //remember the form inputs for redisplay except for credit card
                     rememberSession(session, name, email, phone, address, cityRegion);
                     userPath = "/checkout";
                 }
+            } catch (ValidationException e) {
+                // send back to checkout page and display error
+
+                // remember which fields were in error and that we have an error
+                session.setAttribute("validationException", e);
+                session.setAttribute("validationErrorFlag", true);
+                //remember the form inputs for redisplay except for credit card
+                rememberSession(session, name, email, phone, address, cityRegion);
+                userPath = "/checkout";
             }
         }
 

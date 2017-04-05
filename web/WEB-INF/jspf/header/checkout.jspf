@@ -15,7 +15,7 @@
   --%>
   <c:set var="checkoutHeader" scope="request" value="${p.header.checkoutHeader}"/>
 
-  <c:if test="${checkoutHeader.isViewable}">
+  <c:if test="${checkoutHeader.isVisible}">
     <a href="<c:url value='checkout'/>" class="bubble">
       <fmt:message key="proceedCheckout"/>
     </a>

@@ -8,41 +8,26 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class HeaderViewModel {
 
-    private String relativeReturnUrl;
-    private LanguageSelectionHeaderViewModel languageSelectionHeaderViewModel;
-    private ShoppingCartHeaderViewModel shoppingCartHeaderViewModel;
-    private CheckoutHeaderViewModel checkoutHeaderViewModel;
+    private LanguageSelectionWidgetViewModel languageSelectionWidgetViewModel;
+    private ShoppingCartWidgetViewModel shoppingCartWidgetViewModel;
+    private CheckoutWidgetViewModel checkoutWidgetViewModel;
 
     public HeaderViewModel(HttpServletRequest request, ShoppingCart cart) {
-        this.relativeReturnUrl = getRelativeReturnUrl(request);
-        this.languageSelectionHeaderViewModel = new LanguageSelectionHeaderViewModel(request);
-        this.shoppingCartHeaderViewModel = new ShoppingCartHeaderViewModel(request, cart);
-        this.checkoutHeaderViewModel = new CheckoutHeaderViewModel(request, cart);
+        this.languageSelectionWidgetViewModel = new LanguageSelectionWidgetViewModel(request);
+        this.shoppingCartWidgetViewModel = new ShoppingCartWidgetViewModel(request, cart);
+        this.checkoutWidgetViewModel = new CheckoutWidgetViewModel(request, cart);
     }
 
-    public LanguageSelectionHeaderViewModel getLanguageSelectionHeader() {
-        return languageSelectionHeaderViewModel;
+    public LanguageSelectionWidgetViewModel getLanguageSelectionHeader() {
+        return languageSelectionWidgetViewModel;
     }
 
-    public ShoppingCartHeaderViewModel getShoppingCartHeader() {
-        return shoppingCartHeaderViewModel;
+    public ShoppingCartWidgetViewModel getShoppingCartHeader() {
+        return shoppingCartWidgetViewModel;
     }
 
-    public CheckoutHeaderViewModel getCheckoutHeader() {
-        return checkoutHeaderViewModel;
+    public CheckoutWidgetViewModel getCheckoutHeader() {
+        return checkoutWidgetViewModel;
     }
 
-    public String getRelativeReturnUrl() {
-        return relativeReturnUrl;
-    }
-
-    private String getRelativeReturnUrl(HttpServletRequest request) {
-        String url = request.getRequestURL().toString();
-        String baseURL = url.substring(0, url.length() - request.getRequestURI().length()) + request.getContextPath() + "/";
-        return "/" + url.substring(baseURL.length());
-    }
-
-    // Good place to put support for common header and footer elements that are dynamic.
-    // Also a good place to put elements onto a page that are generally useful
-    // (e.g. XSRF tokens for cross-site scripting prevention)
 }

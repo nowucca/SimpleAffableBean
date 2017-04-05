@@ -58,9 +58,6 @@
     </c:if>
 
     <form id="checkoutForm" action="<c:url value='checkout'/>" method="post">
-      <input type="hidden"
-             name="action"
-             value="purchase"/>
         <table id="checkoutTable">
           <c:if test="${p.hasValidationErrorFlag}">
             <tr>

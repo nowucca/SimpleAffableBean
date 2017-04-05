@@ -24,8 +24,10 @@ Done
 - Implement using the session to remember and clear the checkout form
 
 Ongoing
-- Logging for service classes using commons logging (basic)
 - Code cleanup for MVVM before master merge
+- Checkstyle local with rules
+- Gradle build
+- Logging for service classes using commons logging (basic)
 - Add AdminSession functionality to visualize the session
 - Enforce session cleanliness by using a business level CustomerSession object embedded in the Http session.
 

@@ -5,34 +5,42 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  */
-public class CheckoutHeaderViewModel extends CartAwareHeaderViewModel {
+public class CheckoutWidgetViewModel extends HeaderWidgetViewModel {
 
+    protected ShoppingCart cart;
     private Boolean hasValidationErrorFlag;
     private Boolean hasOrderFailureFlag;
 
-    CheckoutHeaderViewModel(HttpServletRequest request, ShoppingCart cart) {
-        super(request, cart);
+    CheckoutWidgetViewModel(HttpServletRequest request, ShoppingCart cart) {
+        super(request);
         if (session != null) {
             this.hasValidationErrorFlag = (Boolean) session.getAttribute("validationErrorFlag");
             this.hasOrderFailureFlag = (Boolean) session.getAttribute("orderFailureFlag");
         }
+        this.cart = cart;
+
     }
 
-    public boolean getIsViewable() {
-        /*
-        Replaces:
-  <c:if test="${!empty cart && cart.numberOfItems != 0 &&
-
-                                  !fn:contains(pageContext.request.servletPath,'/checkout') &&
-                                  requestScope['javax.servlet.forward.servlet_path'] ne '/checkout' &&
-
-                                  validationErrorFlag ne true &&
-                                  orderFailureFlag ne true}">
-         */
+    @Override
+    public boolean getIsVisible() {
         final boolean haveSomethingInYourCart = getHasCart() && getNumberOfItems() != 0;
         final boolean goingToCheckoutPath = "/checkout".equals(request.getServletPath());
         return (haveSomethingInYourCart && !goingToCheckoutPath && !hasCheckoutErrors());
     }
+
+    public int getNumberOfItems() {
+        if (getHasCart()) {
+            return cart.getNumberOfItems();
+        } else {
+            return 0;
+        }
+
+    }
+
+    private boolean getHasCart() {
+        return this.cart != null;
+    }
+
 
     private boolean hasCheckoutErrors() {
 

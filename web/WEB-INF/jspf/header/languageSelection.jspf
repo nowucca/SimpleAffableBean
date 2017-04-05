@@ -21,7 +21,7 @@
           <c:otherwise>
             <c:url var="language_url" value="chooseLanguage">
               <c:param name="language" value="en"/>
-              <c:param name="relativeReturnUrl" value="${p.header.relativeReturnUrl}"/>
+              <c:param name="relativeReturnUrl" value="${p.header.languageSelectionHeader.relativeReturnUrl}"/>
             </c:url>
             <div class="bubble"><a href="${language_url}">english</a></div>
           </c:otherwise>
@@ -34,7 +34,7 @@
           <c:otherwise>
             <c:url var="language_url" value="chooseLanguage">
               <c:param name="language" value="cs"/>
-              <c:param name="relativeReturnUrl" value="${p.header.relativeReturnUrl}"/>
+              <c:param name="relativeReturnUrl" value="${p.header.languageSelectionHeader.relativeReturnUrl}"/>
             </c:url>
             <div class="bubble"><a href="${language_url}">česky</a></div>
           </c:otherwise>
@@ -50,7 +50,7 @@
           <c:otherwise>
             <c:url var="language_url" value="chooseLanguage">
               <c:param name="language" value="en"/>
-              <c:param name="relativeReturnUrl" value="${p.header.relativeReturnUrl}"/>
+              <c:param name="relativeReturnUrl" value="${p.header.languageSelectionHeader.relativeReturnUrl}"/>
             </c:url>
             <div class="bubble"><a href="${language_url}">english</a></div>
           </c:otherwise>
@@ -63,7 +63,7 @@
           <c:otherwise>
             <c:url var="language_url" value="chooseLanguage">
               <c:param name="language" value="cs"/>
-              <c:param name="relativeReturnUrl" value="${p.header.relativeReturnUrl}"/>
+              <c:param name="relativeReturnUrl" value="${p.header.languageSelectionHeader.relativeReturnUrl}"/>
             </c:url>
             <div class="bubble"><a href="${language_url}">česky</a></div>
           </c:otherwise>
