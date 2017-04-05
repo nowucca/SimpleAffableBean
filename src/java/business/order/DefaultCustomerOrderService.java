@@ -30,16 +30,25 @@ public class DefaultCustomerOrderService implements CustomerOrderService {
 
         validateForm(name, email, phone, address, cityRegion, ccNumber);
 
-        Connection connection = JdbcUtils.getConnection();
+        try (Connection connection = JdbcUtils.getConnection()) {
+            return performPlaceOrderTransaction(name, email, phone, address, cityRegion, ccNumber, cart, connection);
+        } catch (SQLException e) {
+            throw new SimpleAffableDbException("Error during close connection for customer order", e);
+        }
+
+    }
+
+    private long performPlaceOrderTransaction(String name, String email, String phone, String address, String cityRegion, String
+        ccNumber, ShoppingCart cart, Connection connection) {
         try {
             connection.setAutoCommit(false);
 
             long customerId = customerDao.create(connection, name, email, phone, address, cityRegion, ccNumber);
             long customerOrderId = customerOrderDao.create(connection, customerId, cart.getTotal(), generateConfirmationNumber());
 
-            cart.getItems().forEach((item) -> {
-                customerOrderLineItemDao.create(connection, customerOrderId, item.getProductId(), item.getQuantity());
-            });
+
+            cart.getItems().forEach((item) ->
+                customerOrderLineItemDao.create(connection, customerOrderId, item.getProductId(), item.getQuantity()));
 
             connection.commit();
             return customerOrderId;
@@ -51,7 +60,6 @@ public class DefaultCustomerOrderService implements CustomerOrderService {
             }
             return 0;
         }
-
     }
 
     private final Function<CustomerOrderLineItem, Product> LINE_ITEM_TO_PRODUCT =
@@ -85,12 +93,8 @@ public class DefaultCustomerOrderService implements CustomerOrderService {
         return customerOrderDao.findByCustomerOrderId(customerOrderId);
     }
 
-    void validateForm(String name,
-                         String email,
-                         String phone,
-                         String address,
-                         String cityRegion,
-                         String ccNumber) throws ValidationException {
+    private void validateForm(String name, String email, String phone, String address, String cityRegion, String ccNumber)
+        throws ValidationException {
 
         ValidationException e = new ValidationException();
 

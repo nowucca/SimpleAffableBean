@@ -8,6 +8,7 @@
  * author: tgiunipero
 --%>
 
+<jsp:useBean id="p" scope="request" type="viewmodel.ConfirmationViewModel"/>
 
 <%-- HTML markup starts below --%>
 
@@ -17,7 +18,7 @@
         <strong><fmt:message key="successMessage"/></strong>
         <br><br>
         <fmt:message key="confirmationNumberMessage"/>
-        <strong>${orderRecord.confirmationNumber}</strong>
+        <strong>${p.orderDetails.customerOrder.confirmationNumber}</strong>
         <br>
         <fmt:message key="contactMessage"/>
         <br><br>
@@ -37,18 +38,18 @@
                 <td><fmt:message key="price"/></td>
             </tr>
 
-            <c:forEach var="orderedProduct" items="${orderedProducts}" varStatus="iter">
+            <c:forEach var="lineItem" items="${p.orderDetails.customerOrder.customerOrderLineItems}" varStatus="iter">
 
                 <tr class="${((iter.index % 2) != 0) ? 'lightBlue' : 'white'}">
                     <td>
-                        <fmt:message key="${products[iter.index].name}"/>
+                        <fmt:message key="${p.orderDetails.products[iter.index].name}"/>
                     </td>
                     <td class="quantityColumn">
-                        ${orderedProduct.quantity}
+                        ${lineItem.quantity}
                     </td>
                     <td class="confirmationPriceColumn">
                         <fmt:formatNumber type="currency" currencySymbol="&euro; "
-                                          value="${(products[iter.index].price * orderedProduct.quantity)/100.0}"/>
+                                          value="${(p.orderDetails.products[iter.index].price * lineItem.quantity)/100.0}"/>
                     </td>
                 </tr>
 
@@ -61,7 +62,7 @@
                 <td id="deliverySurchargeCellRight">
                     <fmt:formatNumber type="currency"
                                       currencySymbol="&euro; "
-                                      value="${initParam.deliverySurcharge/100.0}"/></td>
+                                      value="${p.deliverySurcharge/100.0}"/></td>
             </tr>
 
             <tr class="lightBlue">
@@ -69,14 +70,14 @@
                 <td id="totalCellRight">
                     <fmt:formatNumber type="currency"
                                       currencySymbol="&euro; "
-                                      value="${orderRecord.amount/100.0}"/></td>
+                                      value="${p.orderDetails.customerOrder.amount/100.0}"/></td>
             </tr>
 
             <tr class="lightBlue"><td colspan="3" style="padding: 0 20px"><hr></td></tr>
 
             <tr class="lightBlue">
                 <td colspan="3" id="dateProcessedRow"><strong><fmt:message key="dateProcessed"/>:</strong>
-                    <fmt:formatDate value="${orderRecord.dateCreated}"
+                    <fmt:formatDate value="${p.orderDetails.customerOrder.dateCreated}"
                                     type="both"
                                     dateStyle="short"
                                     timeStyle="short"/></td>
@@ -94,16 +95,16 @@
 
             <tr>
                 <td colspan="3" class="lightBlue">
-                    ${customer.name}
+                    ${p.orderDetails.customer.name}
                     <br>
-                    ${customer.address}
+                    ${p.orderDetails.customer.address}
                     <br>
-                    <fmt:message key="prague"/> ${customer.cityRegion}
+                    <fmt:message key="prague"/> ${p.orderDetails.customer.cityRegion}
                     <br>
                     <hr>
-                    <strong><fmt:message key="email"/>:</strong> ${customer.email}
+                    <strong><fmt:message key="email"/>:</strong> ${p.orderDetails.customer.email}
                     <br>
-                    <strong><fmt:message key="phone"/>:</strong> ${customer.phone}
+                    <strong><fmt:message key="phone"/>:</strong> ${p.orderDetails.customer.phone}
                 </td>
             </tr>
         </table>

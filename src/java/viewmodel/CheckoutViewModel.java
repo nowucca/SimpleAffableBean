@@ -30,17 +30,45 @@ public class CheckoutViewModel extends BaseViewModel {
         this.hasOrderFailureFlag = (Boolean) session.getAttribute("orderFailureFlag");
         this.validationException = (ValidationException) session.getAttribute("validationException");
 
-        this.name = request.getParameter("name");
-        this.email = request.getParameter("email");
-        this.phone = request.getParameter("phone");
-        this.address = request.getParameter("address");
-        this.cityRegion = request.getParameter("cityRegion");
-        this.creditcard = request.getParameter("creditcard");
+
+        this.name = getSessionAttributeOrRequestParameter("name");
+        this.email = getSessionAttributeOrRequestParameter("email");
+        this.phone = getSessionAttributeOrRequestParameter("phone");
+        this.address = getSessionAttributeOrRequestParameter("address");
+        this.cityRegion = getSessionAttributeOrRequestParameter("cityRegion");
+        this.creditcard = getSessionAttributeOrRequestParameter("creditcard");
+
+        boolean testProductivity = "true".equals(System.getProperty("test.productivity"));
+        if (testProductivity) {
+
+            String random = String.valueOf(System.currentTimeMillis());
+            if (name == null || name.isEmpty()) {
+                name = "Steve_" + random;
+            }
+            if (email == null || email.isEmpty()) {
+                email = "steven" + random + "@atkinson.net";
+            }
+            if (phone == null || phone.isEmpty()) {
+                phone = "4088675309";
+            }
+            if (address == null || address.isEmpty()) {
+                address = "123" + random + " Main St";
+            }
+            if (cityRegion == null || cityRegion.isEmpty()) {
+                cityRegion = "1";
+            }
+            if (creditcard == null || creditcard.isEmpty()) {
+                creditcard = "4444333322221111";
+            }
+        }
 
         // Now that we have captured these error conditions in the view model, let's clear them for future pages in the session.
         session.setAttribute("validationErrorFlag", null);
         session.setAttribute("validationException", null);
         session.setAttribute("orderFailureFlag", null);
+
+        // Let's remember the customer details in the session in case they continue shopping and come back
+        // -- in this case we will remember their information (but not credit card).
     }
 
     public boolean isIsEffectiveLocaleCzech() {

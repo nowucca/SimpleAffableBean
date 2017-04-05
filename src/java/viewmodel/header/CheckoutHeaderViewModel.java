@@ -12,8 +12,10 @@ public class CheckoutHeaderViewModel extends CartAwareHeaderViewModel {
 
     CheckoutHeaderViewModel(HttpServletRequest request, ShoppingCart cart) {
         super(request, cart);
-        this.hasValidationErrorFlag = (Boolean) session.getAttribute("validationErrorFlag");
-        this.hasOrderFailureFlag = (Boolean) session.getAttribute("orderFailureFlag");
+        if (session != null) {
+            this.hasValidationErrorFlag = (Boolean) session.getAttribute("validationErrorFlag");
+            this.hasOrderFailureFlag = (Boolean) session.getAttribute("orderFailureFlag");
+        }
     }
 
     public boolean getIsViewable() {

@@ -14,6 +14,7 @@ import business.cart.ShoppingCart;
 import business.order.CustomerOrderDetails;
 import business.order.CustomerOrderService;
 import java.io.IOException;
+import java.util.Enumeration;
 import java.util.Locale;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -21,6 +22,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.jsp.jstl.core.Config;
 import viewmodel.CategoryViewModel;
 import viewmodel.CheckoutViewModel;
 
@@ -115,54 +117,54 @@ public class CheckoutServlet extends SimpleAffableBeanServlet {
                 String phone = request.getParameter("phone");
                 String address = request.getParameter("address");
                 String cityRegion = request.getParameter("cityRegion");
-                String ccNumber = request.getParameter("creditcard");
+                String creditcard = request.getParameter("creditcard");
 
                 // otherwise, save order to database
                 try {
-                    long orderId = customerOrderService.placeOrder(name, email, phone, address, cityRegion, ccNumber, cart);
+
+                    long orderId = customerOrderService.placeOrder(name, email, phone, address, cityRegion, creditcard, cart);
 
                     // if order processed successfully send user to confirmation page
                     if (orderId != 0) {
 
                         // in case language was set using toggle, get language choice before destroying session
                         Locale locale = (Locale) session.getAttribute("javax.servlet.jsp.jstl.fmt.locale.session");
-                        String language = "";
-
-                        if (locale != null) {
-
-                            language = (String) locale.getLanguage();
-                        }
 
                         // dissociate shopping cart from session
                         cart = null;
 
-                        // end session
-                        session.invalidate();
+                        // clear session
+                        forgetSession(session);
 
-                        if (!language.isEmpty()) {                       // if user changed language using the toggle,
+                        if (locale != null) {                       // if user changed language using the toggle,
                             // reset the language attribute - otherwise
-                            request.setAttribute("language", language);  // language will be switched on confirmation page!
+                            Config.set(session, Config.FMT_LOCALE, locale);
+                            response.setLocale(locale);
                         }
 
-                        // get order details
-                        CustomerOrderDetails details = customerOrderService.getOrderDetails(orderId);
-
-                        // place order details in request scope
-                        request.setAttribute("customer", details.getCustomer());
-                        request.setAttribute("products", details.getProducts());
-                        request.setAttribute("orderRecord", details.getCustomerOrder());
-                        request.setAttribute("orderedProducts", details.getCustomerOrderLineItems());
+                        // place order id in the fresh session scope
+                        session.setAttribute("customerOrderId", orderId);
 
                         userPath = "/confirmation";
 
-                        // otherwise, send back to checkout page and display error
                     } else {
-                        userPath = "/checkout";
+                        // send back to checkout page and display error
+
+                        // remember that we have an error
                         session.setAttribute("orderFailureFlag", true);
+
+                        //remember the form inputs for redisplay except for credit card
+                        rememberSession(session, name, email, phone, address, cityRegion, "");
+                        userPath = "/checkout";
                     }
                 } catch (ValidationException e) {
-                    session.setAttribute("validationErrorFlag", true);
+                    // send back to checkout page and display error
+
+                    // remember which fields were in error and that we have an error
                     session.setAttribute("validationException", e);
+                    session.setAttribute("validationErrorFlag", true);
+                    //remember the form inputs for redisplay except for credit card
+                    rememberSession(session, name, email, phone, address, cityRegion, "");
                     userPath = "/checkout";
                 }
             }
@@ -170,6 +172,30 @@ public class CheckoutServlet extends SimpleAffableBeanServlet {
 
         // use RequestDispatcher to redirect request externally
         doTemporaryRedirect(request, response, userPath);
+    }
+
+    private void forgetSession(HttpSession session) {
+        // Wipe out the cart explicitly
+        session.setAttribute("cart", null);
+        // Wipe out all other session attributes for a clean slate
+        final Enumeration<String> attributeNames = session.getAttributeNames();
+        while(attributeNames.hasMoreElements()) {
+            session.setAttribute(attributeNames.nextElement(), null);
+        }
+    }
+
+    private void rememberSession(HttpSession session, String name,
+                                 String email,
+                                 String phone,
+                                 String address,
+                                 String cityRegion,
+                                 String creditcard) {
+        session.setAttribute("name", name);
+        session.setAttribute("email", email);
+        session.setAttribute("phone", phone);
+        session.setAttribute("address", address);
+        session.setAttribute("cityRegion", cityRegion);
+        session.setAttribute("creditcard", creditcard);
     }
 
 }

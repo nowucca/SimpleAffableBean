@@ -4,6 +4,7 @@ import business.ApplicationContext;
 import business.cart.ShoppingCart;
 import business.category.Category;
 import business.category.CategoryService;
+import business.order.CustomerOrderService;
 import java.util.List;
 import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
@@ -116,7 +117,18 @@ public class BaseViewModel {
     protected CategoryService getCategoryService() {
         return ApplicationContext.INSTANCE.getCategoryService();
     }
+    protected CustomerOrderService getCustomerOrderService() {
+        return ApplicationContext.INSTANCE.getCustomerOrderService();
+    }
 
+
+    protected String getSessionAttributeOrRequestParameter(String name) {
+        String v = String.class.cast(session.getAttribute(name));
+        if (v == null) {
+            v = request.getParameter(name);
+        }
+        return v;
+    }
 
     // Good place to put support for common header and footer elements that are dynamic.
     // Also a good place to put elements onto a page that are generally useful

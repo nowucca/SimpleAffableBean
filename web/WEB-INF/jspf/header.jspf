@@ -36,13 +36,15 @@
                 <div id="widgetBar">
 
                     <%-- language selection widget --%>
-                    <sab:languageSelection page="${p}"/>
+                    <%@include file="/WEB-INF/jspf/header/languageSelection.jspf" %>
+
+                    <%--<sab:languageSelection page="${p}"/>--%>
 
                     <%-- checkout widget --%>
-                    <sab:checkout page="${p}"/>
+                    <%@include file="/WEB-INF/jspf/header/checkout.jspf" %>
 
                     <%-- shopping cart widget --%>
-                    <sab:cart page="${p}"/>
+                    <%@include file="/WEB-INF/jspf/header/cart.jspf" %>
 
                     <a href="<c:url value='/'/>">
                         <img src="<c:url value="/img/logo.png"/>" id="logo" alt="Affable Bean logo">

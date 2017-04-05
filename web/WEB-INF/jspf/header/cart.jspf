@@ -1,14 +1,15 @@
-<%@ tag pageEncoding="UTF-8" %> <%-- required --%>
+<%@ page pageEncoding="UTF-8" %> <%-- required --%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<%@ attribute name="page" type="viewmodel.BaseViewModel" required="true" %>
+<%--<jsp:useBean id="p" type="viewmodel.BaseViewModel"/>--%>
+
 <div class="headerWidget" id="viewCart">
 
   <img src="<c:url value="/img/cart.gif"/>" alt="shopping cart icon" id="cart">
 
-  <c:set var="cart" scope="request" value="${page.header.shoppingCartHeader}"/>
+  <c:set var="cart" scope="request" value="${p.header.shoppingCartHeader}"/>
 
   <span class="horizontalMargin">
     <%-- Show number of items --%>

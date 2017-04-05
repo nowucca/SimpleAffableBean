@@ -1,39 +1,40 @@
-<%@ tag pageEncoding="UTF-8" %> <%-- required --%>
+<%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ attribute name="page" type="viewmodel.BaseViewModel" required="true" %>
+
+<%--<jsp:useBean id="p" type="viewmodel.BaseViewModel"/>--%>
 
 <div class="headerWidget">
 
   <%-- If servlet path contains '/confirmation', do not display language toggle --%>
-  <c:if test="${page.header.languageSelectionHeader.isVisible}">
+  <c:if test="${p.header.languageSelectionHeader.isVisible}">
 
     <%-- language selection widget --%>
     <c:choose>
       <%-- When user hasn't explicitly set language, render toggle according to browser's preferred locale --%>
-      <c:when test="${!page.hasCustomerSpecifiedLocale}">
+      <c:when test="${!p.hasCustomerSpecifiedLocale}">
         <c:choose>
-          <c:when test="${!page.isRequestLocaleCzech}">
+          <c:when test="${!p.isRequestLocaleCzech}">
             english
           </c:when>
           <c:otherwise>
             <c:url var="language_url" value="chooseLanguage">
               <c:param name="language" value="en"/>
-              <c:param name="relativeReturnUrl" value="${page.header.relativeReturnUrl}"/>
+              <c:param name="relativeReturnUrl" value="${p.header.relativeReturnUrl}"/>
             </c:url>
             <div class="bubble"><a href="${language_url}">english</a></div>
           </c:otherwise>
         </c:choose>
 
         <c:choose>
-          <c:when test="${page.isRequestLocaleCzech}">
+          <c:when test="${p.isRequestLocaleCzech}">
             česky
           </c:when>
           <c:otherwise>
             <c:url var="language_url" value="chooseLanguage">
               <c:param name="language" value="cs"/>
-              <c:param name="relativeReturnUrl" value="${page.header.relativeReturnUrl}"/>
+              <c:param name="relativeReturnUrl" value="${p.header.relativeReturnUrl}"/>
             </c:url>
             <div class="bubble"><a href="${language_url}">česky</a></div>
           </c:otherwise>
@@ -43,26 +44,26 @@
       <%-- Otherwise, render widget according to the set locale --%>
       <c:otherwise>
         <c:choose>
-          <c:when test="${!page.customerSpecifiedLocaleCzech}">
+          <c:when test="${!p.customerSpecifiedLocaleCzech}">
             english
           </c:when>
           <c:otherwise>
             <c:url var="language_url" value="chooseLanguage">
               <c:param name="language" value="en"/>
-              <c:param name="relativeReturnUrl" value="${page.header.relativeReturnUrl}"/>
+              <c:param name="relativeReturnUrl" value="${p.header.relativeReturnUrl}"/>
             </c:url>
             <div class="bubble"><a href="${language_url}">english</a></div>
           </c:otherwise>
         </c:choose> |
 
         <c:choose>
-          <c:when test="${page.customerSpecifiedLocaleCzech}">
+          <c:when test="${p.customerSpecifiedLocaleCzech}">
             česky
           </c:when>
           <c:otherwise>
             <c:url var="language_url" value="chooseLanguage">
               <c:param name="language" value="cs"/>
-              <c:param name="relativeReturnUrl" value="${page.header.relativeReturnUrl}"/>
+              <c:param name="relativeReturnUrl" value="${p.header.relativeReturnUrl}"/>
             </c:url>
             <div class="bubble"><a href="${language_url}">česky</a></div>
           </c:otherwise>
