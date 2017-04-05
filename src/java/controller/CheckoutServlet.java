@@ -11,7 +11,6 @@ package controller;
 import business.ApplicationContext;
 import business.ValidationException;
 import business.cart.ShoppingCart;
-import business.order.CustomerOrderDetails;
 import business.order.CustomerOrderService;
 import java.io.IOException;
 import java.util.Enumeration;
@@ -23,7 +22,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.jsp.jstl.core.Config;
-import viewmodel.CategoryViewModel;
 import viewmodel.CheckoutViewModel;
 
 /**
@@ -69,14 +67,7 @@ public class CheckoutServlet extends SimpleAffableBeanServlet {
             throws ServletException, IOException {
 
         String userPath = request.getServletPath();
-        HttpSession session = request.getSession();
-
         // checkout page is requested
-
-        ShoppingCart cart = (ShoppingCart) session.getAttribute("cart");
-
-        // calculate total
-        cart.calculateTotal(surcharge);
 
         // forward to checkout page and switch to a secure channel
 
@@ -154,7 +145,7 @@ public class CheckoutServlet extends SimpleAffableBeanServlet {
                         session.setAttribute("orderFailureFlag", true);
 
                         //remember the form inputs for redisplay except for credit card
-                        rememberSession(session, name, email, phone, address, cityRegion, "");
+                        rememberSession(session, name, email, phone, address, cityRegion);
                         userPath = "/checkout";
                     }
                 } catch (ValidationException e) {
@@ -164,7 +155,7 @@ public class CheckoutServlet extends SimpleAffableBeanServlet {
                     session.setAttribute("validationException", e);
                     session.setAttribute("validationErrorFlag", true);
                     //remember the form inputs for redisplay except for credit card
-                    rememberSession(session, name, email, phone, address, cityRegion, "");
+                    rememberSession(session, name, email, phone, address, cityRegion);
                     userPath = "/checkout";
                 }
             }
@@ -184,18 +175,12 @@ public class CheckoutServlet extends SimpleAffableBeanServlet {
         }
     }
 
-    private void rememberSession(HttpSession session, String name,
-                                 String email,
-                                 String phone,
-                                 String address,
-                                 String cityRegion,
-                                 String creditcard) {
+    private void rememberSession(HttpSession session, String name, String email, String phone, String address, String cityRegion) {
         session.setAttribute("name", name);
         session.setAttribute("email", email);
         session.setAttribute("phone", phone);
         session.setAttribute("address", address);
         session.setAttribute("cityRegion", cityRegion);
-        session.setAttribute("creditcard", creditcard);
     }
 
 }

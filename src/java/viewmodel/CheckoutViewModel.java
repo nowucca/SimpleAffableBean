@@ -26,6 +26,9 @@ public class CheckoutViewModel extends BaseViewModel {
     public CheckoutViewModel(HttpServletRequest request) {
         super(request);
 
+        if (getHasCart()) {
+            getCart().calculateTotal(getDeliverySurchargeFromServletContext(request));
+        }
         this.hasValidationErrorFlag = (Boolean) session.getAttribute("validationErrorFlag");
         this.hasOrderFailureFlag = (Boolean) session.getAttribute("orderFailureFlag");
         this.validationException = (ValidationException) session.getAttribute("validationException");

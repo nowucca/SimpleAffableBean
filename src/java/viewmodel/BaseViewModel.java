@@ -39,7 +39,11 @@ public class BaseViewModel {
         this.cart = initCart();
         this.header = new HeaderViewModel(request, cart);
         this.categories = (List<Category>) request.getServletContext().getAttribute("categories");
-        this.deliverySurcharge = Integer.valueOf(request.getServletContext().getInitParameter("deliverySurcharge"));
+        this.deliverySurcharge = Integer.valueOf(getDeliverySurchargeFromServletContext(request));
+    }
+
+    protected String getDeliverySurchargeFromServletContext(HttpServletRequest request) {
+        return request.getServletContext().getInitParameter("deliverySurcharge");
     }
 
     private ShoppingCart initCart() {
