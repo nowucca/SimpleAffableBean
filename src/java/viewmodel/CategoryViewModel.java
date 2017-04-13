@@ -25,29 +25,38 @@ public class CategoryViewModel extends BaseViewModel {
         if (categoryId != null) {
             // get selected category
             selectedCategory = getCategoryService().findByCategoryId(Short.parseShort(categoryId));
-            rememberSelectedCategory(session);
+            rememberSelectedCategory(session, selectedCategory);
 
             // get all products for selected category
-            selectedCategoryProducts = selectedCategory.getProducts();
-            rememberSelectedCategoryProducts(session);
+            selectedCategoryProducts = getProductService().findByCategoryId(selectedCategory.getCategoryId());
+            rememberSelectedCategoryProducts(session, selectedCategoryProducts);
 
         } else {
-            selectedCategory = (Category) session.getAttribute("selectedCategory");
-            selectedCategoryProducts = (Collection<Product>) session.getAttribute("selectedCategoryProducts");
+            // use the selected category from the session, otherwise use the default category
+            selectedCategory = recallSelectedCategory(session);
+            selectedCategoryProducts = recallSelectedCategoryProducts(session);
             if (selectedCategory == null || selectedCategoryProducts == null) {
                 selectedCategory = getCategoryService().getDefaultCategory();
-                rememberSelectedCategory(session);
-                selectedCategoryProducts = selectedCategory.getProducts();
-                rememberSelectedCategoryProducts(session);
+                rememberSelectedCategory(session, selectedCategory);
+                selectedCategoryProducts = getProductService().findByCategoryId(selectedCategory.getCategoryId());
+                rememberSelectedCategoryProducts(session, selectedCategoryProducts);
             }
         }
     }
 
-    private void rememberSelectedCategory(HttpSession session) {
+    private Collection<Product> recallSelectedCategoryProducts(HttpSession session) {
+        return (Collection<Product>) session.getAttribute("selectedCategoryProducts");
+    }
+
+    private Category recallSelectedCategory(HttpSession session) {
+        return (Category) session.getAttribute("selectedCategory");
+    }
+
+    private void rememberSelectedCategory(HttpSession session, Category selectedCategory) {
         session.setAttribute("selectedCategory", selectedCategory);
     }
 
-    private void rememberSelectedCategoryProducts(HttpSession session) {
+    private void rememberSelectedCategoryProducts(HttpSession session, Collection<Product> selectedCategoryProducts) {
         session.setAttribute("selectedCategoryProducts", selectedCategoryProducts);
     }
 

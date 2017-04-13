@@ -1,6 +1,5 @@
 package business.category;
 
-import business.SimpleAffableDbException;
 import business.SimpleAffableDbException.SimpleAffableQueryDbException;
 import business.product.ProductDao;
 import java.sql.Connection;
@@ -49,9 +48,6 @@ public class CategoryDaoJdbc implements CategoryDao {
         } catch (SQLException e) {
             throw new SimpleAffableQueryDbException("Encountered problem finding category "+categoryId, e);
         }
-        if (result != null) {
-            result.setProducts(productDao.findByCategoryId(result.getCategoryId()));
-        }
         return result;
     }
 
@@ -68,9 +64,6 @@ public class CategoryDaoJdbc implements CategoryDao {
         } catch (SQLException e) {
             throw new SimpleAffableQueryDbException("Encountered problem finding all categories", e);
         }
-        result.forEach((category) ->
-            category.setProducts(productDao.findByCategoryId(category.getCategoryId()))
-        );
         return result;
     }
 

@@ -5,6 +5,7 @@ import business.cart.ShoppingCart;
 import business.category.Category;
 import business.category.CategoryService;
 import business.order.CustomerOrderService;
+import business.product.ProductService;
 import java.util.List;
 import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
@@ -125,6 +126,9 @@ public class BaseViewModel {
         return ApplicationContext.INSTANCE.getCustomerOrderService();
     }
 
+    protected ProductService getProductService() {
+        return ApplicationContext.INSTANCE.getProductService();
+    }
 
     protected String getSessionAttributeOrRequestParameter(String name) {
         String v = String.class.cast(session.getAttribute(name));

@@ -8,9 +8,6 @@
 
 package business.category;
 
-import business.product.Product;
-import java.util.List;
-
 /**
  *
  */
@@ -24,7 +21,6 @@ public class Category {
 
     private long categoryId;
     private String name;
-    private List<Product> products;
 
     public Category(long categoryId, String name) {
         this.categoryId = categoryId;
@@ -37,14 +33,6 @@ public class Category {
 
     public String getName() {
         return name;
-    }
-
-    public List<Product> getProducts() {
-        return products;
-    }
-
-    void setProducts(List<Product> products) {
-        this.products = products;
     }
 
     @Override
