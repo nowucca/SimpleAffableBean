@@ -29,6 +29,8 @@ As progress is made, I'll be tweaking the implementation here and perhaps strate
 - Header information is separated into a collection of @included JSP fragments for clarity.
 - Customer details entered on checkout are remembered in case of error (except for credit card)
 - Validation has been moved into the business layer and uses an exception
+- All model objects are immutable once constructed
+- Cache control headers are page-specific to tell browsers to avoid caching customer-specific pages.
 
 ## Future Implementation Possibilities
 - A basic local build using gradle or maven
