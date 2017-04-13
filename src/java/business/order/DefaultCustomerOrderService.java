@@ -70,11 +70,12 @@ public class DefaultCustomerOrderService implements CustomerOrderService {
 
         CustomerOrder order = customerOrderDao.findByCustomerOrderId(customerOrderId);
         Customer customer = customerDao.findByCustomerId(order.getCustomerId());
-        List<Product> products = order.getCustomerOrderLineItems().stream()
+        List<CustomerOrderLineItem> lineItems = customerOrderLineItemDao.findByCustomerOrderId(customerOrderId);
+        List<Product> products = lineItems.stream()
             .map(LINE_ITEM_TO_PRODUCT)
             .collect(Collectors.toList());
 
-        return new CustomerOrderDetails(order, customer, products);
+        return new CustomerOrderDetails(order, customer, products, lineItems);
 
     }
 

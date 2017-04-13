@@ -1,6 +1,5 @@
 package business.order;
 
-import business.SimpleAffableDbException;
 import business.SimpleAffableDbException.SimpleAffableQueryDbException;
 import business.SimpleAffableDbException.SimpleAffableUpdateDbException;
 import java.sql.Connection;
@@ -94,9 +93,6 @@ public class CustomerOrderDaoJdbc implements CustomerOrderDao {
             throw new SimpleAffableQueryDbException("Encountered problem finding all orders", e);
         }
 
-        result.forEach((order) ->
-            order.setCustomerOrderLineItems(lineItemDao.findByCustomerOrderId(order.getCustomerOrderId())));
-
         return result;
     }
 
@@ -112,10 +108,7 @@ public class CustomerOrderDaoJdbc implements CustomerOrderDao {
                 }
             }
         } catch (SQLException e) {
-            throw new SimpleAffableQueryDbException("Encountered problem finding customer order id="+id, e);
-        }
-        if (result != null) {
-            result.setCustomerOrderLineItems(lineItemDao.findByCustomerOrderId(result.getCustomerOrderId()));
+            throw new SimpleAffableQueryDbException("Encountered problem finding customer order id=" + id, e);
         }
         return result;
     }

@@ -12,11 +12,14 @@ public class CustomerOrderDetails {
     private CustomerOrder customerOrder;
     private Customer customer;
     private List<Product> products;
+    private List<CustomerOrderLineItem> lineItems;
 
-    public CustomerOrderDetails(CustomerOrder customerOrder, Customer customer, List<Product> products) {
+    public CustomerOrderDetails(CustomerOrder customerOrder, Customer customer, List<Product> products, List
+        <CustomerOrderLineItem> lineItems) {
         this.customerOrder = customerOrder;
         this.customer = customer;
         this.products = products;
+        this.lineItems = lineItems;
     }
 
     public CustomerOrder getCustomerOrder() {
@@ -32,6 +35,6 @@ public class CustomerOrderDetails {
     }
 
     public List<CustomerOrderLineItem> getCustomerOrderLineItems() {
-        return Collections.unmodifiableList(customerOrder.getCustomerOrderLineItems());
+        return Collections.unmodifiableList(lineItems);
     }
 }

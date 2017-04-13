@@ -38,7 +38,7 @@
                 <td><fmt:message key="price"/></td>
             </tr>
 
-            <c:forEach var="lineItem" items="${p.orderDetails.customerOrder.customerOrderLineItems}" varStatus="iter">
+            <c:forEach var="lineItem" items="${p.orderDetails.customerOrderLineItems}" varStatus="iter">
 
                 <tr class="${((iter.index % 2) != 0) ? 'lightBlue' : 'white'}">
                     <td>

@@ -31,7 +31,6 @@ public class CustomerOrder {
     private int amount;
     private Date dateCreated;
     private int confirmationNumber;
-    private List<CustomerOrderLineItem> customerOrderLineItems;
 
 
     public CustomerOrder() {
@@ -66,13 +65,6 @@ public class CustomerOrder {
         return confirmationNumber;
     }
 
-    public List<CustomerOrderLineItem> getCustomerOrderLineItems() {
-        return customerOrderLineItems;
-    }
-
-    void setCustomerOrderLineItems(List<CustomerOrderLineItem> customerOrderLineItems) {
-        this.customerOrderLineItems = customerOrderLineItems;
-    }
 
     @Override
     public String toString() {
