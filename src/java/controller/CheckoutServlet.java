@@ -107,7 +107,8 @@ public class CheckoutServlet extends SimpleAffableBeanServlet {
             // otherwise, save order to database
             try {
 
-                long orderId = customerOrderService.placeOrder(name, email, phone, address, cityRegion, creditcard, cart);
+                long orderId = customerOrderService.placeOrder(name, email, phone,
+                    address, cityRegion, creditcard, cart);
 
                 // if order processed successfully send user to confirmation page
                 if (orderId != 0) {
@@ -163,12 +164,13 @@ public class CheckoutServlet extends SimpleAffableBeanServlet {
         session.setAttribute("cart", null);
         // Wipe out all other session attributes for a clean slate
         final Enumeration<String> attributeNames = session.getAttributeNames();
-        while(attributeNames.hasMoreElements()) {
+        while (attributeNames.hasMoreElements()) {
             session.setAttribute(attributeNames.nextElement(), null);
         }
     }
 
-    private void rememberSession(HttpSession session, String name, String email, String phone, String address, String cityRegion) {
+    private void rememberSession(HttpSession session, String name, String email,
+                                 String phone, String address, String cityRegion) {
         session.setAttribute("name", name);
         session.setAttribute("email", email);
         session.setAttribute("phone", phone);

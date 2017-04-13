@@ -14,9 +14,12 @@ import javax.servlet.jsp.jstl.core.Config;
 import viewmodel.header.HeaderViewModel;
 
 /**
+ * A base class for all view models for main pages.
+ * Put access to data here that are potentially useful on all pages.
+ * For example this is a good place to put support for common header
+ * and footer elements that are dynamic.
  */
 public class BaseViewModel {
-
 
     // The relative path to category images
     private static final String CATEGORY_IMAGE_PATH = "img/categories/";
@@ -24,13 +27,18 @@ public class BaseViewModel {
     // The relative path to product images
     private static final String PRODUCT_IMAGE_PATH = "img/products/";
 
+    // Every view model knows the request and session
     protected HttpServletRequest request;
     protected HttpSession session;
 
+    // What do we know from the servlet context?
+    private int deliverySurcharge;
     private List<Category> categories;
+
+    // We also have a shopping cart and a header view model on each page.
+    // Parts of the header may or may not be visible at different times.
     private ShoppingCart cart;
     private HeaderViewModel header;
-    private int deliverySurcharge;
 
 
     @SuppressWarnings("unchecked")
@@ -43,7 +51,7 @@ public class BaseViewModel {
         this.deliverySurcharge = Integer.valueOf(getDeliverySurchargeFromServletContext(request));
     }
 
-    protected String getDeliverySurchargeFromServletContext(HttpServletRequest request) {
+    String getDeliverySurchargeFromServletContext(HttpServletRequest request) {
         return request.getServletContext().getInitParameter("deliverySurcharge");
     }
 
@@ -74,6 +82,9 @@ public class BaseViewModel {
     }
 
 
+    //
+    // Language-specific page elements
+    //
     public boolean getHasCustomerSpecifiedLocale() {
         // replaced:  <c:when test="${empty sessionScope['javax.servlet.jsp.jstl.fmt.locale.session']}">
         return null != Config.get(request.getSession(), Config.FMT_LOCALE);
@@ -138,7 +149,6 @@ public class BaseViewModel {
         return v;
     }
 
-    // Good place to put support for common header and footer elements that are dynamic.
     // Also a good place to put elements onto a page that are generally useful
     // (e.g. XSRF tokens for cross-site scripting prevention)
 }

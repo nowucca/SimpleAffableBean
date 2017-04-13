@@ -10,7 +10,10 @@ import javax.sql.DataSource;
 
 /**
  */
-public class JdbcUtils {
+public final class JdbcUtils {
+
+    private JdbcUtils() {
+    }
 
     static final String JDBC_SIMPLEAFFABLEBEAN = "jdbc/simpleaffablebean";
 

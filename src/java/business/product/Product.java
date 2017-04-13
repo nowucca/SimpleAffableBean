@@ -13,14 +13,6 @@ import java.util.Date;
 /**
  *
  */
-//@Entity
-//@Table(name = "product")
-//@NamedQueries({
-//    @NamedQuery(name = "Product.findAll", query = "SELECT p FROM Product p"),
-//    @NamedQuery(name = "Product.findById", query = "SELECT p FROM Product p WHERE p.product_id = :product_id"),
-//    @NamedQuery(name = "Product.findByName", query = "SELECT p FROM Product p WHERE p.name = :name"),
-//    @NamedQuery(name = "Product.findByPrice", query = "SELECT p FROM Product p WHERE p.price = :price"),
-//    @NamedQuery(name = "Product.findByLastUpdate", query = "SELECT p FROM Product p WHERE p.lastUpdate = :lastUpdate")})
 public class Product {
 
     private long productId;

@@ -30,7 +30,6 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author tgiunipero
  */
 @WebServlet(name = "AdminServlet",
             urlPatterns = {"/admin/",

@@ -23,8 +23,17 @@
 
 package business;
 
-import java.io.*;
-import java.sql.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.LineNumberReader;
+import java.io.PrintWriter;
+import java.io.Reader;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -39,7 +48,8 @@ class ScriptRunner {
      * regex to detect delimiter.
      * ignores spaces, allows delimiter in comment, allows an equals-sign
      */
-    public static final Pattern delimP = Pattern.compile("^\\s*(--)?\\s*delimiter\\s*=?\\s*([^\\s]+)+\\s*.*$", Pattern.CASE_INSENSITIVE);
+    public static final Pattern delimP =
+        Pattern.compile("^\\s*(--)?\\s*delimiter\\s*=?\\s*([^\\s]+)+\\s*.*$", Pattern.CASE_INSENSITIVE);
 
     private final Connection connection;
 
@@ -47,17 +57,17 @@ class ScriptRunner {
     private final boolean autoCommit;
 
     @SuppressWarnings("UseOfSystemOutOrSystemErr")
-    private PrintWriter logWriter = null;
+    private PrintWriter logWriter;
     @SuppressWarnings("UseOfSystemOutOrSystemErr")
-    private PrintWriter errorLogWriter = null;
+    private PrintWriter errorLogWriter;
 
     private String delimiter = DEFAULT_DELIMITER;
-    private boolean fullLineDelimiter = false;
+    private boolean fullLineDelimiter;
 
     /**
      * Default constructor
      */
-    public ScriptRunner(Connection connection, boolean autoCommit,
+    ScriptRunner(Connection connection, boolean autoCommit,
                         boolean stopOnError) {
         this.connection = connection;
         this.autoCommit = autoCommit;
@@ -70,7 +80,7 @@ class ScriptRunner {
             } else {
                 logWriter = new PrintWriter(new FileWriter(logFile, false));
             }
-        } catch(IOException e){
+        } catch (IOException e) {
             System.err.println("Unable to access or create the db_create log");
         }
         try {
@@ -79,7 +89,7 @@ class ScriptRunner {
             } else {
                 errorLogWriter = new PrintWriter(new FileWriter(errorLogFile, false));
             }
-        } catch(IOException e){
+        } catch (IOException e) {
             System.err.println("Unable to access or create the  db_create error log");
         }
         String timeStamp = new SimpleDateFormat("DD/MM/yyyy HH:mm:ss").format(new java.util.Date());

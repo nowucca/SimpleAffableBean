@@ -12,7 +12,6 @@ import business.product.Product;
 
 /**
  *
- * @author tgiunipero
  */
 public class ShoppingCartItem {
 

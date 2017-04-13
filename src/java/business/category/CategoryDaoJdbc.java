@@ -46,7 +46,7 @@ public class CategoryDaoJdbc implements CategoryDao {
                  }
              }
         } catch (SQLException e) {
-            throw new SimpleAffableQueryDbException("Encountered problem finding category "+categoryId, e);
+            throw new SimpleAffableQueryDbException("Encountered problem finding category " + categoryId, e);
         }
         return result;
     }

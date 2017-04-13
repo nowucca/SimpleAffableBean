@@ -8,24 +8,9 @@
 
 package business.customer;
 
-import business.order.CustomerOrder;
-import java.util.List;
-
-
 /**
  *
  */
-//@Entity
-//@Table(name = "customer")
-//@NamedQueries({
-//    @NamedQuery(name = "Customer.findAll", query = "SELECT c FROM Customer c"),
-//    @NamedQuery(name = "Customer.findById", query = "SELECT c FROM Customer c WHERE c.id = :id"),
-//    @NamedQuery(name = "Customer.findByName", query = "SELECT c FROM Customer c WHERE c.name = :name"),
-//    @NamedQuery(name = "Customer.findByEmail", query = "SELECT c FROM Customer c WHERE c.email = :email"),
-//    @NamedQuery(name = "Customer.findByPhone", query = "SELECT c FROM Customer c WHERE c.phone = :phone"),
-//    @NamedQuery(name = "Customer.findByAddress", query = "SELECT c FROM Customer c WHERE c.address = :address"),
-//    @NamedQuery(name = "Customer.findByCityRegion", query = "SELECT c FROM Customer c WHERE c.cityRegion = :cityRegion"),
-//    @NamedQuery(name = "Customer.findByCcNumber", query = "SELECT c FROM Customer c WHERE c.ccNumber = :ccNumber")})
 public class Customer  {
 
     private long customerId;
@@ -42,7 +27,8 @@ public class Customer  {
 
     private String ccNumber;
 
-    public Customer(long customerId, String name, String email, String phone, String address, String cityRegion, String ccNumber) {
+    public Customer(long customerId, String name, String email,
+                    String phone, String address, String cityRegion, String ccNumber) {
         this.customerId = customerId;
         this.name = name;
         this.email = email;

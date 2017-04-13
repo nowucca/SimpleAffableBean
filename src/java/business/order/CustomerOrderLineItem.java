@@ -13,13 +13,6 @@ package business.order;
 /**
  *
  */
-//@Entity
-//@Table(name = "ordered_product")
-//@NamedQueries({
-//    @NamedQuery(name = "CustomerOrderLineItem.findAll", query = "SELECT o FROM CustomerOrderLineItem o"),
-//    @NamedQuery(name = "CustomerOrderLineItem.findByCustomerOrderId", query = "SELECT o FROM CustomerOrderLineItem o WHERE o.orderedProductPK.customerOrderId = :customerOrderId"),
-//    @NamedQuery(name = "CustomerOrderLineItem.findByProductId", query = "SELECT o FROM CustomerOrderLineItem o WHERE o.orderedProductPK.productId = :productId"),
-//    @NamedQuery(name = "CustomerOrderLineItem.findByQuantity", query = "SELECT o FROM CustomerOrderLineItem o WHERE o.quantity = :quantity")})
 public class CustomerOrderLineItem {
 
     private long customerOrderId;

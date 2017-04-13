@@ -21,7 +21,7 @@ import business.product.ProductService;
 
 /**
  */
-public class ApplicationContext {
+public final class ApplicationContext {
 
     private ProductService productService;
 
@@ -38,16 +38,16 @@ public class ApplicationContext {
         // wire up the business.dao layer "by hand"
         ProductDao productDao = new ProductDaoJdbc();
         productService = new DefaultProductService();
-        ((DefaultProductService)productService).setProductDao(productDao);
+        ((DefaultProductService) productService).setProductDao(productDao);
 
         CategoryDao categoryDao = new CategoryDaoJdbc();
         ((CategoryDaoJdbc) categoryDao).setProductDao(productDao);
         categoryService = new DefaultCategoryService();
-        ((DefaultCategoryService)categoryService).setCategoryDao(categoryDao);
+        ((DefaultCategoryService) categoryService).setCategoryDao(categoryDao);
 
         CustomerDao customerDao = new CustomerDaoJdbc();
         customerService = new DefaultCustomerService();
-        ((DefaultCustomerService)customerService).setCustomerDao(customerDao);
+        ((DefaultCustomerService) customerService).setCustomerDao(customerDao);
 
         CustomerOrderLineItemDao customerOrderLineItemDao = new CustomerOrderLineItemDaoJdbc();
         CustomerOrderDao customerOrderDao = new CustomerOrderDaoJdbc();

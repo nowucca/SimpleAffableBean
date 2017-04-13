@@ -65,7 +65,8 @@ public class CheckoutViewModel extends BaseViewModel {
             }
         }
 
-        // Now that we have captured these error conditions in the view model, let's clear them for future pages in the session.
+        // Now that we have captured these error conditions in the view model,
+        // let's clear them for future pages in the session.
         session.setAttribute("validationErrorFlag", null);
         session.setAttribute("validationException", null);
         session.setAttribute("orderFailureFlag", null);

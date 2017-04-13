@@ -26,7 +26,9 @@ public class DefaultCustomerOrderService implements CustomerOrderService {
     private Random random = new Random();
 
     @Override
-    public long placeOrder(String name, String email, String phone, String address, String cityRegion, String ccNumber, ShoppingCart cart) throws ValidationException {
+    public long placeOrder(String name, String email, String phone,
+                           String address, String cityRegion, String ccNumber,
+                           ShoppingCart cart) throws ValidationException {
 
         validateForm(name, email, phone, address, cityRegion, ccNumber);
 
@@ -38,13 +40,15 @@ public class DefaultCustomerOrderService implements CustomerOrderService {
 
     }
 
-    private long performPlaceOrderTransaction(String name, String email, String phone, String address, String cityRegion, String
-        ccNumber, ShoppingCart cart, Connection connection) {
+    private long performPlaceOrderTransaction(String name, String email,
+                                              String phone, String address, String cityRegion,
+                                              String ccNumber, ShoppingCart cart, Connection connection) {
         try {
             connection.setAutoCommit(false);
 
             long customerId = customerDao.create(connection, name, email, phone, address, cityRegion, ccNumber);
-            long customerOrderId = customerOrderDao.create(connection, customerId, cart.getTotal(), generateConfirmationNumber());
+            long customerOrderId = customerOrderDao.create(connection, customerId,
+                cart.getTotal(), generateConfirmationNumber());
 
 
             cart.getItems().forEach((item) ->
@@ -94,7 +98,8 @@ public class DefaultCustomerOrderService implements CustomerOrderService {
         return customerOrderDao.findByCustomerOrderId(customerOrderId);
     }
 
-    private void validateForm(String name, String email, String phone, String address, String cityRegion, String ccNumber)
+    private void validateForm(String name, String email, String phone,
+                              String address, String cityRegion, String ccNumber)
         throws ValidationException {
 
         ValidationException e = new ValidationException();

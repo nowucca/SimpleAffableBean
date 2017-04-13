@@ -1,7 +1,6 @@
 package viewmodel.header;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.jsp.jstl.core.Config;
 
 /**
  */
@@ -26,7 +25,8 @@ public class LanguageSelectionWidgetViewModel extends HeaderWidgetViewModel {
 
     private String getRelativeReturnUrl(HttpServletRequest request) {
         String url = request.getRequestURL().toString();
-        String baseURL = url.substring(0, url.length() - request.getRequestURI().length()) + request.getContextPath() + "/";
+        String baseURL = url.substring(0, url.length() - request.getRequestURI().length())
+            + request.getContextPath() + "/";
         return "/" + url.substring(baseURL.length());
     }
 

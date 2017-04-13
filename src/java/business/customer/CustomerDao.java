@@ -6,7 +6,8 @@ import java.util.List;
 /**
  */
 public interface CustomerDao {
-    long create(Connection connection, String name, String email, String phone, String address, String cityRegion, String ccNumber);
+    long create(Connection connection, String name, String email,
+                String phone, String address, String cityRegion, String ccNumber);
 
     Customer findByCustomerId(long customerId);
 

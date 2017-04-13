@@ -15,7 +15,6 @@ import java.util.List;
 
 /**
  *
- * @author tgiunipero
  */
 public class ShoppingCart {
 
@@ -95,7 +94,7 @@ public class ShoppingCart {
 
     // ensures that quantity input is number between 0 and 99
     // applies to quantity fields in cart page
-    void validateQuantity (int quantity) throws ValidationException {
+    void validateQuantity(int quantity) throws ValidationException {
         if (quantity < 0 || quantity > 99) {
             throw new ValidationException("quantity");
         }
@@ -145,7 +144,7 @@ public class ShoppingCart {
 
         for (ShoppingCartItem scItem : items) {
 
-            amount += (scItem.getQuantity() * scItem.getPrice());
+            amount += scItem.getQuantity() * scItem.getPrice();
         }
 
         return amount;

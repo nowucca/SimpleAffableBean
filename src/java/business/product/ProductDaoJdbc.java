@@ -1,6 +1,5 @@
 package business.product;
 
-import business.SimpleAffableDbException;
 import business.SimpleAffableDbException.SimpleAffableQueryDbException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

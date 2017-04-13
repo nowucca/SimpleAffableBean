@@ -1,6 +1,5 @@
 package business.customer;
 
-import business.SimpleAffableDbException;
 import business.SimpleAffableDbException.SimpleAffableQueryDbException;
 import business.SimpleAffableDbException.SimpleAffableUpdateDbException;
 import java.sql.Connection;
@@ -38,8 +37,10 @@ public class CustomerDaoJdbc implements CustomerDao {
 
 
     @Override
-    public long create(final Connection connection, String name, String email, String phone, String address, String cityRegion, String ccNumber) {
-        try (PreparedStatement statement = connection.prepareStatement(CREATE_CUSTOMER_SQL, Statement.RETURN_GENERATED_KEYS)) {
+    public long create(final Connection connection, String name, String email,
+                       String phone, String address, String cityRegion, String ccNumber) {
+        try (PreparedStatement statement =
+                 connection.prepareStatement(CREATE_CUSTOMER_SQL, Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, name);
             statement.setString(2, email);
             statement.setString(3, phone);
@@ -48,7 +49,8 @@ public class CustomerDaoJdbc implements CustomerDao {
             statement.setString(6, ccNumber);
             int affected = statement.executeUpdate();
             if (affected != 1) {
-                throw new SimpleAffableUpdateDbException("Failed to insert a customer, affected row count = "+affected);
+                throw new SimpleAffableUpdateDbException("Failed to insert a customer, affected row count = "
+                    + affected);
             }
             long customerId;
             ResultSet rs = statement.getGeneratedKeys();
@@ -77,7 +79,7 @@ public class CustomerDaoJdbc implements CustomerDao {
                 }
             }
         } catch (SQLException e) {
-            throw new SimpleAffableQueryDbException("Encountered problem finding customer "+customerId, e);
+            throw new SimpleAffableQueryDbException("Encountered problem finding customer " + customerId, e);
         }
         return result;
     }
@@ -88,7 +90,7 @@ public class CustomerDaoJdbc implements CustomerDao {
         try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_ALL_SQL);
              ResultSet resultSet = statement.executeQuery()) {
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 Customer c = readCustomer(resultSet);
                 result.add(c);
             }

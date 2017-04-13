@@ -16,13 +16,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.servlet.http.HttpSessionEvent;
-import javax.servlet.http.HttpSessionListener;
 
 /**
  *
- * @author tgiunipero
  */
 @WebServlet(name = "SimpleAffableBean",
             loadOnStartup = 1)
@@ -55,7 +51,8 @@ public class SimpleAffableBeanServlet extends HttpServlet {
         if (!allowBrowserCaching()) {
             response.setHeader("Pragma", "no-cache");
             response.setHeader("Cache-Control", "no-cache, no-store, private, must-revalidate, proxy-revalidate");
-            response.setDateHeader("Expires", System.currentTimeMillis() - 86400000); // 1000 (millis) * 60 (seconds) * 60 (minutes) * 24 (hours) == 1 day -or- yesterday
+            response.setDateHeader("Expires", System.currentTimeMillis() - 86400000);
+            // 1000 (millis) * 60 (seconds) * 60 (minutes) * 24 (hours) == 1 day -or- yesterday
         }
     }
 
@@ -82,7 +79,7 @@ public class SimpleAffableBeanServlet extends HttpServlet {
 
     protected void doTemporaryRedirect(HttpServletRequest request, HttpServletResponse response, String location) {
         response.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
-        response.setHeader("Location", getServletContext().getContextPath()+location);
+        response.setHeader("Location", getServletContext().getContextPath() + location);
     }
 
 

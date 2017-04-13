@@ -23,7 +23,6 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author tgiunipero
  */
 @WebFilter(servletNames = {"Cart", "Category", "Checkout", "AdminServlet", "Confirmation", "Language"})
 public class SessionTimeoutFilter implements Filter {
@@ -42,7 +41,7 @@ public class SessionTimeoutFilter implements Filter {
             chain.doFilter(request, response);
         } else {
             try {
-                res.sendRedirect(req.getContextPath()+"/home");
+                res.sendRedirect(req.getContextPath() + "/home");
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -50,9 +49,13 @@ public class SessionTimeoutFilter implements Filter {
     }
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {}
+    public void init(FilterConfig filterConfig) throws ServletException {
+        // ignore
+    }
 
     @Override
-    public void destroy() {}
+    public void destroy() {
+        //ignore
+    }
 
 }

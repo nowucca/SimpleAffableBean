@@ -10,8 +10,8 @@ public class DefaultCustomerService implements CustomerService {
     private CustomerDao customerDao;
 
     @Override
-    public long create(Connection connection, String name, String email, String phone, String address, String cityRegion,
-                       String ccNumber) {
+    public long create(Connection connection, String name, String email,
+                       String phone, String address, String cityRegion, String ccNumber) {
         return customerDao.create(connection, name, email, phone, address, cityRegion, ccNumber);
     }
 

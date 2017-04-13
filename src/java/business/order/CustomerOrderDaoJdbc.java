@@ -47,13 +47,15 @@ public class CustomerOrderDaoJdbc implements CustomerOrderDao {
 
     @Override
     public long create(final Connection connection, long customerId, int amount, int confirmationNumber) {
-        try (PreparedStatement statement = connection.prepareStatement(CREATE_ORDER_SQL, Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement statement =
+                 connection.prepareStatement(CREATE_ORDER_SQL, Statement.RETURN_GENERATED_KEYS)) {
             statement.setInt(1, amount);
             statement.setLong(2, customerId);
             statement.setInt(3, confirmationNumber);
             int affected = statement.executeUpdate();
             if (affected != 1) {
-                throw new SimpleAffableUpdateDbException("Failed to insert an order, affected row count = "+affected);
+                throw new SimpleAffableUpdateDbException("Failed to insert an order, affected row count = "
+                    + affected);
             }
             long customerOrderId;
             ResultSet rs = statement.getGeneratedKeys();
@@ -85,7 +87,7 @@ public class CustomerOrderDaoJdbc implements CustomerOrderDao {
         try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_ALL_SQL);
              ResultSet resultSet = statement.executeQuery()) {
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 CustomerOrder customerOrder = readCustomerOrder(resultSet);
                 result.add(customerOrder);
             }

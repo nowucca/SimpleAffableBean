@@ -30,7 +30,7 @@ public class ShoppingCartWidgetViewModel extends HeaderWidgetViewModel {
 
     @Override
     public boolean getIsVisible() {
-        return  (getHasCart() && getNumberOfItems() != 0 && !("/cart".equals(this.request.getServletPath())));
+        return getHasCart() && getNumberOfItems() != 0 && !("/cart".equals(this.request.getServletPath()));
     }
 
 

@@ -25,7 +25,7 @@ public class CheckoutWidgetViewModel extends HeaderWidgetViewModel {
     public boolean getIsVisible() {
         final boolean haveSomethingInYourCart = getHasCart() && getNumberOfItems() != 0;
         final boolean goingToCheckoutPath = "/checkout".equals(request.getServletPath());
-        return (haveSomethingInYourCart && !goingToCheckoutPath && !hasCheckoutErrors());
+        return haveSomethingInYourCart && !goingToCheckoutPath && !hasCheckoutErrors();
     }
 
     public int getNumberOfItems() {
