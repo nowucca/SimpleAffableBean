@@ -42,8 +42,6 @@ public class Customer  {
 
     private String ccNumber;
 
-    private List<CustomerOrder> customerOrders;
-
     public Customer(long customerId, String name, String email, String phone, String address, String cityRegion, String ccNumber) {
         this.customerId = customerId;
         this.name = name;
@@ -76,18 +74,6 @@ public class Customer  {
 
     public String getCityRegion() {
         return cityRegion;
-    }
-
-    public String getCcNumber() {
-        return ccNumber;
-    }
-
-    public List<CustomerOrder> getCustomerOrders() {
-        return customerOrders;
-    }
-
-    public void setCustomerOrders(List<CustomerOrder> customerOrders) {
-        this.customerOrders = customerOrders;
     }
 
     @Override

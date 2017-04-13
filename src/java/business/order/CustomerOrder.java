@@ -70,7 +70,7 @@ public class CustomerOrder {
         return customerOrderLineItems;
     }
 
-    public void setCustomerOrderLineItems(List<CustomerOrderLineItem> customerOrderLineItems) {
+    void setCustomerOrderLineItems(List<CustomerOrderLineItem> customerOrderLineItems) {
         this.customerOrderLineItems = customerOrderLineItems;
     }
 
