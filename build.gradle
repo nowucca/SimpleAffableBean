@@ -1,0 +1,125 @@
+/*
+ * This build file was developed using the following reference materials:
+ * https://docs.gradle.org/current/userguide/war_plugin.html
+ * https://docs.gradle.org/current/dsl/org.gradle.api.Task.html
+ * https://docs.gradle.org/3.4.1/dsl/org.gradle.api.tasks.bundling.War.html
+ * http://stackoverflow.com/questions/6683375/how-do-i-add-a-properties-file-into-my-war-using-gradle
+ *
+ * For running tests:
+ * https://github.com/junit-team/junit5-samples/tree/master/junit5-gradle-consumer
+ */
+
+/*
+ * Required for junit 5.
+ */
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'org.junit.platform:junit-platform-gradle-plugin:1.0.0-M4'
+    }
+}
+
+
+apply plugin: 'java'
+apply plugin: 'war'
+apply plugin: 'org.junit.platform.gradle.plugin'
+
+
+/*
+ * Tell the war plugin that for this project web content is simply in web rather than src/main/webapp (standard).
+ */
+project.webAppDirName = 'web'
+
+
+compileJava {
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
+}
+
+compileTestJava {
+    /*
+     * For JUnit5: This stores formal parameter names of constructors and methods in the generated class file so that the method
+     * java.lang.reflect.Executable.getParameters from the Reflection API can retrieve them.
+     */
+    options.compilerArgs += '-parameters'
+}
+
+repositories {
+    mavenCentral()
+}
+
+/*
+ * SimpleAffableBean files are organized a little differently from standard expectations for war tasks.
+ * We are using 'web', 'src/java', 'test/java' instead of 'src/main/webapp', 'src/main/java' and 'src/test/java'.
+ * We are treating the src/java/resources folder as a resources folder so it gets placed into
+ * the war correctly in WEB-INF/classes/resources/messages*.properties.
+ * The notion of source sets neatly allows us to capture how.
+ */
+ sourceSets {
+    main {
+        java {
+            srcDirs = ['src/java']
+        }
+        resources {
+            srcDirs = ['src/conf']
+        }
+    }
+
+    test {
+        java {
+            srcDirs  = ['test/java']
+        }
+    }
+}
+
+dependencies {
+    compile group: 'javax.servlet', name: 'jstl', version: '1.2'
+
+    providedCompile  group: 'org.apache.tomcat', name: 'tomcat-servlet-api', version: '8.5.9'
+
+    compile group: 'org.apache.taglibs', name: 'taglibs-standard-compat', version: '1.2.5'
+    compile group: 'org.apache.taglibs', name: 'taglibs-standard-spec', version: '1.2.5'
+    compile group: 'org.apache.taglibs', name: 'taglibs-standard-jstlel', version: '1.2.5'
+    compile group: 'org.apache.taglibs', name: 'taglibs-standard-impl', version: '1.2.5'
+   	compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.40'
+
+    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.0.0-M4'
+    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.0.0-M4'
+    testCompile group: 'org.junit.platform', name: 'junit-platform-gradle-plugin', version: '1.0.0-M4'
+    testCompile group: 'org.junit.platform', name: 'junit-platform-runner', version: '1.0.0-M4'
+    testCompile group: 'org.junit.platform', name: 'junit-platform-launcher', version: '1.0.0-M4'
+    testCompile group: 'org.junit.platform', name: 'junit-platform-console', version: '1.0.0-M4'
+    testCompile group: 'org.junit.platform', name: 'junit-platform-commons', version: '1.0.0-M4'
+    testCompile group: 'org.opentest4j', name: 'opentest4j', version: '1.0.0-M2'
+
+    compile group: 'org.apache.tomcat', name: 'tomcat-catalina', version: '8.5.9'
+    compile group: 'org.apache.tomcat', name: 'tomcat-juli', version: '8.5.9'
+
+}
+
+war {
+    metaInf { from 'src/conf/context.xml' } // adds a file-set to the META-INF of the archive
+    from('src/java/resources') {
+        include '*.properties'
+        into ('WEB-INF/classes/resources')
+    }
+}
+
+junitPlatform {
+    // platformVersion '1.0.0-M4'
+    filters {
+        engines {
+            // include 'junit-jupiter', 'junit-vintage'
+            // exclude 'custom-engine'
+        }
+        tags {
+            // include 'fast'
+            exclude 'slow'
+        }
+         includeClassNamePattern '.*Test'
+    }
+     enableStandardTestTask true
+    // reportsDir file('build/test-results/junit-platform') // this is the default
+}
