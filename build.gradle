@@ -105,6 +105,10 @@ war {
         include '*.properties'
         into ('WEB-INF/classes/resources')
     }
+    from('src/java') {
+        include '**/*.java'
+        into ('WEB-INF/classes')
+    }
 }
 
 junitPlatform {
