@@ -141,13 +141,6 @@ public class BaseViewModel {
         return ApplicationContext.INSTANCE.getProductService();
     }
 
-    protected String getSessionAttributeOrRequestParameter(String name) {
-        String v = String.class.cast(session.getAttribute(name));
-        if (v == null) {
-            v = request.getParameter(name);
-        }
-        return v;
-    }
 
     // Also a good place to put elements onto a page that are generally useful
     // (e.g. XSRF tokens for cross-site scripting prevention)
