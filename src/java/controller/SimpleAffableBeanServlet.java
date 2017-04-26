@@ -68,7 +68,7 @@ public class SimpleAffableBeanServlet extends HttpServlet {
 
     protected void doForwardToJSP(HttpServletRequest request, HttpServletResponse response, String userPath) {
         // use RequestDispatcher to forward request internally
-        String url = "/WEB-INF/view" + userPath + ".jsp";
+        String url = "/WEB-INF/jsp" + userPath + ".jsp";
 
         try {
             request.getRequestDispatcher(url).forward(request, response);

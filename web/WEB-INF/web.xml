@@ -89,8 +89,8 @@
 
     <jsp-config>
         <jsp-property-group>
-            <description>JSP configuration for testingt</description>
-            <url-pattern>/test.jsp</url-pattern>
+            <description>JSP configuration for testing</description>
+            <url-pattern>/test/*</url-pattern>
         </jsp-property-group>
 
         <jsp-property-group>
@@ -100,7 +100,7 @@
 
         <jsp-property-group>
             <description>JSP configuration for the store front</description>
-            <url-pattern>/WEB-INF/view/*</url-pattern>
+            <url-pattern>/WEB-INF/jsp/*</url-pattern>
             <url-pattern>/WEB-INF/jspf/error/*</url-pattern>
             <include-prelude>/WEB-INF/jspf/header.jspf</include-prelude>
             <include-coda>/WEB-INF/jspf/footer.jspf</include-coda>

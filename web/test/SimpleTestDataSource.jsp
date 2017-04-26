@@ -14,10 +14,13 @@
 
 <h2>Results</h2>
 
-<c:forEach var="row" items="${rs.rows}">
-  Foo ${row.category_id}<br/>
-  Bar ${row.name}<br/>
-</c:forEach>
+<table border="1">
+  <c:forEach var="row" items="${rs.rows}">
+    <tr><td>${row.category_id}</td><td>${row.name}</td></tr>
+    <tr></tr>
+  </c:forEach>
+
+</table>
 
 </body>
 </html>
