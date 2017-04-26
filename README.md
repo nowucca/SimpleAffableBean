@@ -44,6 +44,41 @@ As progress is made, I'll be tweaking the implementation here and perhaps strate
 - Implement an AJAX call for andToCart and/or updateCart (including updating header).
 - Implement client and server-side double-ordering protections
 
+
+## Internal Development Notes
+Steven Atkinson
+28 January, 2017
+
+Notes about Design Decisions for JDBC layer
+
+Use longs for ids in entity classes per:
+https://dev.mysql.com/doc/connector-j/5.1/en/connector-j-reference-type-conversions.html
+
+Stop using serializable for entity models
+
+Have a DAO layer
+
+Hide SQL exceptions in a DAO layer
+
+JNDI and tomcat
+https://tomcat.apache.org/tomcat-8.5-doc/jndi-resources-howto.html
+
+load the driver
+http://stackoverflow.com/questions/5556664/how-to-fix-no-suitable-driver-found-for-jdbcmysql-localhost-dbname-error-w/19259608#19259608
+
+Enabling SSL in Tomcat: https://tomcat.apache.org/tomcat-8.5-doc/ssl-howto.html
+
+Split servlets into one per page
+
+Servlets have hierarchy
+
+Use a single url per resource operated upon (/cart, /checkout)
+
+Homepage servlet exists so that everything is controlled through a servlet except static resources to prepare for MVVM
+
+Feature: Post/Redirect/Get http://www.theserverside.com/news/1365146/Redirect-After-Post
+
+
 # Current Tutorial Guide
 
 
