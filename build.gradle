@@ -28,14 +28,16 @@ apply plugin: 'org.junit.platform.gradle.plugin'
 
 
 /*
- * Tell the war plugin that for this project web content is simply in web rather than src/main/webapp (standard).
+ * Tell the war plugin that for this project web content is simply in web
+ * rather than src/main/webapp (standard).
  */
 project.webAppDirName = 'web'
 
-
-compileJava {
-    sourceCompatibility = '1.8'
-    targetCompatibility = '1.8'
+allprojects {
+    compileJava {
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
+    }
 }
 
 compileTestJava {
@@ -74,33 +76,47 @@ repositories {
     }
 }
 
+/*
+ * Let's list out all our dependencies.  They will be downloaded for us and managed
+ * by Gradle.
+ */
 dependencies {
-    compile group: 'javax.servlet', name: 'jstl', version: '1.2'
 
-    providedCompile  group: 'org.apache.tomcat', name: 'tomcat-servlet-api', version: '8.5.9'
+    // Declare version for tomcat and junit5 that are used for multipe libraries.
+    ext.tomcatVersion = '8.5.9'
+    ext.junit5Version = '5.0.0-M4'
+    ext.junitPlatformVersion = '1.0.0-M4'
 
+    // These declare dependencies on tomcat libraries, letting us use container code.
+    providedCompile  group: 'org.apache.tomcat', name: 'tomcat-servlet-api', version: "$tomcatVersion"
+    compile group: 'org.apache.tomcat', name: 'tomcat-catalina', version: "$tomcatVersion"
+    compile group: 'org.apache.tomcat', name: 'tomcat-juli', version: "$tomcatVersion"
+
+    // These let us use the standard tag libraries in our JSP files.
+    compile group: 'javax.servlet',      name: 'jstl',                    version: '1.2'
     compile group: 'org.apache.taglibs', name: 'taglibs-standard-compat', version: '1.2.5'
     compile group: 'org.apache.taglibs', name: 'taglibs-standard-spec', version: '1.2.5'
     compile group: 'org.apache.taglibs', name: 'taglibs-standard-jstlel', version: '1.2.5'
     compile group: 'org.apache.taglibs', name: 'taglibs-standard-impl', version: '1.2.5'
    	compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.40'
 
-    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.0.0-M4'
-    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.0.0-M4'
-    testCompile group: 'org.junit.platform', name: 'junit-platform-gradle-plugin', version: '1.0.0-M4'
-    testCompile group: 'org.junit.platform', name: 'junit-platform-runner', version: '1.0.0-M4'
-    testCompile group: 'org.junit.platform', name: 'junit-platform-launcher', version: '1.0.0-M4'
-    testCompile group: 'org.junit.platform', name: 'junit-platform-console', version: '1.0.0-M4'
-    testCompile group: 'org.junit.platform', name: 'junit-platform-commons', version: '1.0.0-M4'
+    // These are needed for running junit5 tests
+    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: "$junit5Version"
+    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: "$junit5Version"
+    testCompile group: 'org.junit.platform', name: 'junit-platform-gradle-plugin', version: "$junitPlatformVersion"
+    testCompile group: 'org.junit.platform', name: 'junit-platform-runner', version: "$junitPlatformVersion"
+    testCompile group: 'org.junit.platform', name: 'junit-platform-launcher', version: "$junitPlatformVersion"
+    testCompile group: 'org.junit.platform', name: 'junit-platform-console', version: "$junitPlatformVersion"
+    testCompile group: 'org.junit.platform', name: 'junit-platform-commons', version: "$junitPlatformVersion"
     testCompile group: 'org.opentest4j', name: 'opentest4j', version: '1.0.0-M2'
-
-    compile group: 'org.apache.tomcat', name: 'tomcat-catalina', version: '8.5.9'
-    compile group: 'org.apache.tomcat', name: 'tomcat-juli', version: '8.5.9'
-
 }
 
+/*
+ * Build the war, with two extra concerns:
+ * - copy the messages files into WEB-INF/classes/resources for language support
+ * - include the Java source code in the WAR artifact
+ */
 war {
-    metaInf { from 'src/conf/context.xml' } // adds a file-set to the META-INF of the archive
     from('src/java/resources') {
         include '*.properties'
         into ('WEB-INF/classes/resources')
@@ -111,6 +127,9 @@ war {
     }
 }
 
+/*
+ * junit5 will work for all test classes ending in 'Test'.
+ */
 junitPlatform {
     // platformVersion '1.0.0-M4'
     filters {
