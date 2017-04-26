@@ -65,13 +65,16 @@ repositories {
             srcDirs = ['src/java']
         }
         resources {
-            srcDirs = ['src/conf']
+            srcDirs = ['src/java/resources']
         }
     }
 
     test {
         java {
             srcDirs  = ['test/java']
+        }
+        resources {
+            srcDirs = ['test/resources']
         }
     }
 }
