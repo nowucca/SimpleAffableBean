@@ -12,7 +12,6 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@taglib prefix="sab"  tagdir="/WEB-INF/tags" %>
 
 <%--<jsp:useBean id="p" type="viewmodel.BaseViewModel"/>--%>
 
@@ -37,8 +36,6 @@
 
                     <%-- language selection widget --%>
                     <%@include file="/WEB-INF/jspf/header/languageSelection.jspf" %>
-
-                    <%--<sab:languageSelection page="${p}"/>--%>
 
                     <%-- checkout widget --%>
                     <%@include file="/WEB-INF/jspf/header/checkout.jspf" %>

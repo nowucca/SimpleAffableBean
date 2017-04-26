@@ -22,7 +22,6 @@ public class IntegrationTestPlatform {
             System.setProperty(Context.URL_PKG_PREFIXES, "org.apache.naming");
             InitialContext ic = new InitialContext();
 
-            ic.createSubcontext("java:");
             ic.createSubcontext("java:comp");
             Context compEnvCtx = ic.createSubcontext("java:comp/env");
             ic.createSubcontext("java:comp/env/jdbc");

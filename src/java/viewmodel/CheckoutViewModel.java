@@ -33,13 +33,12 @@ public class CheckoutViewModel extends BaseViewModel {
         this.hasOrderFailureFlag = (Boolean) session.getAttribute("orderFailureFlag");
         this.validationException = (ValidationException) session.getAttribute("validationException");
 
-
-        this.name = getSessionAttributeOrRequestParameter("name");
-        this.email = getSessionAttributeOrRequestParameter("email");
-        this.phone = getSessionAttributeOrRequestParameter("phone");
-        this.address = getSessionAttributeOrRequestParameter("address");
-        this.cityRegion = getSessionAttributeOrRequestParameter("cityRegion");
-        this.creditcard = getSessionAttributeOrRequestParameter("creditcard");
+        this.name = getSessionAttribute("name");
+        this.email = getSessionAttribute("email");
+        this.phone = getSessionAttribute("phone");
+        this.address = getSessionAttribute("address");
+        this.cityRegion = getSessionAttribute("cityRegion");
+        this.creditcard = getSessionAttribute("creditcard");
 
         boolean testProductivity = "true".equals(System.getProperty("test.productivity"));
         if (testProductivity) {
@@ -170,4 +169,9 @@ public class CheckoutViewModel extends BaseViewModel {
         return this.validationException.hasInvalidField("ccNumber");
     }
 
+
+    protected String getSessionAttribute(String name) {
+        String v = String.class.cast(session.getAttribute(name));
+        return v;
+    }
 }

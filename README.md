@@ -31,9 +31,9 @@ As progress is made, I'll be tweaking the implementation here and perhaps strate
 - Validation has been moved into the business layer and uses an exception
 - All model objects are immutable once constructed
 - Cache control headers are page-specific to tell browsers to avoid caching customer-specific pages.
+- A basic local WAR build using gradle
 
 ## Future Implementation Possibilities
-- A basic local build using gradle or maven
 - Checkstyle file with rules
 - Logging for service classes to make them useful and justifiable
 - Visualize the session using an /admin/session view to see attributes stored

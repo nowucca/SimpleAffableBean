@@ -1,0 +1,151 @@
+/*
+ * This build file was developed using the following reference materials:
+ * https://docs.gradle.org/current/userguide/war_plugin.html
+ * https://docs.gradle.org/current/dsl/org.gradle.api.Task.html
+ * https://docs.gradle.org/3.4.1/dsl/org.gradle.api.tasks.bundling.War.html
+ * http://stackoverflow.com/questions/6683375/how-do-i-add-a-properties-file-into-my-war-using-gradle
+ *
+ * For running tests:
+ * https://github.com/junit-team/junit5-samples/tree/master/junit5-gradle-consumer
+ */
+
+/*
+ * Required for junit 5.
+ */
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'org.junit.platform:junit-platform-gradle-plugin:1.0.0-M4'
+    }
+}
+
+
+apply plugin: 'java'
+apply plugin: 'war'
+apply plugin: 'org.junit.platform.gradle.plugin'
+
+
+/*
+ * Tell the war plugin that for this project web content is simply in web
+ * rather than src/main/webapp (standard).
+ */
+project.webAppDirName = 'web'
+
+allprojects {
+    compileJava {
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
+    }
+}
+
+compileTestJava {
+    /*
+     * For JUnit5: This stores formal parameter names of constructors and methods in the generated class file so that the method
+     * java.lang.reflect.Executable.getParameters from the Reflection API can retrieve them.
+     */
+    options.compilerArgs += '-parameters'
+}
+
+repositories {
+    mavenCentral()
+}
+
+/*
+ * SimpleAffableBean files are organized a little differently from standard expectations for war tasks.
+ * We are using 'web', 'src/java', 'test/java' instead of 'src/main/webapp', 'src/main/java' and 'src/test/java'.
+ * We are treating the src/java/resources folder as a resources folder so it gets placed into
+ * the war correctly in WEB-INF/classes/resources/messages*.properties.
+ * The notion of source sets neatly allows us to capture how.
+ */
+ sourceSets {
+    main {
+        java {
+            srcDirs = ['src/java']
+        }
+        resources {
+            srcDirs = ['src/java/resources']
+        }
+    }
+
+    test {
+        java {
+            srcDirs  = ['test/java']
+        }
+        resources {
+            srcDirs = ['test/resources']
+        }
+    }
+}
+
+/*
+ * Let's list out all our dependencies.  They will be downloaded for us and managed
+ * by Gradle.
+ */
+dependencies {
+
+    // Declare version for tomcat and junit5 that are used for multipe libraries.
+    ext.tomcatVersion = '8.5.9'
+    ext.junit5Version = '5.0.0-M4'
+    ext.junitPlatformVersion = '1.0.0-M4'
+
+    // These declare dependencies on tomcat libraries, letting us use container code.
+    providedCompile  group: 'org.apache.tomcat', name: 'tomcat-servlet-api', version: "$tomcatVersion"
+    compile group: 'org.apache.tomcat', name: 'tomcat-catalina', version: "$tomcatVersion"
+    compile group: 'org.apache.tomcat', name: 'tomcat-juli', version: "$tomcatVersion"
+
+    // These let us use the standard tag libraries in our JSP files.
+    compile group: 'javax.servlet',      name: 'jstl',                    version: '1.2'
+    compile group: 'org.apache.taglibs', name: 'taglibs-standard-compat', version: '1.2.5'
+    compile group: 'org.apache.taglibs', name: 'taglibs-standard-spec', version: '1.2.5'
+    compile group: 'org.apache.taglibs', name: 'taglibs-standard-jstlel', version: '1.2.5'
+    compile group: 'org.apache.taglibs', name: 'taglibs-standard-impl', version: '1.2.5'
+   	compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.40'
+
+    // These are needed for running junit5 tests
+    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: "$junit5Version"
+    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: "$junit5Version"
+    testCompile group: 'org.junit.platform', name: 'junit-platform-gradle-plugin', version: "$junitPlatformVersion"
+    testCompile group: 'org.junit.platform', name: 'junit-platform-runner', version: "$junitPlatformVersion"
+    testCompile group: 'org.junit.platform', name: 'junit-platform-launcher', version: "$junitPlatformVersion"
+    testCompile group: 'org.junit.platform', name: 'junit-platform-console', version: "$junitPlatformVersion"
+    testCompile group: 'org.junit.platform', name: 'junit-platform-commons', version: "$junitPlatformVersion"
+    testCompile group: 'org.opentest4j', name: 'opentest4j', version: '1.0.0-M2'
+}
+
+/*
+ * Build the war, with two extra concerns:
+ * - copy the messages files into WEB-INF/classes/resources for language support
+ * - include the Java source code in the WAR artifact
+ */
+war {
+    from('src/java/resources') {
+        include '*.properties'
+        into ('WEB-INF/classes/resources')
+    }
+    from('src/java') {
+        include '**/*.java'
+        into ('WEB-INF/classes')
+    }
+}
+
+/*
+ * junit5 will work for all test classes ending in 'Test'.
+ */
+junitPlatform {
+    // platformVersion '1.0.0-M4'
+    filters {
+        engines {
+            // include 'junit-jupiter', 'junit-vintage'
+            // exclude 'custom-engine'
+        }
+        tags {
+            // include 'fast'
+            exclude 'slow'
+        }
+         includeClassNamePattern '.*Test'
+    }
+     enableStandardTestTask true
+    // reportsDir file('build/test-results/junit-platform') // this is the default
+}
