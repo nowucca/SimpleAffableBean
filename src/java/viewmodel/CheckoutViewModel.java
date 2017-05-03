@@ -45,13 +45,13 @@ public class CheckoutViewModel extends BaseViewModel {
 
             String random = String.valueOf(System.currentTimeMillis());
             if (name == null || name.isEmpty()) {
-                name = "Steve_" + random;
+                name = "FirstName_" + random;
             }
             if (email == null || email.isEmpty()) {
-                email = "steven" + random + "@atkinson.net";
+                email = "FirstName" + random + "@example.net";
             }
             if (phone == null || phone.isEmpty()) {
-                phone = "4088675309";
+                phone = "7075551212";
             }
             if (address == null || address.isEmpty()) {
                 address = "123" + random + " Main St";
