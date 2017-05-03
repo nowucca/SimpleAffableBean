@@ -75,26 +75,27 @@ class ScriptRunner {
         File logFile = new File("db/create_db.log");
         File errorLogFile = new File("db/create_db_error.log");
         try {
-            if (logFile.exists()) {
-                logWriter = new PrintWriter(new FileWriter(logFile, true));
-            } else {
-                logWriter = new PrintWriter(new FileWriter(logFile, false));
-            }
+            this.logWriter = initLogWriter(logFile);
         } catch (IOException e) {
             System.err.println("Unable to access or create the db_create log");
         }
+
         try {
-            if (logFile.exists()) {
-                errorLogWriter = new PrintWriter(new FileWriter(errorLogFile, true));
-            } else {
-                errorLogWriter = new PrintWriter(new FileWriter(errorLogFile, false));
-            }
+            this.errorLogWriter = initLogWriter(errorLogFile);
         } catch (IOException e) {
             System.err.println("Unable to access or create the  db_create error log");
         }
         String timeStamp = new SimpleDateFormat("DD/MM/yyyy HH:mm:ss").format(new java.util.Date());
         println("\n-------\n" + timeStamp + "\n-------\n");
         printlnError("\n-------\n" + timeStamp + "\n-------\n");
+    }
+
+    private PrintWriter initLogWriter(File logFile) throws IOException {
+            if (logFile.exists()) {
+                return new PrintWriter(new FileWriter(logFile, true));
+            } else {
+                return new PrintWriter(new FileWriter(logFile, false));
+            }
     }
 
     public void setDelimiter(String delimiter, boolean fullLineDelimiter) {
