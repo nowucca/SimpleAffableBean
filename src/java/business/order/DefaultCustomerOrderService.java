@@ -14,6 +14,9 @@ import java.util.List;
 import java.util.Random;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 /**
  */
@@ -25,11 +28,25 @@ public class DefaultCustomerOrderService implements CustomerOrderService {
     private ProductDao productDao;
     private Random random = new Random();
 
+
+    private static final Logger logger =
+        LoggerFactory.getLogger(DefaultCustomerOrderService.class);
+
     @Override
     public long placeOrder(String name, String email, String phone,
                            String address, String cityRegion, String ccNumber,
                            ShoppingCart cart) throws ValidationException {
 
+        try {
+            return performPlaceOrder(name, email, phone, address, cityRegion, ccNumber, cart);
+        } catch (Exception e) {
+            logger.error("Trouble placing an order.", e);
+            throw e;
+        }
+
+    }
+
+    private long performPlaceOrder(String name, String email, String phone, String address, String cityRegion, String ccNumber, ShoppingCart cart) throws ValidationException {
         validateForm(name, email, phone, address, cityRegion, ccNumber);
 
         try (Connection connection = JdbcUtils.getConnection()) {
@@ -37,12 +54,10 @@ public class DefaultCustomerOrderService implements CustomerOrderService {
         } catch (SQLException e) {
             throw new SimpleAffableDbException("Error during close connection for customer order", e);
         }
-
     }
 
-    private long performPlaceOrderTransaction(String name, String email,
-                                              String phone, String address, String cityRegion,
-                                              String ccNumber, ShoppingCart cart, Connection connection) {
+    private long performPlaceOrderTransaction(String name, String email, String phone, String address, String cityRegion,
+                                              String ccNumber, ShoppingCart cart, Connection connection) throws SQLException {
         try {
             connection.setAutoCommit(false);
 
@@ -62,7 +77,7 @@ public class DefaultCustomerOrderService implements CustomerOrderService {
             } catch (SQLException e1) {
                 throw new SimpleAffableDbException("Failed to roll back transaction", e1);
             }
-            return 0;
+            throw e;
         }
     }
 
@@ -72,15 +87,17 @@ public class DefaultCustomerOrderService implements CustomerOrderService {
     @Override
     public CustomerOrderDetails getOrderDetails(long customerOrderId) {
 
-        CustomerOrder order = customerOrderDao.findByCustomerOrderId(customerOrderId);
-        Customer customer = customerDao.findByCustomerId(order.getCustomerId());
-        List<CustomerOrderLineItem> lineItems = customerOrderLineItemDao.findByCustomerOrderId(customerOrderId);
-        List<Product> products = lineItems.stream()
-            .map(LINE_ITEM_TO_PRODUCT)
-            .collect(Collectors.toList());
+        try {
+            CustomerOrder order = customerOrderDao.findByCustomerOrderId(customerOrderId);
+            Customer customer = customerDao.findByCustomerId(order.getCustomerId());
+            List<CustomerOrderLineItem> lineItems = customerOrderLineItemDao.findByCustomerOrderId(customerOrderId);
+            List<Product> products = lineItems.stream().map(LINE_ITEM_TO_PRODUCT).collect(Collectors.toList());
 
-        return new CustomerOrderDetails(order, customer, products, lineItems);
-
+            return new CustomerOrderDetails(order, customer, products, lineItems);
+        } catch (Exception e) {
+            logger.error("Trouble getting order details.", e);
+            throw e;
+        }
     }
 
     @Override

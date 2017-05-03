@@ -106,49 +106,48 @@ public class CheckoutServlet extends SimpleAffableBeanServlet {
 
             // otherwise, save order to database
             try {
-
                 long orderId = customerOrderService.placeOrder(name, email, phone,
                     address, cityRegion, creditcard, cart);
 
                 // if order processed successfully send user to confirmation page
-                if (orderId != 0) {
 
-                    // in case language was set using toggle, get language choice before destroying session
-                    Locale locale = (Locale) session.getAttribute("javax.servlet.jsp.jstl.fmt.locale.session");
+                // in case language was set using toggle, get language choice before destroying session
+                Locale locale = (Locale) session.getAttribute("javax.servlet.jsp.jstl.fmt.locale.session");
 
-                    // dissociate shopping cart from session
-                    cart = null;
+                // dissociate shopping cart from session
+                cart = null;
 
-                    // clear session
-                    forgetSession(session);
+                // clear session
+                forgetSession(session);
 
-                    if (locale != null) {                       // if user changed language using the toggle,
-                        // reset the language attribute - otherwise
-                        Config.set(session, Config.FMT_LOCALE, locale);
-                        response.setLocale(locale);
-                    }
-
-                    // place order id in the fresh session scope
-                    session.setAttribute("customerOrderId", orderId);
-
-                    userPath = "/confirmation";
-
-                } else {
-                    // send back to checkout page and display error
-
-                    // remember that we have an error
-                    session.setAttribute("orderFailureFlag", true);
-
-                    //remember the form inputs for redisplay except for credit card
-                    rememberSession(session, name, email, phone, address, cityRegion);
-                    userPath = "/checkout";
+                if (locale != null) {
+                    // if user changed language using the toggle,
+                    // reset the language attribute
+                    Config.set(session, Config.FMT_LOCALE, locale);
+                    response.setLocale(locale);
                 }
+
+                // place order id in the fresh session scope
+                session.setAttribute("customerOrderId", orderId);
+
+                userPath = "/confirmation";
+
+
             } catch (ValidationException e) {
-                // send back to checkout page and display error
+                // send back to checkout page and display validation error
 
                 // remember which fields were in error and that we have an error
                 session.setAttribute("validationException", e);
                 session.setAttribute("validationErrorFlag", true);
+                //remember the form inputs for redisplay except for credit card
+                rememberSession(session, name, email, phone, address, cityRegion);
+                userPath = "/checkout";
+            } catch (Exception e) {
+                // send back to checkout page and display general error
+
+                // remember that we have an error
+                session.setAttribute("orderFailureFlag", true);
+
                 //remember the form inputs for redisplay except for credit card
                 rememberSession(session, name, email, phone, address, cityRegion);
                 userPath = "/checkout";
