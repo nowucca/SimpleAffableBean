@@ -16,25 +16,6 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
 
 
-<!--The @WebServlet annotation is used in the SimpleAffableBeanServlet instead of
-    the <servlet> and <servlet-mapping> entries below-->
-<!--<servlet>
-        <servlet-name>Controller</servlet-name>
-        <servlet-class>controller.SimpleAffableBeanServletServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>Controller</servlet-name>
-        <url-pattern>/category</url-pattern>
-        <url-pattern>/addToCart</url-pattern>
-        <url-pattern>/viewCart</url-pattern>
-        <url-pattern>/updateCart</url-pattern>
-        <url-pattern>/checkout</url-pattern>
-        <url-pattern>/purchase</url-pattern>
-        <url-pattern>/chooseLanguage</url-pattern>
-    </servlet-mapping>-->
-
     <context-param>
         <description>The relative path to product images</description>
         <param-name>productImagePath</param-name>
@@ -64,21 +45,7 @@
         </session-timeout>
     </session-config>
 
-<!--Not required for Servlet 3.0 - index.jsp is default-->
-<!--<welcome-file-list>
-        <welcome-file>index.jsp</welcome-file>
-    </welcome-file-list>-->
-
-<!--This is only needed for testing the datasource (TestDataSource.jsp)-->
-<!--<resource-ref>
-        <description>jdbc:mysql://localhost:3306/affablebean</description>
-        <res-ref-name>jdbc/affablebean</res-ref-name>
-        <res-type>javax.sql.DataSource</res-type>
-        <res-auth>Container</res-auth>
-        <res-sharing-scope>Shareable</res-sharing-scope>
-    </resource-ref>-->
-
-
+    <!--This is only needed for testing the datasource (TestDataSource.jsp)-->
     <resource-ref>
         <description>jdbc:mysql://localhost:3306/simpleaffablebean</description>
         <res-ref-name>jdbc/simpleaffablebean</res-ref-name>
@@ -116,19 +83,9 @@
         </jsp-property-group>
     </jsp-config>
 
+    <!-- Define a global error handler -->
     <error-page>
-        <error-code>403</error-code>
-        <location>/WEB-INF/jspf/error/403.jspf</location>
-    </error-page>
-
-    <error-page>
-        <error-code>404</error-code>
-        <location>/WEB-INF/jspf/error/404.jspf</location>
-    </error-page>
-
-    <error-page>
-        <error-code>500</error-code>
-        <location>/WEB-INF/jspf/error/500.jspf</location>
+        <location>/Error</location>
     </error-page>
 
     <login-config>
@@ -153,26 +110,7 @@
         </user-data-constraint>
     </security-constraint>
 
-<!--Annotations in the AdminServlet (@ServletSecurity and @HttpConstraint) are
-    used instead of the <security-constraint> entry below-->
-<!--<security-constraint>
-        <display-name>Admin</display-name>
-        <web-resource-collection>
-            <web-resource-name>Affable Bean Administration</web-resource-name>
-            <url-pattern>/admin/*</url-pattern>
-        </web-resource-collection>
-        <auth-constraint>
-            <role-name>simpleAffableBeanAdmin</role-name>
-        </auth-constraint>
-        <user-data-constraint>
-            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
-        </user-data-constraint>
-    </security-constraint>-->
 
-<!--The <security-role> entry is not required if role is declared using @HttpConstraint annotation-->
-<!--<security-role>
-        <description>access to administration console</description>
-        <role-name>simpleAffableBeanAdmin</role-name>
-    </security-role>-->
+
 
 </web-app>
