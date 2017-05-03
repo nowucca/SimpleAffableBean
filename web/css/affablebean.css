@@ -249,7 +249,7 @@ label.error {
 
 #categoryTitle {
     margin-top: -40px;
-    right: 385px;
+    margin-left: 25px;
     font-size: x-large;
     position: absolute;
     background-color: #f5eabe;
