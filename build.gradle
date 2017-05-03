@@ -89,6 +89,15 @@ dependencies {
     ext.tomcatVersion = '8.5.9'
     ext.junit5Version = '5.0.0-M4'
     ext.junitPlatformVersion = '1.0.0-M4'
+    ext.slf4jVersion = '1.7.25'
+
+    // Using sfl4j allows us to replace different loggers later, if desired
+    compile group: 'org.slf4j', name:'slf4j-api', version: "$slf4jVersion"
+
+    // slf4j is just a facade for loggers. To actually get logging to work, you need to
+    // tie it in with some actual implementation, e.g., log4j2, logback or slf4j-simple
+    compile group: 'org.slf4j', name:'slf4j-simple', version: "$slf4jVersion"
+
 
     // These declare dependencies on tomcat libraries, letting us use container code.
     providedCompile  group: 'org.apache.tomcat', name: 'tomcat-servlet-api', version: "$tomcatVersion"
