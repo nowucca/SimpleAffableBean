@@ -1,8 +1,11 @@
 # SimpleAffableBean
-A rewrite of the Affable Bean EJB web app, moving away from EJB and using a simpler technology stack.
+This project is a rewrite of the Affable Bean EJB web app, moving away from EJB and using a simpler technology stack.
 
-This software is an adaptation from the Affable Bean project, released under the 2-clause Berkeley licence by Sun and then Oracle.
-Please see the LICENCE file for compliance and licensing concerns.
+This software is an adaptation from the Affable Bean project.  
+That project was released under the 2-clause Berkeley licence by Sun and then Oracle.
+Please see the LICENCE.affablebean.txt file for compliance and licensing concerns for the original project.
+
+This project is being released under the "new" BSD 3-clause license.
 
 The starting point for this project is the complete Affable beans project at: https://netbeans.org/projects/samples/downloads/download/Samples/JavaEE/ecommerce/AffableBean_complete.zip
 
@@ -17,7 +20,7 @@ To achieve this, we will be writing our own DataSource wrapper, writing a separa
 
 As progress is made, I'll be tweaking the implementation here and perhaps strategies as I learn limitations along the way.
 
-## Changes to Implementation
+## Changes to the Original AffableBean Implementation
 - We forego the use of EJB database patterns for a DAO pattern using JDBC access to MySQL
 - All pages except the Admin pages use the MVVM model for presentation layer simplicity.
 - Servlets have been separated out for ease of readability and maintenance. 
@@ -32,76 +35,5 @@ As progress is made, I'll be tweaking the implementation here and perhaps strate
 - All model objects are immutable once constructed
 - Cache control headers are page-specific to tell browsers to avoid caching customer-specific pages.
 - A basic local WAR build using gradle
-
-## Future Implementation Possibilities
-- Checkstyle file with rules
-- Logging for service classes to make them useful and justifiable
-- Visualize the session using an /admin/session view to see attributes stored
-- Enforce session cleanliness by using a business level CustomerSession object embedded in the Http session.
-
-## Student Project Ideas from here
-- Re-architect the /admin pages to use MVVM patterns.
-- Implement an AJAX call for andToCart and/or updateCart (including updating header).
-- Implement client and server-side double-ordering protections
-
-
-## Internal Development Notes
-Steven Atkinson
-28 January, 2017
-
-Notes about Design Decisions for JDBC layer
-
-Use longs for ids in entity classes per:
-https://dev.mysql.com/doc/connector-j/5.1/en/connector-j-reference-type-conversions.html
-
-Stop using serializable for entity models
-
-Have a DAO layer
-
-Hide SQL exceptions in a DAO layer
-
-JNDI and tomcat
-https://tomcat.apache.org/tomcat-8.5-doc/jndi-resources-howto.html
-
-load the driver
-http://stackoverflow.com/questions/5556664/how-to-fix-no-suitable-driver-found-for-jdbcmysql-localhost-dbname-error-w/19259608#19259608
-
-Enabling SSL in Tomcat: https://tomcat.apache.org/tomcat-8.5-doc/ssl-howto.html
-
-Split servlets into one per page
-
-Servlets have hierarchy
-
-Use a single url per resource operated upon (/cart, /checkout)
-
-Homepage servlet exists so that everything is controlled through a servlet except static resources to prepare for MVVM
-
-Feature: Post/Redirect/Get http://www.theserverside.com/news/1365146/Redirect-After-Post
-
-
-# Current Tutorial Guide
-
-
-# Proposed Tutorial Guide
-
-This tutorial guide gives an introduction to the structure of a web application 
-and how to build a small site like SimpleAffableBean.
-
-## Site Requirements and Scope
-## Setting up the Development Environment
-## Visual Design
-### Design your homepage and checkout pages (using templates)
-## Database Design
-### Introduce the Layered Model for a web application (View, Controller, Business Logic)
-## Integrate View and Controller Layers: Homepage
-### Establish your JSP folders
-### Split out your header and footer as fragments
-### Utilize the ${p} MVVM pattern
-### Implement your first Controller and ViewModel for your Homepage
-## The Business Logic Layer
-### The Dao Pattern
-### The Service Pattern
-### Business Integration Testing
-### Implement CategoryDao methods given ProductDao methods
-### Pass unit tests for those
-
+- A central error servlet handling all error pages
+- Logging for service classes to allow for easier debugging
