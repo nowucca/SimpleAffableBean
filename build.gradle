@@ -1,3 +1,5 @@
+import com.hierynomus.gradle.license.tasks.LicenseFormat
+
 /*
  * This build file was developed using the following reference materials:
  * https://docs.gradle.org/current/userguide/war_plugin.html
@@ -21,6 +23,12 @@ buildscript {
     }
 }
 
+/*
+ * Required for license plugin.
+ */
+plugins {
+    id "com.github.hierynomus.license" version "0.14.0"
+}
 
 apply plugin: 'java'
 apply plugin: 'war'
@@ -155,6 +163,31 @@ junitPlatform {
         }
          includeClassNamePattern '.*Test'
     }
-     enableStandardTestTask true
+    enableStandardTestTask true
     // reportsDir file('build/test-results/junit-platform') // this is the default
+}
+
+license {
+    ext.year = Calendar.getInstance().get(Calendar.YEAR)
+    ext.name = 'Steven Atkinson'
+    ext.email = 'support@simpleaffablebean.com'
+    strictCheck true
+    mapping {
+        jspf = 'DYNASCRIPT_STYLE'
+    }
+}
+
+task licenseFormatDb(type: LicenseFormat) {
+    description 'Format licenses in sql files'
+    source = fileTree(dir: "db").include("**/*.sql")
+}
+task licenseFormatWeb(type: LicenseFormat) {
+    description 'Format web resource file licenses'
+    source = fileTree(dir: "web")
+        .exclude(["**/*.gif", "**/*.png", "**/*.ico", "**/*.jpg", "**/MANIFEST.MF",
+                   "**/jquery-*.js"])
+}
+
+licenseFormat {
+    dependsOn licenseFormatWeb, licenseFormatDb
 }
