@@ -1,35 +1,35 @@
 # ASCII-Font › http://patorjk.com/software/taag/#p=display&f=Slant&t=Phlow
 #
-#      _____ _ __          _____      __  __  _                 
+#      _____ _ __          _____      __  __  _
 #     / ___/(_) /____     / ___/___  / /_/ /_(_)___  ____ ______
 #     \__ \/ / __/ _ \    \__ \/ _ \/ __/ __/ / __ \/ __ `/ ___/
-#    ___/ / / /_/  __/   ___/ /  __/ /_/ /_/ / / / / /_/ (__  ) 
-#   /____/_/\__/\___/   /____/\___/\__/\__/_/_/ /_/\__, /____/  
-#                                                 /____/        
+#    ___/ / / /_/  __/   ___/ /  __/ /_/ /_/ / / / / /_/ (__  )
+#   /____/_/\__/\___/   /____/\___/\__/\__/_/_/ /_/\__, /____/
+#                                                 /____/
 #
 # Title of your website
-title: "Feeling Responsive"
+title: "Simple Affable Bean: Info"
 
 
 # The slogan describes your website and is used on homepage in <title> and other important places
-slogan: "A Flexible Theme for Jekyll"
+slogan: "Your Guide through the SimpleAffableBean Web Application"
 
 
 # The description is used on homepage and in the footer to quickly describe your website. Use a maximum of 150 characters for SEO-purposes.
-description: "The description is used on homepage and in the footer to quickly describe your website. Use a maximum of 150 characters for SEO-purposes."
+description: "A rewrite of the AffableBean project using a more modern technology stack."
 
 # Main author of the website
 # See > authors.yml
-author: phlow
+author: nowucca
 
 # This URL is the main address for absolute links. Don't include a slash at the end.
 #
-url: 'https://phlow.github.io/feeling-responsive'
+url: 'https://simpleaffablebean.info'
 baseurl: ''
 
 # This is for the editing function in _/includes/improve_content
 # Leave it empty if your site is not on GitHub/GitHub Pages
-improve_content: https://github.com/Phlow/feeling-responsive/edit/gh-pages
+improve_content: https://github.com/nowucca/SimpleAffableBean/edit/gh-pages
 
 # This URL points directly to the images directory making
 # things easier to link to images in posts and templates. It needs a slash at the end.
@@ -37,7 +37,7 @@ improve_content: https://github.com/Phlow/feeling-responsive/edit/gh-pages
 # Example: <img src="{{ site.urlimg }}{{ post.image.title }}" />
 # Markdown-Example for posts ![Image Text]({{ site.urlimg }}image.jpg)
 #
-urlimg: 'https://phlow.github.io/feeling-responsive/images/'
+urlimg: 'https://simpleaffablebean.info/images/'
 
 
 # Logo size is 600x80 pixels
@@ -195,7 +195,7 @@ msapplication_tilecolor:                "#fabb00"
 #
 # used in _includes/comments
 
-# disqus_shortname: 
+# disqus_shortname:
 
 
 #      _____
@@ -219,7 +219,7 @@ sass:
 #
 # used in _includes/footer_scripts
 
-# google_analytics_tracking_id: 
+# google_analytics_tracking_id:
 
 
 
