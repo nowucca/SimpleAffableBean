@@ -1,7 +1,7 @@
 /**
  * BSD 3-Clause License
  *
- * Copyright (C) 2017 Steven Atkinson <support@simpleaffablebean.com>
+ * Copyright (C) 2017 Steven Atkinson <support@simpleaffablebean.info>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,9 +37,7 @@ import java.util.List;
 /**
  */
 public interface CustomerService {
-    long create(Connection connection, String name, String email,
-                String phone, String address, String cityRegion, String
-        ccNumber);
+    long create(Connection connection, CustomerForm customerForm);
 
     Customer findByCustomerId(long customerId);
 

@@ -35,6 +35,7 @@ import business.ApplicationContext;
 import business.IntegrationTestPlatform;
 import business.SimpleAffableDbException;
 import business.cart.ShoppingCart;
+import business.customer.CustomerForm;
 import business.product.ProductService;
 import java.sql.Connection;
 import java.sql.JDBCType;
@@ -91,8 +92,8 @@ public class CustomerOrderServiceTest extends IntegrationTestPlatform {
         ShoppingCart validCart = new ShoppingCart();
         validCart.addItem(productService.findByProductId(MILK_PRODUCT_ID));
         validCart.calculateTotal("300");
-        long customerOrderId = orderService.placeOrder(validName, validEmail, validPhone,
-            validAddress, validCityRegion, validCCNumber, validCart);
+        long customerOrderId = orderService.placeOrder(new CustomerForm(validName, validEmail, validPhone,
+            validAddress, validCityRegion, validCCNumber), validCart);
 
         assertObjectStoredByKey(FIND_CUSTOMER_BY_EMAIL, validEmail, JDBCType.VARCHAR,
             () -> String.format("Could not locate customer by email %s", validEmail), (ResultSet resultSet) -> {

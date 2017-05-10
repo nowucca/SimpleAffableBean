@@ -34,6 +34,7 @@ package controller;
 import business.ApplicationContext;
 import business.ValidationException;
 import business.cart.ShoppingCart;
+import business.customer.CustomerForm;
 import business.order.CustomerOrderService;
 import java.io.IOException;
 import java.util.Enumeration;
@@ -129,8 +130,9 @@ public class CheckoutServlet extends SimpleAffableBeanServlet {
 
             // otherwise, save order to database
             try {
-                long orderId = customerOrderService.placeOrder(name, email, phone,
-                    address, cityRegion, creditcard, cart);
+                CustomerForm customerForm = new CustomerForm(name, email, phone, address, cityRegion, creditcard);
+
+                long orderId = customerOrderService.placeOrder(customerForm, cart);
 
                 // if order processed successfully send user to confirmation page
 

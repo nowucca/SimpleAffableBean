@@ -1,7 +1,7 @@
 /**
  * BSD 3-Clause License
  *
- * Copyright (C) 2017 Steven Atkinson <support@simpleaffablebean.com>
+ * Copyright (C) 2017 Steven Atkinson <support@simpleaffablebean.info>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -68,16 +68,15 @@ public class CustomerDaoJdbc implements CustomerDao {
 
 
     @Override
-    public long create(final Connection connection, String name, String email,
-                       String phone, String address, String cityRegion, String ccNumber) {
+    public long create(final Connection connection, CustomerForm customerForm) {
         try (PreparedStatement statement =
                  connection.prepareStatement(CREATE_CUSTOMER_SQL, Statement.RETURN_GENERATED_KEYS)) {
-            statement.setString(1, name);
-            statement.setString(2, email);
-            statement.setString(3, phone);
-            statement.setString(4, address);
-            statement.setString(5, cityRegion);
-            statement.setString(6, ccNumber);
+            statement.setString(1, customerForm.getName());
+            statement.setString(2, customerForm.getEmail());
+            statement.setString(3, customerForm.getPhone());
+            statement.setString(4, customerForm.getAddress());
+            statement.setString(5, customerForm.getCityRegion());
+            statement.setString(6, customerForm.getCcNumber());
             int affected = statement.executeUpdate();
             if (affected != 1) {
                 throw new SimpleAffableUpdateDbException("Failed to insert a customer, affected row count = "

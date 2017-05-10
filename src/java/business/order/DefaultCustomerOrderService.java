@@ -1,7 +1,7 @@
 /**
  * BSD 3-Clause License
  *
- * Copyright (C) 2017 Steven Atkinson <support@simpleaffablebean.com>
+ * Copyright (C) 2017 Steven Atkinson <support@simpleaffablebean.info>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,6 +37,7 @@ import business.ValidationException;
 import business.cart.ShoppingCart;
 import business.customer.Customer;
 import business.customer.CustomerDao;
+import business.customer.CustomerForm;
 import business.product.Product;
 import business.product.ProductDao;
 import java.sql.Connection;
@@ -64,12 +65,10 @@ public class DefaultCustomerOrderService implements CustomerOrderService {
         LoggerFactory.getLogger(DefaultCustomerOrderService.class);
 
     @Override
-    public long placeOrder(String name, String email, String phone,
-                           String address, String cityRegion, String ccNumber,
-                           ShoppingCart cart) throws ValidationException {
+    public long placeOrder(CustomerForm customerForm, ShoppingCart cart) throws ValidationException {
 
         try {
-            return performPlaceOrder(name, email, phone, address, cityRegion, ccNumber, cart);
+            return performPlaceOrder(customerForm, cart);
         } catch (Exception e) {
             logger.error("Trouble placing an order.", e);
             throw e;
@@ -77,22 +76,21 @@ public class DefaultCustomerOrderService implements CustomerOrderService {
 
     }
 
-    private long performPlaceOrder(String name, String email, String phone, String address, String cityRegion, String ccNumber, ShoppingCart cart) throws ValidationException {
-        validateForm(name, email, phone, address, cityRegion, ccNumber);
+    private long performPlaceOrder(CustomerForm customerForm, ShoppingCart cart) throws ValidationException {
+        validateForm(customerForm);
 
         try (Connection connection = JdbcUtils.getConnection()) {
-            return performPlaceOrderTransaction(name, email, phone, address, cityRegion, ccNumber, cart, connection);
+            return performPlaceOrderTransaction(customerForm, cart, connection);
         } catch (SQLException e) {
             throw new SimpleAffableDbException("Error during close connection for customer order", e);
         }
     }
 
-    private long performPlaceOrderTransaction(String name, String email, String phone, String address, String cityRegion,
-                                              String ccNumber, ShoppingCart cart, Connection connection) throws SQLException {
+    private long performPlaceOrderTransaction(CustomerForm customerForm, ShoppingCart cart, Connection connection) throws SQLException {
         try {
             connection.setAutoCommit(false);
 
-            long customerId = customerDao.create(connection, name, email, phone, address, cityRegion, ccNumber);
+            long customerId = customerDao.create(connection, customerForm);
             long customerOrderId = customerOrderDao.create(connection, customerId,
                 cart.getTotal(), generateConfirmationNumber());
 
@@ -146,12 +144,16 @@ public class DefaultCustomerOrderService implements CustomerOrderService {
         return customerOrderDao.findByCustomerOrderId(customerOrderId);
     }
 
-    private void validateForm(String name, String email, String phone,
-                              String address, String cityRegion, String ccNumber)
+    private void validateForm(CustomerForm customerForm)
         throws ValidationException {
 
         ValidationException e = new ValidationException();
-
+        String name = customerForm.getName();
+        String email = customerForm.getEmail();
+        String phone = customerForm.getPhone();
+        String address = customerForm.getAddress();
+        String cityRegion = customerForm.getCityRegion();
+        String ccNumber = customerForm.getCcNumber();
 
         if (name == null
             || name.equals("")

@@ -1,7 +1,7 @@
 /**
  * BSD 3-Clause License
  *
- * Copyright (C) 2017 Steven Atkinson <support@simpleaffablebean.com>
+ * Copyright (C) 2017 Steven Atkinson <support@simpleaffablebean.info>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -47,10 +47,9 @@ public class DefaultCustomerService implements CustomerService {
         LoggerFactory.getLogger(DefaultCustomerService.class);
 
     @Override
-    public long create(Connection connection, String name, String email,
-                       String phone, String address, String cityRegion, String ccNumber) {
+    public long create(Connection connection, CustomerForm customerForm) {
         try {
-            return customerDao.create(connection, name, email, phone, address, cityRegion, ccNumber);
+            return customerDao.create(connection, customerForm);
         } catch (Exception e) {
             logger.error("Trouble creating a customer.", e);
             throw e;
