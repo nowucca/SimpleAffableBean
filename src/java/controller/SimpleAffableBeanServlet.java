@@ -39,6 +39,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -47,6 +49,7 @@ import javax.servlet.http.HttpServletResponse;
             loadOnStartup = 1)
 public class SimpleAffableBeanServlet extends HttpServlet {
 
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Override
     public void init(ServletConfig servletConfig) throws ServletException {
@@ -96,7 +99,7 @@ public class SimpleAffableBeanServlet extends HttpServlet {
         try {
             request.getRequestDispatcher(url).forward(request, response);
         } catch (Exception ex) {
-            ex.printStackTrace();
+            logger.error("Failed to forward to url {}", url, ex);
         }
     }
 
