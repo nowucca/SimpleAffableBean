@@ -1,7 +1,7 @@
 /**
  * BSD 3-Clause License
  *
- * Copyright (C) 2017 Steven Atkinson <support@simpleaffablebean.com>
+ * Copyright (C) 2017 Steven Atkinson <support@simpleaffablebean.info>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,14 +33,14 @@ package business.order;
 
 import business.ValidationException;
 import business.cart.ShoppingCart;
+import business.customer.CustomerForm;
 import java.util.List;
 
 /**
  */
 public interface CustomerOrderService {
 
-    long placeOrder(String name, String email, String phone,
-                    String address, String cityRegion, String ccNumber, ShoppingCart cart) throws ValidationException;
+    long placeOrder(CustomerForm customerForm, ShoppingCart cart) throws ValidationException;
 
     CustomerOrderDetails getOrderDetails(long customerOrderId);
 

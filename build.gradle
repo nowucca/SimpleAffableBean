@@ -175,6 +175,7 @@ license {
     mapping {
         jspf = 'DYNASCRIPT_STYLE'
     }
+    exclude "**/ScriptRunner.java"
 }
 
 task licenseFormatDb(type: LicenseFormat) {
