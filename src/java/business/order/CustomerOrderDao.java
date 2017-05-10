@@ -32,7 +32,7 @@
 package business.order;
 
 import java.sql.Connection;
-import java.util.List;
+import java.util.Collection;
 
 /**
  */
@@ -42,5 +42,5 @@ public interface CustomerOrderDao {
     CustomerOrder findByCustomerId(long customerId);
     CustomerOrder findByCustomerOrderId(long customerOrderId);
 
-    List<CustomerOrder> findAll();
+    Collection<CustomerOrder> findAll();
 }

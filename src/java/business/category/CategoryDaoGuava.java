@@ -31,12 +31,45 @@
  */
 package business.category;
 
+import business.GuavaUtils;
+import business.SimpleAffableDbException;
+import com.google.common.cache.LoadingCache;
+import com.google.common.collect.Maps;
 import java.util.Collection;
 
 /**
  */
-public interface CategoryDao {
-    Category findByCategoryId(long categoryId);
+public class CategoryDaoGuava implements CategoryDao {
 
-    Collection<Category> findAll();
+    private CategoryDao origin;
+
+    private LoadingCache<Long, Category> cache;
+
+    @SuppressWarnings("ConstantConditions")
+    public CategoryDaoGuava(CategoryDao originCategoryDao) {
+        this.origin = originCategoryDao;
+        cache = GuavaUtils.makeCache((k)->origin.findByCategoryId(k));
+        bulkload();
+    }
+
+    public void bulkload() {
+        // Bulk-fill the cache at startup time and periodically
+        cache.putAll(Maps.uniqueIndex(origin.findAll(), Category::getCategoryId));
+    }
+
+
+    @Override
+    public Category findByCategoryId(long categoryId) {
+        try {
+            return cache.get(categoryId);
+        } catch (Exception e) {
+            throw new SimpleAffableDbException("Encountered problem loading category id "+categoryId+" into cache", e);
+        }
+    }
+
+    @Override
+    public Collection<Category> findAll() {
+        return cache.asMap().values();
+    }
+
 }

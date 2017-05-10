@@ -11,7 +11,13 @@ The starting point for this project is the complete Affable beans project at: ht
 
 ## Problems Being Addressed
 
-Hardly anyone I know uses the EJB stack as it was meant to be used, with session and entity beans, data sources, services and the rest of it.  I've found that some of the best technology stacks avoid too much abstraction, and are straightforward to use, and lead to code that is straightforward to reason about.  I would classify a full-blown EJB container as getting low-marks in those areas.
+Hardly anyone I know uses the EJB stack as it was meant to be used, 
+with session and entity beans, data sources, services and the rest of it.  
+I've found that some of the best technology stacks avoid too much abstraction, 
+and are straightforward to use, and lead to code that is straightforward to reason about.  
+
+I would classify a full-blown EJB container as getting low-marks in those areas.
+
 
 ## Solutions Being Proposed
 
@@ -37,3 +43,6 @@ As progress is made, I'll be tweaking the implementation here and perhaps strate
 - A basic local WAR build using gradle
 - A central error servlet handling all error pages
 - Logging for service classes to allow for easier debugging
+- Added a servlet context listener to log servlet context and session context events
+- Use a customer form model object to model the data in the customer form
+- Added second-level caching using Guava for category and product model objects, with ability to periodically refresh the caches 
