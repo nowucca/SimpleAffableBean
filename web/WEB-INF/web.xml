@@ -62,9 +62,8 @@
     </context-param>
 
     <session-config>
-        <session-timeout>
-            15
-        </session-timeout>
+        <session-timeout>15</session-timeout>
+        <tracking-mode>COOKIE</tracking-mode>
     </session-config>
 
     <!--This is only needed for testing the datasource (TestDataSource.jsp)-->

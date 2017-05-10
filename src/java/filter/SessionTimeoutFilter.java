@@ -42,6 +42,8 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -49,6 +51,7 @@ import javax.servlet.http.HttpSession;
  */
 @WebFilter(servletNames = {"Cart", "Category", "Checkout", "AdminServlet", "Confirmation", "Language"})
 public class SessionTimeoutFilter implements Filter {
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
@@ -59,14 +62,15 @@ public class SessionTimeoutFilter implements Filter {
 
         HttpSession session = req.getSession(false);
 
-        // if session doesn't exist, forward user to welcome page
-        if (session != null && !"true".equals(req.getParameter("forceFilter"))) {
+        if (session != null || !"true".equals(req.getParameter("forceFilter"))) {
             chain.doFilter(request, response);
         } else {
+            final String location = req.getContextPath() + "/home";
             try {
-                res.sendRedirect(req.getContextPath() + "/home");
+                logger.info("Session timed out, redirecting to {}", location);
+                res.sendRedirect(location);
             } catch (Exception ex) {
-                ex.printStackTrace();
+                logger.error("Failed to redirect to {}", location, ex);
             }
         }
     }

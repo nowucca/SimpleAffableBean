@@ -49,6 +49,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -66,6 +68,8 @@ import javax.servlet.http.HttpSession;
                     rolesAllowed = {"simpleAffableBeanAdmin"})
 )
 public class AdminServlet extends HttpServlet {
+
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -151,7 +155,7 @@ public class AdminServlet extends HttpServlet {
         try {
             request.getRequestDispatcher(userPath).forward(request, response);
         } catch (Exception ex) {
-            ex.printStackTrace();
+            logger.error("Failed to forward to JSP {}", userPath, ex);
         }
     }
 

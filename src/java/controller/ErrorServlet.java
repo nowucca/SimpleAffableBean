@@ -84,7 +84,7 @@ public class ErrorServlet extends SimpleAffableBeanServlet {
         try {
             request.getRequestDispatcher(url).forward(request, response);
         } catch (Exception ex) {
-            ex.printStackTrace();
+            logger.error("Failed to forward to URL {}", url, ex);
         }
     }
 
