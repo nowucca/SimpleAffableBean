@@ -32,6 +32,7 @@
 package business;
 
 import business.category.CategoryDao;
+import business.category.CategoryDaoGuava;
 import business.category.CategoryDaoJdbc;
 import business.category.CategoryService;
 import business.category.DefaultCategoryService;
@@ -47,12 +48,20 @@ import business.order.CustomerOrderService;
 import business.order.DefaultCustomerOrderService;
 import business.product.DefaultProductService;
 import business.product.ProductDao;
+import business.product.ProductDaoGuava;
 import business.product.ProductDaoJdbc;
 import business.product.ProductService;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  */
 public final class ApplicationContext {
+
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private ProductService productService;
 
@@ -62,19 +71,29 @@ public final class ApplicationContext {
 
     private CustomerOrderService customerOrderService;
 
+    private ScheduledExecutorService executorService;
+
     public static ApplicationContext INSTANCE = new ApplicationContext();
 
     private ApplicationContext() {
 
+        executorService = new ScheduledThreadPoolExecutor(Runtime.getRuntime().availableProcessors());
+
         // wire up the business.dao layer "by hand"
         ProductDao productDao = new ProductDaoJdbc();
+
+        ProductDaoGuava cachedProductDao = new ProductDaoGuava(productDao);
+
         productService = new DefaultProductService();
         ((DefaultProductService) productService).setProductDao(productDao);
 
         CategoryDao categoryDao = new CategoryDaoJdbc();
         ((CategoryDaoJdbc) categoryDao).setProductDao(productDao);
+
+        CategoryDaoGuava cachedCategoryDao = new CategoryDaoGuava(categoryDao);
+
         categoryService = new DefaultCategoryService();
-        ((DefaultCategoryService) categoryService).setCategoryDao(categoryDao);
+        ((DefaultCategoryService) categoryService).setCategoryDao(cachedCategoryDao);
 
         CustomerDao customerDao = new CustomerDaoJdbc();
         customerService = new DefaultCustomerService();
@@ -86,11 +105,24 @@ public final class ApplicationContext {
 
         customerOrderService = new DefaultCustomerOrderService();
         DefaultCustomerOrderService service = (DefaultCustomerOrderService) customerOrderService;
-        service.setProductDao(productDao);
+        service.setProductDao(cachedProductDao);
         service.setCustomerDao(customerDao);
         service.setCustomerOrderDao(customerOrderDao);
         service.setCustomerOrderLineItemDao(customerOrderLineItemDao);
+
+        executorService.scheduleWithFixedDelay(() -> {
+                try {
+                    logger.info("Refreshing category and product caches....commencing");
+                    cachedCategoryDao.bulkload();
+                    cachedProductDao.clear();
+                    logger.info("Refreshing category and product caches....complete!");
+                } catch (Throwable t) {
+                    logger.error("Encountered trouble refreshing category and product caches.", t);
+                }
+            }, 10, 60, TimeUnit.MINUTES);
     }
+
+
 
     public ProductService getProductService() {
         return productService;
@@ -106,5 +138,9 @@ public final class ApplicationContext {
 
     public CustomerOrderService getCustomerOrderService() {
         return customerOrderService;
+    }
+
+    public void shutdown() {
+        executorService.shutdown();
     }
 }

@@ -31,9 +31,7 @@
  */
 package controller;
 
-import business.ApplicationContext;
 import java.io.IOException;
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -50,21 +48,6 @@ import org.slf4j.LoggerFactory;
 public class SimpleAffableBeanServlet extends HttpServlet {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
-
-    @Override
-    public void init(ServletConfig servletConfig) throws ServletException {
-
-        super.init(servletConfig);
-
-        // initialize servlet with configuration information
-        ApplicationContext applicationContext = ApplicationContext.INSTANCE;
-
-        // store category list in servlet context
-        if (getServletContext().getAttribute("categories") == null) {
-            getServletContext().setAttribute("categories", applicationContext.getCategoryService().findAll());
-        }
-    }
-
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

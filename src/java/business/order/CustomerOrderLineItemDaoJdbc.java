@@ -38,6 +38,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import static business.JdbcUtils.getConnection;
 
@@ -75,7 +76,7 @@ public class CustomerOrderLineItemDaoJdbc implements CustomerOrderLineItemDao {
     }
 
     @Override
-    public List<CustomerOrderLineItem> findByCustomerOrderId(long customerOrderId) {
+    public Collection<CustomerOrderLineItem> findByCustomerOrderId(long customerOrderId) {
         List<CustomerOrderLineItem> result = new ArrayList<>(16);
         try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_BY_CUSTOMER_ORDER_ID_SQL)) {

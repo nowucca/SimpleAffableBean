@@ -37,6 +37,9 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
 
+    <listener>
+        <listener-class>controller.SimpleAffableBeanContextListener</listener-class>
+    </listener>
 
     <context-param>
         <description>The relative path to product images</description>

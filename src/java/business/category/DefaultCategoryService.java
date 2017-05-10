@@ -31,7 +31,9 @@
  */
 package business.category;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -60,7 +62,10 @@ public class DefaultCategoryService implements CategoryService {
     @Override
     public List<Category> findAll() {
         try {
-            return categoryDao.findAll();
+            // Sort by category id for consistency
+            return categoryDao.findAll().stream()
+                .sorted(Comparator.comparingLong(Category::getCategoryId))
+                .collect(Collectors.toList());
         } catch (Exception e) {
             logger.error("Trouble finding all categories", e);
             throw e;

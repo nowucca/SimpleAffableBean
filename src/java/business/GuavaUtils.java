@@ -29,14 +29,29 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package business.category;
+package business;
 
-import java.util.Collection;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
+import java.util.concurrent.TimeUnit;
 
 /**
  */
-public interface CategoryDao {
-    Category findByCategoryId(long categoryId);
+public final class GuavaUtils {
 
-    Collection<Category> findAll();
+    private GuavaUtils() {
+    }
+
+    public static <K,V> LoadingCache<K,V> makeCache(com.google.common.base.Function<K,V> cacheLoadFunction) {
+        return CacheBuilder.newBuilder().
+            expireAfterWrite(1, TimeUnit.HOURS).
+            concurrencyLevel(8).
+            recordStats().
+            maximumSize(1000).
+            initialCapacity(100).
+            build(CacheLoader.from(cacheLoadFunction));
+    }
+
+
 }

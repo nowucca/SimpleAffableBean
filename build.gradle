@@ -106,6 +106,8 @@ dependencies {
     // tie it in with some actual implementation, e.g., log4j2, logback or slf4j-simple
     compile group: 'org.slf4j', name:'slf4j-simple', version: "$slf4jVersion"
 
+    // for model object caching in the dao layer
+    compile group: 'com.google.guava', name: 'guava', version: '22.0-rc1'
 
     // These declare dependencies on tomcat libraries, letting us use container code.
     providedCompile  group: 'org.apache.tomcat', name: 'tomcat-servlet-api', version: "$tomcatVersion"

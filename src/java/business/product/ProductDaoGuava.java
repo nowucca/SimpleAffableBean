@@ -29,14 +29,52 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package business.category;
+package business.product;
 
-import java.util.Collection;
+import business.GuavaUtils;
+import business.SimpleAffableDbException;
+import com.google.common.cache.LoadingCache;
+import java.util.List;
 
 /**
  */
-public interface CategoryDao {
-    Category findByCategoryId(long categoryId);
+public class ProductDaoGuava implements ProductDao {
 
-    Collection<Category> findAll();
+    private ProductDao origin;
+
+    private LoadingCache<Long, Product> productIdToProductCache;
+    private LoadingCache<Long, List<Product>> categoryIdToProductsCache;
+
+    @SuppressWarnings("ConstantConditions")
+    public ProductDaoGuava(ProductDao origin) {
+        this.origin = origin;
+        productIdToProductCache = GuavaUtils.makeCache(origin::findByProductId);
+        categoryIdToProductsCache = GuavaUtils.makeCache(origin::findByCategoryId);
+    }
+
+    public void clear() {
+        // Clear the caches periodically
+        productIdToProductCache.invalidateAll();
+        categoryIdToProductsCache.invalidateAll();
+    }
+
+
+    @Override
+    public Product findByProductId(long productId) {
+        try {
+            return productIdToProductCache.get(productId);
+        } catch (Exception e) {
+            throw new SimpleAffableDbException("Encountered problem loading product id "+productId+" into cache", e);
+        }
+    }
+
+    @Override
+    public List<Product> findByCategoryId(long categoryId) {
+        try {
+            return categoryIdToProductsCache.get(categoryId);
+        } catch (Exception e) {
+            throw new SimpleAffableDbException("Encountered problem loading products by category id "+categoryId+" into cache", e);
+        }
+    }
+
 }

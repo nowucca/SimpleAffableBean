@@ -39,6 +39,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import static business.JdbcUtils.getConnection;
@@ -113,7 +114,7 @@ public class CustomerOrderDaoJdbc implements CustomerOrderDao {
     }
 
     @Override
-    public List<CustomerOrder> findAll() {
+    public Collection<CustomerOrder> findAll() {
         List<CustomerOrder> result = new ArrayList<>(16);
         try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_ALL_SQL);

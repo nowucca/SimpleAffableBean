@@ -32,11 +32,11 @@
 package business.order;
 
 import java.sql.Connection;
-import java.util.List;
+import java.util.Collection;
 
 /**
  */
 public interface CustomerOrderLineItemDao {
     void create(Connection connection, long customerOrderId, long productId, short quantity);
-    List<CustomerOrderLineItem> findByCustomerOrderId(long customerOrderId);
+    Collection<CustomerOrderLineItem> findByCustomerOrderId(long customerOrderId);
 }

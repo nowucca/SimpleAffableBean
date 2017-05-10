@@ -38,6 +38,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import static business.JdbcUtils.getConnection;
 
@@ -83,7 +84,7 @@ public class CategoryDaoJdbc implements CategoryDao {
     }
 
     @Override
-    public List<Category> findAll() {
+    public Collection<Category> findAll() {
         List<Category> result = new ArrayList<>(16);
         try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_ALL_SQL);

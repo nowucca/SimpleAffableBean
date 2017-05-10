@@ -42,6 +42,8 @@ import business.product.Product;
 import business.product.ProductDao;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 import java.util.function.Function;
@@ -119,7 +121,7 @@ public class DefaultCustomerOrderService implements CustomerOrderService {
         try {
             CustomerOrder order = customerOrderDao.findByCustomerOrderId(customerOrderId);
             Customer customer = customerDao.findByCustomerId(order.getCustomerId());
-            List<CustomerOrderLineItem> lineItems = customerOrderLineItemDao.findByCustomerOrderId(customerOrderId);
+            List<CustomerOrderLineItem> lineItems = new ArrayList<>(customerOrderLineItemDao.findByCustomerOrderId(customerOrderId));
             List<Product> products = lineItems.stream().map(LINE_ITEM_TO_PRODUCT).collect(Collectors.toList());
 
             return new CustomerOrderDetails(order, customer, products, lineItems);
@@ -131,7 +133,9 @@ public class DefaultCustomerOrderService implements CustomerOrderService {
 
     @Override
     public List<CustomerOrder> findAll() {
-        return customerOrderDao.findAll();
+        return customerOrderDao.findAll().stream()
+            .sorted(Comparator.comparing(CustomerOrder::getDateCreated))
+            .collect(Collectors.toList());
     }
 
     @Override
