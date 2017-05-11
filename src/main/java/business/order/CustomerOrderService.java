@@ -1,7 +1,7 @@
 /**
  * BSD 3-Clause License
  *
- * Copyright (C) 2017 Steven Atkinson <support@simpleaffablebean.info>
+ * Copyright (C) 2017 Steven Atkinson <support@simpleaffablebean.com>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,17 +29,24 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package business.customer;
+package business.order;
 
-import java.sql.Connection;
+import business.ValidationException;
+import business.cart.ShoppingCart;
+import business.customer.CustomerForm;
 import java.util.List;
 
 /**
  */
-public interface CustomerDao {
-    long create(Connection connection, CustomerForm customerForm);
+public interface CustomerOrderService {
 
-    Customer findByCustomerId(long customerId);
+    long placeOrder(CustomerForm customerForm, ShoppingCart cart) throws ValidationException;
 
-    List<Customer> findAll();
+    CustomerOrderDetails getOrderDetails(long customerOrderId);
+
+    List<CustomerOrder> findAll();
+
+    CustomerOrder findByCustomerId(long customerId);
+
+    CustomerOrder findByCustomerOrderId(long customerOrderId);
 }

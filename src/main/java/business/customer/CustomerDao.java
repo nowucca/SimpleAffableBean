@@ -1,7 +1,7 @@
 /**
  * BSD 3-Clause License
  *
- * Copyright (C) 2017 Steven Atkinson <support@simpleaffablebean.info>
+ * Copyright (C) 2017 Steven Atkinson <support@simpleaffablebean.com>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -31,61 +31,15 @@
  */
 package business.customer;
 
+import java.sql.Connection;
+import java.util.List;
+
 /**
- *
  */
-public class CustomerForm {
+public interface CustomerDao {
+    long create(Connection connection, CustomerForm customerForm);
 
-    private String name;
+    Customer findByCustomerId(long customerId);
 
-    private String email;
-
-    private String phone;
-
-    private String address;
-
-    private String cityRegion;
-
-    private String ccNumber;
-
-    public CustomerForm(String name, String email,
-                        String phone, String address,
-                        String cityRegion, String ccNumber) {
-        this.name = name;
-        this.email = email;
-        this.phone = phone;
-        this.address = address;
-        this.cityRegion = cityRegion;
-        this.ccNumber = ccNumber;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public String getCityRegion() {
-        return cityRegion;
-    }
-
-    public String getCcNumber() {
-        return ccNumber;
-    }
-
-    @Override
-    public String toString() {
-        return "business.customer.CustomerForm";
-    }
-
+    List<Customer> findAll();
 }

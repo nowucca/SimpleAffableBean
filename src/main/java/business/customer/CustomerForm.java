@@ -1,7 +1,7 @@
 /**
  * BSD 3-Clause License
  *
- * Copyright (C) 2017 Steven Atkinson <support@simpleaffablebean.info>
+ * Copyright (C) 2017 Steven Atkinson <support@simpleaffablebean.com>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -34,9 +34,7 @@ package business.customer;
 /**
  *
  */
-public class Customer  {
-
-    private long customerId;
+public class CustomerForm {
 
     private String name;
 
@@ -50,19 +48,15 @@ public class Customer  {
 
     private String ccNumber;
 
-    public Customer(long customerId, String name, String email,
-                    String phone, String address, String cityRegion, String ccNumber) {
-        this.customerId = customerId;
+    public CustomerForm(String name, String email,
+                        String phone, String address,
+                        String cityRegion, String ccNumber) {
         this.name = name;
         this.email = email;
         this.phone = phone;
         this.address = address;
         this.cityRegion = cityRegion;
         this.ccNumber = ccNumber;
-    }
-
-    public long getCustomerId() {
-        return customerId;
     }
 
     public String getName() {
@@ -85,9 +79,13 @@ public class Customer  {
         return cityRegion;
     }
 
+    public String getCcNumber() {
+        return ccNumber;
+    }
+
     @Override
     public String toString() {
-        return "business.customer.Customer[customerId=" + customerId + "]";
+        return "business.customer.CustomerForm";
     }
 
 }

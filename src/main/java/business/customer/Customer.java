@@ -1,7 +1,7 @@
 /**
  * BSD 3-Clause License
  *
- * Copyright (C) 2017 Steven Atkinson <support@simpleaffablebean.info>
+ * Copyright (C) 2017 Steven Atkinson <support@simpleaffablebean.com>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -31,52 +31,63 @@
  */
 package business.customer;
 
-import java.sql.Connection;
-import java.util.List;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-
 /**
+ *
  */
-public class DefaultCustomerService implements CustomerService {
+public class Customer  {
 
-    private CustomerDao customerDao;
+    private long customerId;
 
-    private static final Logger logger =
-        LoggerFactory.getLogger(DefaultCustomerService.class);
+    private String name;
 
-    @Override
-    public long create(Connection connection, CustomerForm customerForm) {
-        try {
-            return customerDao.create(connection, customerForm);
-        } catch (Exception e) {
-            logger.error("Trouble creating a customer.", e);
-            throw e;
-        }
+    private String email;
+
+    private String phone;
+
+    private String address;
+
+    private String cityRegion;
+
+    private String ccNumber;
+
+    public Customer(long customerId, String name, String email,
+                    String phone, String address, String cityRegion, String ccNumber) {
+        this.customerId = customerId;
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.address = address;
+        this.cityRegion = cityRegion;
+        this.ccNumber = ccNumber;
+    }
+
+    public long getCustomerId() {
+        return customerId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getCityRegion() {
+        return cityRegion;
     }
 
     @Override
-    public Customer findByCustomerId(long customerId) {
-        try {
-            return customerDao.findByCustomerId(customerId);
-        } catch (Exception e) {
-            logger.error("Trouble finding customer {}", customerId, e);
-            throw e;
-        }
+    public String toString() {
+        return "business.customer.Customer[customerId=" + customerId + "]";
     }
 
-    @Override
-    public List<Customer> findAll() {
-        try {
-            return customerDao.findAll();
-        } catch (Exception e) {
-            logger.error("Trouble finding all customers.", e);
-            throw e;
-        }
-    }
-
-    public void setCustomerDao(CustomerDao customerDao) {
-        this.customerDao = customerDao;
-    }
 }

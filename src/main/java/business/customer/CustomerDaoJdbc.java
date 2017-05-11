@@ -1,7 +1,7 @@
 /**
  * BSD 3-Clause License
  *
- * Copyright (C) 2017 Steven Atkinson <support@simpleaffablebean.info>
+ * Copyright (C) 2017 Steven Atkinson <support@simpleaffablebean.com>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
