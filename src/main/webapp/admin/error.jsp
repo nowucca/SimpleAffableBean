@@ -31,6 +31,7 @@
     OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 --%>
+
 <div id="loginBox">
 
     <p class="error">Invalid username or password.</p>

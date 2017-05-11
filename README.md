@@ -46,3 +46,5 @@ As progress is made, I'll be tweaking the implementation here and perhaps strate
 - Added a servlet context listener to log servlet context and session context events
 - Use a customer form model object to model the data in the customer form
 - Added second-level caching using Guava for category and product model objects, with ability to periodically refresh the caches 
+- Moved folders to be standard for the build system
+- Added acceptance test regime using Selenium-HtmlUnitDriver

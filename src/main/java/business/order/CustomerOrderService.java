@@ -1,7 +1,7 @@
 /**
  * BSD 3-Clause License
  *
- * Copyright (C) 2017 Steven Atkinson <support@simpleaffablebean.info>
+ * Copyright (C) 2017 Steven Atkinson <support@simpleaffablebean.com>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,54 +29,24 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package business.customer;
+package business.order;
 
-import java.sql.Connection;
+import business.ValidationException;
+import business.cart.ShoppingCart;
+import business.customer.CustomerForm;
 import java.util.List;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 
 /**
  */
-public class DefaultCustomerService implements CustomerService {
+public interface CustomerOrderService {
 
-    private CustomerDao customerDao;
+    long placeOrder(CustomerForm customerForm, ShoppingCart cart) throws ValidationException;
 
-    private static final Logger logger =
-        LoggerFactory.getLogger(DefaultCustomerService.class);
+    CustomerOrderDetails getOrderDetails(long customerOrderId);
 
-    @Override
-    public long create(Connection connection, CustomerForm customerForm) {
-        try {
-            return customerDao.create(connection, customerForm);
-        } catch (Exception e) {
-            logger.error("Trouble creating a customer.", e);
-            throw e;
-        }
-    }
+    List<CustomerOrder> findAll();
 
-    @Override
-    public Customer findByCustomerId(long customerId) {
-        try {
-            return customerDao.findByCustomerId(customerId);
-        } catch (Exception e) {
-            logger.error("Trouble finding customer {}", customerId, e);
-            throw e;
-        }
-    }
+    CustomerOrder findByCustomerId(long customerId);
 
-    @Override
-    public List<Customer> findAll() {
-        try {
-            return customerDao.findAll();
-        } catch (Exception e) {
-            logger.error("Trouble finding all customers.", e);
-            throw e;
-        }
-    }
-
-    public void setCustomerDao(CustomerDao customerDao) {
-        this.customerDao = customerDao;
-    }
+    CustomerOrder findByCustomerOrderId(long customerOrderId);
 }
