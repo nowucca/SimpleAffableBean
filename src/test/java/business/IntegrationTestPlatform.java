@@ -85,9 +85,9 @@ public class IntegrationTestPlatform {
     @BeforeEach
     public void createFreshPopulatedDatabase() throws Exception {
         ScriptRunner runner = new ScriptRunner(JdbcUtils.getConnection(), false, false);
-        String file = "db/schemaCreation.sql";
+        String file = "src/main/db/schemaCreation.sql";
         runner.runScript(new BufferedReader(new FileReader(file)));
-        file = "db/sampleData.sql";
+        file = "src/main/db/sampleData.sql";
         runner.runScript(new BufferedReader(new FileReader(file)));
     }
 }

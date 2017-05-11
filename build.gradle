@@ -176,12 +176,12 @@ license {
 
 task licenseDb(type: LicenseCheck) {
     description 'Check web resource file licenses'
-    source = fileTree(dir: "db").include("**/*.sql").exclude("**/*.log")
+    source = fileTree(dir: "src/main/db").include("**/*.sql")
 }
 
 task licenseFormatDb(type: LicenseFormat) {
     description 'Format licenses in sql files'
-    source = fileTree(dir: "db").include("**/*.sql").exclude("**/*.log")
+    source = fileTree(dir: "src/main/db").include("**/*.sql")
 }
 
 task licenseWeb(type: LicenseCheck) {

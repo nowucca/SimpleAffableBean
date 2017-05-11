@@ -72,8 +72,8 @@ class ScriptRunner {
         this.connection = connection;
         this.autoCommit = autoCommit;
         this.stopOnError = stopOnError;
-        File logFile = new File("db/create_db.log");
-        File errorLogFile = new File("db/create_db_error.log");
+        File logFile = new File("build/create_db.log");
+        File errorLogFile = new File("build/create_db_error.log");
         try {
             this.logWriter = initLogWriter(logFile);
         } catch (IOException e) {
