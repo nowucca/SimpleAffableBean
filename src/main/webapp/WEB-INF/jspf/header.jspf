@@ -66,10 +66,22 @@
                     <%-- shopping cart widget --%>
                     <%@include file="/WEB-INF/jspf/header/cart.jspf" %>
 
-                    <a href="<c:url value='/'/>">
-                        <img src="<c:url value="/img/logo.png"/>" id="logo" alt="Affable Bean logo">
-                    </a>
+                    <%--<a href="<c:url value='/'/>">--%>
+                        <%--<img src="<c:url value="/img/logo.png"/>" id="logo" alt="Affable Bean logo">--%>
+                    <%--</a>--%>
 
-                    <img src="<c:url value="/img/logoText.png"/>" id="logoText" alt="the affable bean">
+                    <%--<img src="<c:url value="/img/logoText.png"/>" id="logoText" alt="the affable bean">--%>
+
+                    <div id="logo">
+                        <a href="<c:url value='/'/>">
+                            <img src="<c:url value="/img/logo.png"/>" id="logo" alt="Affable Bean logo">
+                        </a>
+                    </div>
+
+                    <div id="logoText">
+                        <a href="<c:url value='/'/>">
+                            <img src="<c:url value="/img/logoText.png"/>" id="logoText" alt="the affable bean">
+                        </a>
+                    </div>
                 </div>
             </div>
