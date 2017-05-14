@@ -370,6 +370,17 @@ label.error {
     float: left;
 }
 
+.summaryBox {
+    position: relative;
+    float: left;
+}
+
+#shopAgainButtonBox {
+    width: 70%;
+    margin-top: 15px;
+    margin-left: 14%;
+}
+
 .detailsTable { text-align: left }
 
 .detailsTable th { padding: 5px 10px }
