@@ -128,15 +128,12 @@ label.error {
 
 #logo {
     float: left;
-    /*margin-left: 30px;*/
-    /*margin-top: -20px;*/
     margin-left: 15px;
     margin-top: 15px;
 }
 
 #logoText {
     float: left;
-    /*margin: 20px 0 0 70px;*/
     margin: 5px 0 0 35px;
     /* font styles apply to text within img alt attribute */
     font-family: 'American Typewriter', Courier, monospace;
