@@ -5,17 +5,20 @@
   url: "/"
   side: left
 
-- title: "Dropdown Menu"
-  url: "#"
+- title: "Tutorial"
+  url: "/tutorial/"
   side: left
   dropdown:
-  - title: "Dropdown Menu 1"
-    url: "#"
-  - title: "Dropdown Menu 2"
-    url: "#"
-  - title: "Dropdown Menu 3"
-    url: "#"
-
+  - title: "Website Architecture"
+    url: "/tutorial/introduction-to-website-architecture/"
+  - title: "Project Requirements"
+    url: "/tutorial/project-requirements/"
+  - title: "Development Environment"
+    url: "/tutorial/development-environment-setup/"
+  - title: "Building and Deploying"
+    url: "/tutorial/building-and-deploying/"
+  - title: "Code Walkabout"
+    url: "/tutorial/code-walkabout/"
 - title: Blog
   url: "/blog/"
   side: left
@@ -26,12 +29,8 @@
 #
 #   Navigation to the right › side: right
 #
-- title: "Info"
-  url: "/info/"
-  side: right
-
-- title: "Search"
-  url: "/search/"
+- title: "Other Topics"
+  url: "/topics/"
   side: right
 
 - title: "Contact"
