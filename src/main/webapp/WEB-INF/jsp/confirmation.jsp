@@ -111,31 +111,34 @@
 
     <div class="summaryColumn" >
 
-        <table id="deliveryAddressTable" class="detailsTable">
-            <tr class="header">
-                <th colspan="3"><fmt:message key="deliveryAddress"/></th>
-            </tr>
+        <div class="summaryBox">
+            <table id="deliveryAddressTable" class="detailsTable">
+                <tr class="header">
+                    <th colspan="3"><fmt:message key="deliveryAddress"/></th>
+                </tr>
 
-            <tr>
-                <td colspan="3" class="lightBlue">
-                    ${p.orderDetails.customer.name}
-                    <br>
-                    ${p.orderDetails.customer.address}
-                    <br>
-                    <fmt:message key="prague"/> ${p.orderDetails.customer.cityRegion}
-                    <br>
-                    <hr>
-                    <strong><fmt:message key="email"/>:</strong> ${p.orderDetails.customer.email}
-                    <br>
-                    <strong><fmt:message key="phone"/>:</strong> ${p.orderDetails.customer.phone}
-                </td>
-            </tr>
-        </table>
+                <tr>
+                    <td colspan="3" class="lightBlue">
+                        ${p.orderDetails.customer.name}
+                        <br>
+                        ${p.orderDetails.customer.address}
+                        <br>
+                        <fmt:message key="prague"/> ${p.orderDetails.customer.cityRegion}
+                        <br>
+                        <hr>
+                        <strong><fmt:message key="email"/>:</strong> ${p.orderDetails.customer.email}
+                        <br>
+                        <strong><fmt:message key="phone"/>:</strong> ${p.orderDetails.customer.phone}
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div id="shopAgainButtonBox" class="summaryBox">
+            <form method="get" action="<c:url value="/home"/>">
+                <input type="submit" value="<fmt:message key="goBackHome"/>"/>
+            </form>
+        </div>
     </div>
 
-    <div class="summaryColumn" >
-        <form method="get" action="<c:url value="/home"/>">
-            <input type="submit" value="<fmt:message key="goBackHome"/>"/>
-        </form>
-    </div>
 </div>
