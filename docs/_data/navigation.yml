@@ -8,6 +8,23 @@
 - title: "Tutorial"
   url: "/tutorial/"
   side: left
+  dropdown:
+  - title: "Website Architecture"
+    url: "/tutorial/website-architecture/"
+  - title: "Site Requirements"
+    url: "/tutorial/site-requirements/"
+  - title: "Setting Up Your Development Environment"
+    url: "/tutorial/setting-up-development-environments/"
+  - title: "Building and Deploying"
+    url: "/tutorial/building-and-deploying/"
+  - title: "Code Walkabout: Database"
+    url: "/tutorial/walkabout/database/"
+  - title: "Code Walkabout: Business"
+    url: "/tutorial/walkabout/business/"
+  - title: "Code Walkabout: Controller"
+    url: "/tutorial/walkabout/controller/"
+  - title: "Code Walkabout: View"
+    url: "/tutorial/walkabout/view/"
 - title: "Further Topics"
   url: "/topics/"
   side: left
