@@ -9,14 +9,14 @@
   url: "/tutorial/"
   side: left
   dropdown:
-  - title: "Website Architecture"
-    url: "/tutorial/website-architecture"
   - title: "Site Requirements"
     url: "/tutorial/site-requirements"
+  - title: "Website Architecture"
+    url: "/tutorial/website-architecture"
   - title: "Setting Up Your Development Environment"
     url: "/tutorial/setting-up-development-environments"
   - title: "Building and Deploying"
-    url: "/tutorial/building-and-deploying"
+    url: "/tutorial/building-and-deploying-sab"
   - title: "Code Walkabout: Database"
     url: "/tutorial/walkabout/database"
   - title: "Code Walkabout: Business"

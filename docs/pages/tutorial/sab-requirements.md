@@ -15,9 +15,8 @@ To summarize the main points here:
 
 * from that developing requirements, 
 
-* build some screen/page mockups with page flow diagrams and 
+* build some screen/page mockups with page flow diagrams 
 
-* choose a website architecture
 
 
 For the Simple Affable Bean grocery store, let's run through the scenario and requirements briefly here.
@@ -56,7 +55,8 @@ Language support for both English and Czech. (Website only)
 
 Let's get a clearer picture of how the site is supposed to look and behave.
 
-Different people visualize website behavior differently.  That is why it is important to describe websites from different perspectives.
+Different people visualize website behavior differently.  
+That is why it is important to describe websites from different perspectives, such as using mockups and with a page flow diagram.
 
 After working with the customer, it is determined that the following pages comprise the site.
 
@@ -65,13 +65,15 @@ although analysis of those requirements should also take place.)
 
 
 ----
-**Welcome page**
+
+**Home/Welcome page**
 
 ![home page mockup]({{site.url}}{{site.baseurl}}/images/mockup-index-small.png){:class="img-responsive" style="margin-left: 2em; float:right"}
 
 The welcome page is the website's home page, and entry point for the application. It introduces the business and service to the user, and enables the user to navigate to any of the four product categories.
 
 ----
+
 **Category page**
 
 ![category page mockup]({{site.url}}{{site.baseurl}}/images/mockup-category-small.png){:class="img-responsive" style="margin-left: 2em; float:right"}
@@ -79,6 +81,7 @@ The welcome page is the website's home page, and entry point for the application
 The category page provides a listing of all products within the selected category. From this page, a user is able to view all product information, and add any of the listed products to his or her shopping cart. A user can also navigate to any of the provided categories.
 
 ----
+
 **Cart page**
 
 ![cart page mockup]({{site.url}}{{site.baseurl}}/images/mockup-cart-small.png){:class="img-responsive" style="margin-left: 2em; float:right"}
@@ -96,6 +99,7 @@ The cart page lists all items held in the user's shopping cart. It displays prod
 * Proceed to checkout
 
 ----
+
 **Checkout page**
 
 ![checkout page mockup]({{site.url}}{{site.baseurl}}/images/mockup-checkout-small.png){:class="img-responsive" style="margin-left: 2em; float:right"}
@@ -105,6 +109,7 @@ The checkout page collects information from the customer using a form. This page
 The user is able to send personal details over a secure channel.
 
 ----
+
 **Confirmation page**
 
 ![confirmation page mockup]({{site.url}}{{site.baseurl}}/images/mockup-confirmation-small.png){:class="img-responsive" style="margin-left: 2em; float:right"}
@@ -112,3 +117,17 @@ The user is able to send personal details over a secure channel.
 The confirmation page returns a message to the customer confirming that the order was successfully recorded. An order reference number is provided to the customer, as well as a summary listing order details.
 
 Order summary and customer personal details are returned over a secure channel.
+
+----
+
+
+### Page Flow
+
+To help consolidate the relationships between the proposed mockups and better illustrate the functionality that each page should provide, you prepare a diagram that demonstrates the process flow of the application.
+
+The diagram displays the visual and functional components of each page, and highlights the primary actions available to the user in order to navigate through the site to complete a purchase.
+
+![page flow]({{site.url}}{{site.baseurl}}/images/mockup-process-flow.png){:class="img-responsive"}
+
+----
+Please proceed to the next tutorial section: [Simple Affable Bean Tutorial: Website Architecture]({{site.url}}{{site.baseurl}}/tutorial/website-architecture)
