@@ -1,9 +1,9 @@
 ---
 layout: page-tutorial
-title: "Code Walkabout: Database Layer"
+title: "Code Walkabout"
 subheadline: "The Simple Affable Bean Tutorial"
 teaser: ""
-permalink: /tutorial/walkabout/database
+permalink: /tutorial/walkabout/
 ---
 <div class="row t30">
 
@@ -29,4 +29,4 @@ permalink: /tutorial/walkabout/database
 
 (work in progress) 
 
-- database design sensibilities
+Give an overview of source sets, and where each sort of file lives.

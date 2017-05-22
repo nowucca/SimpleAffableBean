@@ -2,6 +2,7 @@
 layout: page-tutorial
 title: "Tutorial"
 sidebar: none
+suppress_tutorial_toc: true
 subheadline: "The Simple Affable Bean Tutorial"
 teaser: ""
 permalink: /tutorial/

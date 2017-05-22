@@ -5,6 +5,30 @@ subheadline: "The Simple Affable Bean Tutorial"
 teaser: ""
 permalink: /tutorial/site-requirements
 ---
+<div class="row t30">
+
+<div class="medium-8 columns{% if page.sidebar == NULL %} medium-offset-2 end{% endif %}{% if page.sidebar == "left" %} medium-push-4{% endif %}" markdown="1">
+<div class="panel radius" markdown="1">
+{% include tutorial_toc %}
+**Tutorial Page Contents**
+{: #toc }
+*  TOC
+{:toc}
+</div>
+</div><!-- /.medium-4.columns -->
+
+
+
+<div class="medium-8 medium-pull-4 columns" markdown="1">
+
+
+
+</div><!-- /.medium-8.columns -->
+</div><!-- /.row -->
+
+
+
+
 The requirements of the Simple Affable Bean grocery store and the original AffableBean remain identical.
 
 Please read [the original requirements and design section](https://netbeans.org/kb/docs/javaee/ecommerce/design.html) of the original AffableBean project.

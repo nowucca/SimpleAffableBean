@@ -5,6 +5,27 @@ subheadline: "The Simple Affable Bean Tutorial"
 teaser: ""
 permalink: /tutorial/setting-up-development-environments
 ---
+<div class="row t30">
+
+<div class="medium-8 columns{% if page.sidebar == NULL %} medium-offset-2 end{% endif %}{% if page.sidebar == "left" %} medium-push-4{% endif %}" markdown="1">
+<div class="panel radius" markdown="1">
+{% include tutorial_toc %}
+**Tutorial Page Contents**
+{: #toc }
+*  TOC
+{:toc}
+</div>
+</div><!-- /.medium-4.columns -->
+
+
+
+<div class="medium-8 medium-pull-4 columns" markdown="1">
+
+
+
+</div><!-- /.medium-8.columns -->
+</div><!-- /.row -->
+
 
 In this section we present a list of development tools you will need to build and run the Simple Affable Bean web application.
 
@@ -81,6 +102,9 @@ Whatever folder you choose, let's refer to that folder as **$SAB_HOME** for the 
 * Install the Tomcat web application server underneath **$SAB_HOME**: This application server is a Java program that is used to run web applications, such as the Simple Affable Bean web application.
 Please install the [latest Tomcat 8.5 version](http://tomcat.apache.org/download-80.cgi).  The download is a .zip or .tar.gz file 
 that can simply be unpacked inside **$SAB_HOME**.  Installation simply involves unpacking the file.
+
+> **Windows users: please install the standalone and NOT the service version of Tomcat.  
+The reason for this is so that yourself and your development tools control when the Tomcat server is running by yourself.**
 
 You will know when you are finished installing Tomcat when you can see:
 {% highlight bash %}

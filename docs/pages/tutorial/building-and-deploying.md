@@ -3,8 +3,30 @@ layout: page-tutorial
 title: "Building and Deploying the Simple Affable Bean website"
 subheadline: "The Simple Affable Bean Tutorial"
 teaser: ""
-permalink: /tutorial/building-and-deploying-sab
+permalink: "/tutorial/building-and-deploying-sab"
 ---
+
+<div class="row t30">
+
+<div class="medium-8 columns{% if page.sidebar == NULL %} medium-offset-2 end{% endif %}{% if page.sidebar == "left" %} medium-push-4{% endif %}" markdown="1">
+<div class="panel radius" markdown="1">
+{% include tutorial_toc %}
+**Tutorial Page Contents**
+{: #toc }
+*  TOC
+{:toc}
+</div>
+</div><!-- /.medium-4.columns -->
+
+
+
+<div class="medium-8 medium-pull-4 columns" markdown="1">
+
+
+
+</div><!-- /.medium-8.columns -->
+</div><!-- /.row -->
+
 
 The goal of this part of the tutorial is to get the website built and running locally inside your Tomcat installation,
 in such a way that you can browse to it in your web browser, and in such a way that it is using your MySql simpleaffablebean 
@@ -166,7 +188,8 @@ For the Simple Affable Bean project, this file will be placed into $SAB_HOME/Sim
 To start the build procedure, change directory to $SAB_HOME/SimpleAffableBean.  This is where the application source code lives.
 
 We will be using the gradle build system, but it will be automatically downloaded if you have Java 8 installed.
-For more information on gradle and starting a build, see [this quick overview](https://spring.io/guides/gs/gradle/)
+For more information on gradle and starting a build, see [this quick overview](https://spring.io/guides/gs/gradle/).
+
 Start a build by typing:
 
 {% highlight bash %}
@@ -211,6 +234,23 @@ BUILD SUCCESSFUL
 Total time: 8.712 secs
 {% endhighlight %}
 
+If you choose to, you can [install Gradle locally](https://gradle.org/install), 
+and then commands are "gradle command" instead of "gradlew command".
+
+### Other gradle commands of interest for Simple Affable Bean
+
+Here is a brief list of some of the tasks supported by the Simple Affable Bean grade build by default.
+
+| Command | Action |
+|---------|--------|
+| gradle build | the 'build' task creates build/ and builds the application there |
+| gradle clean | the 'clean' task removes the build/ folder and all its contents |
+| gradle tasks | lists all gradle tasks |
+| gradle war | build another WAR file |
+| gradle junitPlatformTest | Runs the business and unit tests.  Recreates and re-populates the database. |
+| gradle qa | If your site is deployed, runs the quality assurance tests. |
+
+
 # Running the WAR Inside Tomcat
 
 Having built the web application, all that remains is to deploy the web application into Tomcat.
@@ -218,6 +258,7 @@ Having built the web application, all that remains is to deploy the web applicat
 This simply means copying the WAR file into the right place into Tomcat, then starting Tomcat running.
  
 {% highlight bash %}
+$ cd $SAB_HOME/SimpleAffableBean
 $ cp build/libs/SimpleAffableBean.war ../apache-tomcat-8.5.15/webapps/
 $ cd ../apache-tomcat-8.5.15/bin
 $ ./catalina.sh start
@@ -227,20 +268,75 @@ Using CATALINA_TMPDIR: /$SAB_HOME/apache-tomcat-8.5.15/temp
 Using JRE_HOME:        /Library/Java/JavaVirtualMachines/jdk1.8.0_77.jdk/Contents/Home
 Using CLASSPATH:       /$SAB_HOME/apache-tomcat-8.5.15/bin/bootstrap.jar:/$SAB_HOME/apache-tomcat-8.5.15/bin/tomcat-juli.jar
 Tomcat started.
-$ cd ../logs 
-$ tail catalina.out
-# Look for something like: 21-May-2017 16:39:37.081 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployWAR Deployment of web application archive /$SAB_HOME/apache-tomcat-8.5.9/webapps/SimpleAffableBean.war has finished in 1,682 ms
+$ 
 {% endhighlight %}
 
-You can verify your installation is successful by browsing to:  http://127.0.0.1:8080/SimpleAffableBean/
+For more detail, or in case something goes wrong, the "catalina.out" Tomcat log file in 
+**$SAB_HOME**/apache-tomcat-8.5.15/logs/catalina.out should contain information.  On successful startup you should see:
 
-You should see the home page: ![building-success-homepage]({{site.url}}{{site.baseurl}}/images/building-success-homepage.png){:class="img-responsive"}
+{% highlight bash %}
+$ cd $SAB_HOME/apache-tomcat-8.5.15/logs
+$ tail -1000f ../logs/catalina.out
+...
+21-May-2017 16:39:37.081 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployWAR Deployment of web application archive /$SAB_HOME/apache-tomcat-8.5.9/webapps/SimpleAffableBean.war has finished in 1,682 ms`
+...
+{% endhighlight %}
+
+You can verify your installation is successful by browsing to:  [http://127.0.0.1:8080/SimpleAffableBean/](http://127.0.0.1:8080/SimpleAffableBean/)
+
+
+
+
+You should see the home page: ![building-success-homepage]({{site.url}}{{site.baseurl}}/images/building-success-homepage.png){:class="img-responsive" style="width:500px"}
 
 Since you have made it this far, congratulations on setting up and running the project!
 
+### Re-deploying the WAR file
+
+Tomcat is automatically configured to detect changes to the WAR file, and to shut down and restart the web application
+automatically if that should occur.  So, to re-deploy a new version of the Simple Affable Bean, it is sufficient to:
+
+{% highlight bash %}
+$ cd $SAB_HOME/SimpleAffableBean
+$ gradle clean war
+:clean
+:compileJava
+:processResources NO-SOURCE
+:classes
+:war
+
+BUILD SUCCESSFUL
+
+Total time: 2.261 secs
+p build/libs/SimpleAffableBean.war ../apache-tomcat-8.5.9/webapps/
+overwrite ../apache-tomcat-8.5.9/webapps/SimpleAffableBean.war? (y/n [n]) y
+{% endhighlight %}
+
+You should see something like:
+
+`[ContainerBackgroundProcessor[StandardEngine[Catalina]]] INFO controller.SimpleAffableBeanContextListener - Servlet context shutting down.`
+
+followed by:
+
+`[localhost-startStop-2] INFO controller.SimpleAffableBeanContextListener - Servlet context initializing.`
+
+with a few warning log lines in between.  You can verify your re-installation is successful by browsing to:  [http://127.0.0.1:8080/SimpleAffableBean/](http://127.0.0.1:8080/SimpleAffableBean/)
+
+To shut down Tomcat, you simply run:
+{% highlight bash %}
+$ cd $SAB_HOME/apache-tomcat-8.5.15/bin
+$ ./catalina.sh stop
+Using CATALINA_BASE:   /Users/satkinson/Work/vtech/cs5244/SAB/apache-tomcat-8.5.9
+Using CATALINA_HOME:   /Users/satkinson/Work/vtech/cs5244/SAB/apache-tomcat-8.5.9
+Using CATALINA_TMPDIR: /Users/satkinson/Work/vtech/cs5244/SAB/apache-tomcat-8.5.9/temp
+Using JRE_HOME:        /Library/Java/JavaVirtualMachines/jdk1.8.0_77.jdk/Contents/Home
+Using CLASSPATH:       /Users/satkinson/Work/vtech/cs5244/SAB/apache-tomcat-8.5.9/bin/bootstrap.jar:/Users/satkinson/Work/vtech/cs5244/SAB/apache-tomcat-8.5.9/bin/tomcat-juli.jar
+{% endhighlight %}
+
+
 ----
 
-So, we can build and deploy the existing website.
+So, we can build and deploy, and then re-deploy the existing website.
 
 But, what are the technologies used to make this website?
 

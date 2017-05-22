@@ -5,6 +5,27 @@ subheadline: "The Simple Affable Bean Tutorial"
 teaser: ""
 permalink: /tutorial/website-architecture
 ---
+<div class="row t30">
+
+<div class="medium-8 columns{% if page.sidebar == NULL %} medium-offset-2 end{% endif %}{% if page.sidebar == "left" %} medium-push-4{% endif %}" markdown="1">
+<div class="panel radius" markdown="1">
+{% include tutorial_toc %}
+**Tutorial Page Contents**
+{: #toc }
+*  TOC
+{:toc}
+</div>
+</div><!-- /.medium-4.columns -->
+
+
+
+<div class="medium-8 medium-pull-4 columns" markdown="1">
+
+
+
+</div><!-- /.medium-8.columns -->
+</div><!-- /.row -->
+
 Before we start coding, let's examine the ways in which one can architect the project. 
 Specifically, we need to outline the responsibilities among functional components, 
 and determine how they will interact with each other.
