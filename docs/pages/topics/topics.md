@@ -1,10 +1,12 @@
 ---
-layout: page
+layout: page-fullwidth
 title: "Further Topics"
 subheadline: "The Simple Affable Bean Tutorial"
 teaser: ""
 permalink: /topics/
 ---
+
+(work-in-progress): All of the topics outlined below are on the roadmap to be discussed.
 
 - Additional Topics
   - Database Schema Design

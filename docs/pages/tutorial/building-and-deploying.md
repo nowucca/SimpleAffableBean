@@ -6,6 +6,10 @@ teaser: ""
 permalink: /tutorial/building-and-deploying-sab
 ---
 
+The goal of this part of the tutorial is to get the website built and running locally inside your Tomcat installation,
+in such a way that you can browse to it in your web browser, and in such a way that it is using your MySql simpleaffablebean 
+database.
+
 To start with, we assume you have the following:
 
 * A **$SAB_HOME** folder with Tomcat inside it.
@@ -13,13 +17,13 @@ To start with, we assume you have the following:
 
 There are a few steps to running the Simple Affable Bean application we will walk through below.
 
-# Obtain the Simple Affable Bean Source code.
+# Obtain the Simple Affable Bean Source code
  
 There are two main ways to download the Simple Affable BEan source code.
 
-* Download the most recent release as a zip or a tar file from the [latest release on GitHub](https://github.com/nowucca/SimpleAffableBean/releases/latest/) 
+1. Download the most recent release as a zip or a tar file from the [latest release on GitHub](https://github.com/nowucca/SimpleAffableBean/releases/latest/), or 
 
-* Clone the code from Github using git
+1. Clone the code from Github using git
 
 The Simple Affable Bean source code is available [on Github](https://github.com/nowucca/SimpleAffableBean)
 and can be cloned using the following commands:
@@ -28,7 +32,7 @@ $ cd $SAB_HOME
 $ git clone https://github.com/nowucca/SimpleAffableBean.git
 {% endhighlight %}
 
-Whether you are downloading or cloning, please unpack this into **SAB_HOME**, so you end up having a tree structure like:
+Whether you are downloading or cloning, please unpack this into **$SAB_HOME**, so you end up having a tree structure like:
 
 {% highlight bash %}
 SAB_HOME
@@ -236,6 +240,20 @@ Since you have made it this far, congratulations on setting up and running the p
 
 ----
 
-The tutorial stops here for now.
+So, we can build and deploy the existing website.
 
+But, what are the technologies used to make this website?
+
+How is the code structured?
+
+What is the reasoning behind these choices?
+
+How well will the site scale to tens, hundreds, thousands and millions of customers?
+
+The next sections of the tutorial are a code walkabout.  As we look though the code, we will point out not only
+what the code does, but why it is structured that way.  
+
+----
+
+The tutorial stops here for now.
 The code walkabout pages will be written shortly.

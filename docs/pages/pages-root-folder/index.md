@@ -42,6 +42,16 @@ permalink: /index.html
 # Welcome to SimpleAffableBean!  
 
 This project is a coding and tutorial website for development of e-commerce websites using Java technology.
+
+This site hosts a tutorial, and follow-on design topics, all helping to describe and understand how to build an e-commerce web application
+using Java technologies.  The site is called the "Simple Affable Bean", and is an online grocery store.
+
+The tutorial covers site requirements, website architecture, setting up a development environment and then building and deploying the web application.
+After running through the tutorial, you should have an environment established to make changes, build and re-deploy the site.
+
+(work in progress): The tutorial then presents a code "walkabout", where the key elements of the structure of the website ("what" and "where") are explained with code samples from the project.
+The follow-on design topics help explain the reasons ("why") driving the structure of the code.
+
 The source code for the project is available at [the GitHub site](http://www.github.com/nowucca/SimpleAffableBean).
 
 This software is an adaptation from the [Affable Bean project](https://netbeans.org/kb/docs/javaee/ecommerce/intro.html), moving away from EJB and using a simpler modern technology stack.
@@ -50,25 +60,14 @@ Please see the [LICENCE.affablebean.txt](https://raw.githubusercontent.com/nowuc
 This project is being released under the "new" [BSD 3-clause license](https://raw.githubusercontent.com/nowucca/SimpleAffableBean/master/LICENSE).
 
 
-This site hosts a tutorial, follow-on design topics,  and a blog: all helping to describe and understand how to build an e-commerce web application.
-
-The tutorial starts with an overview of website architecture, and requirements for the SimpleAffableBEan grocery store.
-Next is how to set up the development environment, and then download and deploy the web application.  The tutorial then presents a
-code "walkabout", where the key elements of the structure of the website ("what" and "where") are explained with code samples from the project.
-
-The follow-on design topics help explain the reasons ("why") driving the structure of the code.
-
-The blog area will capture project improvements and announcements over time.
-
 Feel free to look around!
 
-
-## Prerequisites
+### Prerequisites
 
 To follow the tutorial and explanations, we assume a working knowledge of the basics of Java programming.
 
 
-# Why Rewrite AffableBean?
+### Why Rewrite AffableBean?
 
 In my experience, hardly anyone uses the EJB stack as it was meant to be used, with session and entity beans, data sources, services and the rest of it.  
 I've found that some of the EJB technology have too much abstraction.  This means the frameworks are seductively easy to use.  
@@ -119,7 +118,3 @@ and uses fewer frameworks.
 - Added second-level caching using Guava for category and product model objects, with ability to periodically refresh the caches 
 - Moved folders to be standard for the build system
 - Added acceptance test regime using Selenium-HtmlUnitDriver
-
-
-# SimpleAffableBean Blog
-

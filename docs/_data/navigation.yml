@@ -1,7 +1,7 @@
 #
 #   Navigation to the left › side: left
 #
-- title: Start
+- title: Home
   url: "/"
   side: left
 
@@ -28,12 +28,12 @@
 - title: "Further Topics"
   url: "/topics/"
   side: left
-- title: Blog
-  url: "/blog/"
-  side: left
-  dropdown:
-  - title: "Blog Archive"
-    url: "/blog/archive/"
+#- title: Blog
+#  url: "/blog/"
+#  side: left
+#  dropdown:
+#  - title: "Blog Archive"
+#    url: "/blog/archive/"
 - title: "Contact"
   url: "/contact/"
   side: left
