@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: page-tutorial
 title: "Code Walkabout: Controller Layer"
 subheadline: "The Simple Affable Bean Tutorial"
 teaser: ""

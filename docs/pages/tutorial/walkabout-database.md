@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: page-tutorial
 title: "Code Walkabout: Database Layer"
 subheadline: "The Simple Affable Bean Tutorial"
 teaser: ""

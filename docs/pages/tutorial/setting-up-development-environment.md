@@ -1,5 +1,5 @@
 ---
-layout: page-fullwidth
+layout: page-tutorial
 title: "Setting Up Your Development Environment"
 subheadline: "The Simple Affable Bean Tutorial"
 teaser: ""

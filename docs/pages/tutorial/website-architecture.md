@@ -1,5 +1,5 @@
 ---
-layout: page-fullwidth
+layout: page-tutorial
 title: "Introduction to Website Architecture"
 subheadline: "The Simple Affable Bean Tutorial"
 teaser: ""

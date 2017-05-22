@@ -1,5 +1,5 @@
 ---
-layout: page-fullwidth
+layout: page-tutorial
 title: "Simple Affable Bean Site Requirements"
 subheadline: "The Simple Affable Bean Tutorial"
 teaser: ""

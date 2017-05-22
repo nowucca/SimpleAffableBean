@@ -1,7 +1,7 @@
 ---
-layout: page
+layout: page-tutorial
 title: "Tutorial"
-sidebar: left
+sidebar: none
 subheadline: "The Simple Affable Bean Tutorial"
 teaser: ""
 permalink: /tutorial/
@@ -37,9 +37,9 @@ The application that is described in this tutorial involves concepts, technologi
     * MySQL, a relational database management server (RDBMS)
     * MySQL WorkBench, a visual database design tool
 
+
 ## Tutorial Contents
 
- 
 [Site Requirements]({{site.url}}/tutorial/site-requirements)
 
 [Introduction to Website Architecture]({{site.url}}/tutorial/website-architecture)
@@ -57,4 +57,3 @@ Code Walkabout
 * [Code Walkabout: Controller-View-Model]({{site.url}}/tutorial/walkabout/controller)
 
 * [Code Walkabout: View]({{site.url}}/tutorial/walkabout/view)
- 
