@@ -13,8 +13,7 @@
   <li>{% if toclink != "/tutorial/building-and-deploying-sab" %}<a href="{{site.baseurl}}{{site.url}}/tutorial/building-and-deploying-sab">Building and Deploying</a>{% else %}Building and Deploying{% endif %}</li>
 
   <li>{% if toclink != "/tutorial/walkabout/" %}<a href="{{site.baseurl}}{{site.url}}/tutorial/walkabout">Code Walkabout</a>{% else %}Code Walkabout{% endif %}
-         ({% if toclink != "/tutorial/walkabout/" %}<a href="{{site.baseurl}}{{site.url}}/tutorial/walkabout">Home</a>{% else %}Home{% endif %}|
-          {% if toclink != "/tutorial/walkabout/database" %}<a href="{{site.baseurl}}{{site.url}}/tutorial/walkabout/database">Database</a>{% else %}Database{% endif %}|
+         ({% if toclink != "/tutorial/walkabout/database" %}<a href="{{site.baseurl}}{{site.url}}/tutorial/walkabout/database">Database</a>{% else %}Database{% endif %}|
           {% if toclink != "/tutorial/walkabout/business" %}<a href="{{site.baseurl}}{{site.url}}/tutorial/walkabout/business">Business</a>{% else %}Business{% endif %}|
           {% if toclink != "/tutorial/walkabout/controller" %}<a href="{{site.baseurl}}{{site.url}}/tutorial/walkabout/controller">Controller</a>{% else %}Controller{% endif %}|
           {% if toclink != "/tutorial/walkabout/view" %}<a href="{{site.baseurl}}{{site.url}}/tutorial/walkabout/view">View</a>{% else %}View{% endif %})</li>
