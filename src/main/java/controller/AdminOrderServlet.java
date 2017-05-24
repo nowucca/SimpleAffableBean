@@ -56,27 +56,24 @@ import org.slf4j.LoggerFactory;
 /**
  *
  */
-@WebServlet(name = "AdminServlet",
-        loadOnStartup = 1)
+@WebServlet(name = "AdminOrderServlet",
+        urlPatterns = {"/admin/order"})
 @ServletSecurity(
-    @HttpConstraint(transportGuarantee = TransportGuarantee.CONFIDENTIAL,
-                    rolesAllowed = {"simpleAffableBeanAdmin"})
+        @HttpConstraint(transportGuarantee = TransportGuarantee.CONFIDENTIAL,
+                rolesAllowed = {"simpleAffableBeanAdmin"})
 )
-public class AdminServlet extends HttpServlet {
+public class AdminOrderServlet extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    private CustomerService customerService;
+    private CustomerOrderService customerOrderService;
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
-        HttpSession session = request.getSession(true);
-        String userPath = request.getServletPath();
-
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        ApplicationContext applicationContext = ApplicationContext.INSTANCE;
+        customerService = applicationContext.getCustomerService();
+        customerOrderService = applicationContext.getCustomerOrderService();
     }
 
     /**
@@ -89,20 +86,30 @@ public class AdminServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
-    }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
+        HttpSession session = request.getSession(true);
+        String userPath = request.getServletPath();
+
+        // get customer ID from request
+        String orderId = request.getParameter("orderId");
+
+        // get order details
+        CustomerOrderDetails details = customerOrderService.getOrderDetails(Long.parseLong(orderId));
+
+        // place order details in request scope
+        request.setAttribute("customer", details.getCustomer());
+        request.setAttribute("products", details.getProducts());
+        request.setAttribute("orderRecord", details.getCustomerOrder());
+        request.setAttribute("orderedProducts", details.getCustomerOrderLineItems());
+
+        userPath = "/admin/order.jsp";
+        // use RequestDispatcher to forward request internally
+        try {
+            request.getRequestDispatcher(userPath).forward(request, response);
+        } catch (Exception ex) {
+            logger.error("Failed to forward to JSP {}", userPath, ex);
+        }
+
     }
 
 }
