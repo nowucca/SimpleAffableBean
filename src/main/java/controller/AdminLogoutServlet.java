@@ -62,23 +62,16 @@ import org.slf4j.LoggerFactory;
         @HttpConstraint(transportGuarantee = TransportGuarantee.CONFIDENTIAL,
                 rolesAllowed = {"simpleAffableBeanAdmin"})
 )
-public class AdminLogoutServlet extends HttpServlet {
+public class AdminLogoutServlet extends AdminServlet {
 
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        HttpSession session = request.getSession(true);
+        HttpSession session = request.getSession(false);
 
-        session = request.getSession();
-        session.invalidate();   // terminate session
+        if (session != null) session.invalidate();
+
         response.sendRedirect(request.getContextPath() + "/admin/");
         return;
 

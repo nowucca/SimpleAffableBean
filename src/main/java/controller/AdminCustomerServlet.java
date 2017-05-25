@@ -62,11 +62,10 @@ import org.slf4j.LoggerFactory;
         @HttpConstraint(transportGuarantee = TransportGuarantee.CONFIDENTIAL,
                 rolesAllowed = {"simpleAffableBeanAdmin"})
 )
-public class AdminCustomerServlet extends HttpServlet {
+public class AdminCustomerServlet extends AdminServlet {
 
     private CustomerService customerService;
     private CustomerOrderService customerOrderService;
-    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -76,16 +75,8 @@ public class AdminCustomerServlet extends HttpServlet {
         customerOrderService = applicationContext.getCustomerOrderService();
     }
 
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-//    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         HttpSession session = request.getSession(true);
@@ -93,8 +84,6 @@ public class AdminCustomerServlet extends HttpServlet {
 
         // get customer ID from request
         String customerId = request.getParameter("customerId");
-//        String pathInfo = request.getPathInfo();
-//        String customerId = pathInfo.replace("/admin/customer/", "");
 
         // get customer details
         Customer customer = customerService.findByCustomerId(Integer.parseInt(customerId));
@@ -104,16 +93,9 @@ public class AdminCustomerServlet extends HttpServlet {
         CustomerOrder order = customerOrderService.findByCustomerId(Integer.parseInt(customerId));
         request.setAttribute("order", order);
 
-        userPath = "/admin/customer.jsp";
-        // use RequestDispatcher to forward request internally
-        try {
-            request.getRequestDispatcher(userPath).forward(request, response);
-        } catch (Exception ex) {
-            logger.error("Failed to forward to JSP {}", userPath, ex);
-        }
+        doForwardToAdminJSP(request, response, "/admin/customer");
 
     }
-
 
 }
 

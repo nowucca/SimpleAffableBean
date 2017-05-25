@@ -85,10 +85,6 @@ public class Customer  {
         return cityRegion;
     }
 
-    public String getCcNumber() {
-        return ccNumber;
-    }
-
     @Override
     public String toString() {
         return "business.customer.Customer[customerId=" + customerId + "]";

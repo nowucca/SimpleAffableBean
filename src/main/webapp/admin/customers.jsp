@@ -32,62 +32,32 @@
 
 --%>
 
-<div id="adminMenuBox">
-    <div id="adminMenu" class="alignLeft">
-        <p><a href="<c:url value='customers'/>">view all customers</a></p>
-
-        <p><a href="<c:url value='orders'/>">view all orders</a></p>
-
-        <p><a href="<c:url value='logout'/>">log out</a></p>
-    </div>
-
-    <div class="adminForm">
-        <form action="<c:url value='customer'/>" method="get">
-            view customer record<br>
-            <input type="text" name="customerId" placeholder=" enter customer id here.." required>
-            <input type="submit" value="Submit">
-        </form>
-    </div>
-
-    <div class="adminForm">
-        <form action="<c:url value='order'/>" method="get">
-            view order record<br>
-            <input type="text" name="orderId" placeholder=" enter order id here.." required>
-            <input type="submit" value="Submit">
-        </form>
-    </div>
-</div>
-
 <%-- customerList is requested --%>
-<c:if test="${!empty customerList}">
+<table id="adminTable" class="detailsTable">
 
-    <table id="adminTable" class="detailsTable">
+    <tr class="header">
+        <th colspan="4">customers</th>
+    </tr>
 
-        <tr class="header">
-            <th colspan="4">customers</th>
+    <tr class="tableHeading">
+        <td>customer id</td>
+        <td>name</td>
+        <td>email</td>
+        <td>phone</td>
+    </tr>
+
+    <c:forEach var="customer" items="${customerList}" varStatus="iter">
+
+        <tr class="${((iter.index % 2) == 1) ? 'lightBlue' : 'white'} tableRow"
+            onclick="document.location.href='customer?${customer.customerId}'">
+
+                <%-- Below anchor tags are provided in case JavaScript is disabled --%>
+            <td><a href="customer?${customer.customerId}" class="noDecoration">${customer.customerId}</a></td>
+            <td><a href="customer?${customer.customerId}" class="noDecoration">${customer.name}</a></td>
+            <td><a href="customer?${customer.customerId}" class="noDecoration">${customer.email}</a></td>
+            <td><a href="customer?${customer.customerId}" class="noDecoration">${customer.phone}</a></td>
         </tr>
 
-        <tr class="tableHeading">
-            <td>customer id</td>
-            <td>name</td>
-            <td>email</td>
-            <td>phone</td>
-        </tr>
+    </c:forEach>
 
-        <c:forEach var="customer" items="${customerList}" varStatus="iter">
-
-            <tr class="${((iter.index % 2) == 1) ? 'lightBlue' : 'white'} tableRow"
-                onclick="document.location.href='customerRecord?${customer.customerId}'">
-
-                    <%-- Below anchor tags are provided in case JavaScript is disabled --%>
-                <td><a href="customerRecord?${customer.customerId}" class="noDecoration">${customer.customerId}</a></td>
-                <td><a href="customerRecord?${customer.customerId}" class="noDecoration">${customer.name}</a></td>
-                <td><a href="customerRecord?${customer.customerId}" class="noDecoration">${customer.email}</a></td>
-                <td><a href="customerRecord?${customer.customerId}" class="noDecoration">${customer.phone}</a></td>
-            </tr>
-
-        </c:forEach>
-
-    </table>
-
-</c:if>
+</table>

@@ -32,70 +32,40 @@
 
 --%>
 
-<div id="adminMenuBox">
-    <div id="adminMenu" class="alignLeft">
-        <p><a href="<c:url value='customers'/>">view all customers</a></p>
-
-        <p><a href="<c:url value='orders'/>">view all orders</a></p>
-
-        <p><a href="<c:url value='logout'/>">log out</a></p>
-    </div>
-
-    <div class="adminForm">
-        <form action="<c:url value='customer'/>" method="get">
-            view customer record<br>
-            <input type="text" name="customerId" placeholder=" enter customer id here.." required>
-            <input type="submit" value="Submit">
-        </form>
-    </div>
-
-    <div class="adminForm">
-        <form action="<c:url value='order'/>" method="get">
-            view order record<br>
-            <input type="text" name="orderId" placeholder=" enter order id here.." required>
-            <input type="submit" value="Submit">
-        </form>
-    </div>
-</div>
-
 <%-- orderList is requested --%>
-<c:if test="${!empty orderList}">
+<table id="adminTable" class="detailsTable">
 
-    <table id="adminTable" class="detailsTable">
+    <tr class="header">
+        <th colspan="4">orders</th>
+    </tr>
 
-        <tr class="header">
-            <th colspan="4">orders</th>
+    <tr class="tableHeading">
+        <td>order id</td>
+        <td>confirmation number</td>
+        <td>amount</td>
+        <td>date created</td>
+    </tr>
+
+    <c:forEach var="order" items="${orderList}" varStatus="iter">
+
+        <tr class="${((iter.index % 2) == 1) ? 'lightBlue' : 'white'} tableRow"
+            onclick="document.location.href='orderRecord?${order.customerOrderId}'">
+
+                <%-- Below anchor tags are provided in case JavaScript is disabled --%>
+            <td><a href="order?${order.customerOrderId}" class="noDecoration">${order.customerOrderId}</a></td>
+            <td><a href="order?${order.customerOrderId}" class="noDecoration">${order.confirmationNumber}</a></td>
+            <td><a href="order?${order.customerOrderId}" class="noDecoration">
+                <fmt:formatNumber type="currency"
+                                  currencySymbol="&euro; "
+                                  value="${order.amount/100.0}"/></a></td>
+
+            <td><a href="order?${order.customerOrderId}" class="noDecoration">
+                <fmt:formatDate value="${order.dateCreated}"
+                                type="both"
+                                dateStyle="short"
+                                timeStyle="short"/></a></td>
         </tr>
 
-        <tr class="tableHeading">
-            <td>order id</td>
-            <td>confirmation number</td>
-            <td>amount</td>
-            <td>date created</td>
-        </tr>
+    </c:forEach>
 
-        <c:forEach var="order" items="${orderList}" varStatus="iter">
-
-            <tr class="${((iter.index % 2) == 1) ? 'lightBlue' : 'white'} tableRow"
-                onclick="document.location.href='orderRecord?${order.customerOrderId}'">
-
-                    <%-- Below anchor tags are provided in case JavaScript is disabled --%>
-                <td><a href="orderRecord?${order.customerOrderId}" class="noDecoration">${order.customerOrderId}</a></td>
-                <td><a href="orderRecord?${order.customerOrderId}" class="noDecoration">${order.confirmationNumber}</a></td>
-                <td><a href="orderRecord?${order.customerOrderId}" class="noDecoration">
-                    <fmt:formatNumber type="currency"
-                                      currencySymbol="&euro; "
-                                      value="${order.amount/100.0}"/></a></td>
-
-                <td><a href="orderRecord?${order.customerOrderId}" class="noDecoration">
-                    <fmt:formatDate value="${order.dateCreated}"
-                                    type="both"
-                                    dateStyle="short"
-                                    timeStyle="short"/></a></td>
-            </tr>
-
-        </c:forEach>
-
-    </table>
-
-</c:if>
+</table>

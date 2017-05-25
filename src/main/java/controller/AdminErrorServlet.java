@@ -59,31 +59,16 @@ import org.slf4j.LoggerFactory;
 @WebServlet(name = "AdminErrorServlet",
         urlPatterns = {"/admin/error"})
 @ServletSecurity(
-        @HttpConstraint(transportGuarantee = TransportGuarantee.CONFIDENTIAL,
-                rolesAllowed = {"simpleAffableBeanAdmin"})
+        @HttpConstraint(transportGuarantee = TransportGuarantee.CONFIDENTIAL)
 )
-public class AdminErrorServlet extends HttpServlet {
+public class AdminErrorServlet extends AdminServlet {
 
-    private final Logger logger = LoggerFactory.getLogger(getClass());
-
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String userPath = "/admin/error.jsp";
-        // use RequestDispatcher to forward request internally
-        try {
-            request.getRequestDispatcher(userPath).forward(request, response);
-        } catch (Exception ex) {
-            logger.error("Failed to forward to JSP {}", userPath, ex);
-        }
+        doForwardToAdminJSP(request, response, "/admin/error");
+
     }
 
 }

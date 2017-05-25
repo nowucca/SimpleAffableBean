@@ -32,78 +32,48 @@
 
 --%>
 
-<div id="adminMenuBox">
-    <div id="adminMenu" class="alignLeft">
-        <p><a href="<c:url value='customers'/>">view all customers</a></p>
-
-        <p><a href="<c:url value='orders'/>">view all orders</a></p>
-
-        <p><a href="<c:url value='logout'/>">log out</a></p>
-    </div>
-
-    <div class="adminForm">
-        <form action="<c:url value='customer'/>" method="get">
-            view customer record<br>
-            <input type="text" name="customerId" placeholder=" enter customer id here.." required>
-            <input type="submit" value="Submit">
-        </form>
-    </div>
-
-    <div class="adminForm">
-        <form action="<c:url value='order'/>" method="get">
-            view order record<br>
-            <input type="text" name="orderId" placeholder=" enter order id here.." required>
-            <input type="submit" value="Submit">
-        </form>
-    </div>
-</div>
-
 <%-- customerRecord is requested --%>
-<c:if test="${!empty customerRecord}">
+<table id="adminTable" class="detailsTable">
 
-    <table id="adminTable" class="detailsTable">
+    <tr class="header">
+        <th colspan="2">customer details</th>
+    </tr>
+    <tr>
+        <td style="width: 290px"><strong>customer id:</strong></td>
+        <td>${customerRecord.customerId}</td>
+    </tr>
+    <tr>
+        <td><strong>name:</strong></td>
+        <td>${customerRecord.name}</td>
+    </tr>
+    <tr>
+        <td><strong>email:</strong></td>
+        <td>${customerRecord.email}</td>
+    </tr>
+    <tr>
+        <td><strong>phone:</strong></td>
+        <td>${customerRecord.phone}</td>
+    </tr>
+    <tr>
+        <td><strong>address:</strong></td>
+        <td>${customerRecord.address}</td>
+    </tr>
+    <tr>
+        <td><strong>city region:</strong></td>
+        <td>${customerRecord.cityRegion}</td>
+    </tr>
+    <tr>
+        <td><strong>credit card number:</strong></td>
+        <td>${customerRecord.ccNumber}</td>
+    </tr>
 
-        <tr class="header">
-            <th colspan="2">customer details</th>
-        </tr>
-        <tr>
-            <td style="width: 290px"><strong>customer id:</strong></td>
-            <td>${customerRecord.customerId}</td>
-        </tr>
-        <tr>
-            <td><strong>name:</strong></td>
-            <td>${customerRecord.name}</td>
-        </tr>
-        <tr>
-            <td><strong>email:</strong></td>
-            <td>${customerRecord.email}</td>
-        </tr>
-        <tr>
-            <td><strong>phone:</strong></td>
-            <td>${customerRecord.phone}</td>
-        </tr>
-        <tr>
-            <td><strong>address:</strong></td>
-            <td>${customerRecord.address}</td>
-        </tr>
-        <tr>
-            <td><strong>city region:</strong></td>
-            <td>${customerRecord.cityRegion}</td>
-        </tr>
-        <tr>
-            <td><strong>credit card number:</strong></td>
-            <td>${customerRecord.ccNumber}</td>
-        </tr>
+    <tr><td colspan="2" style="padding: 0 20px"><hr></td></tr>
 
-        <tr><td colspan="2" style="padding: 0 20px"><hr></td></tr>
-
-        <tr class="tableRow"
-            onclick="document.location.href='order?orderId=${order.customerOrderId}'">
-            <td colspan="2">
-                    <%-- Anchor tag is provided in case JavaScript is disabled --%>
-                <a href="order?orderId=${order.customerOrderId}" class="noDecoration">
-                    <strong>view order summary &#x279f;</strong></a></td>
-        </tr>
-    </table>
-
-</c:if>
+    <tr class="tableRow"
+        onclick="document.location.href='order?orderId=${order.customerOrderId}'">
+        <td colspan="2">
+            <%-- Anchor tag is provided in case JavaScript is disabled --%>
+            <a href="order?orderId=${order.customerOrderId}" class="noDecoration">
+                <strong>view order summary &#x279f;</strong></a></td>
+    </tr>
+</table>
