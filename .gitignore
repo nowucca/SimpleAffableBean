@@ -19,6 +19,7 @@ hs_err_pid*
 .gradle/
 build/
 project/
+!/gradle/wrapper/gradle-wrapper.jar
 
 # SimpleAffableBean ignore files
 .ideaDataSources/
