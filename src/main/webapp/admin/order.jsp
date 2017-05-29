@@ -107,10 +107,10 @@
     <tr><td colspan="3" style="padding: 0 20px"><hr></td></tr>
 
     <tr class="tableRow"
-        onclick="document.location.href='customer?customerId=${customer.customerId}'">
+        onclick="document.location.href='<c:url value="/admin/customer/${customer.customerId}"/>'">
         <td colspan="2">
             <%-- Anchor tag is provided in case JavaScript is disabled --%>
-            <a href="customer?customerId=${customer.customerId}" class="noDecoration">
+            <a href="<c:url value="/admin/customer/${customer.customerId}"/>" class="noDecoration">
                 <strong>view customer details &#x279f;</strong></a></td>
     </tr>
 </table>

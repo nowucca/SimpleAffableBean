@@ -49,17 +49,17 @@
     <c:forEach var="order" items="${orderList}" varStatus="iter">
 
         <tr class="${((iter.index % 2) == 1) ? 'lightBlue' : 'white'} tableRow"
-            onclick="document.location.href='orderRecord?${order.customerOrderId}'">
+            onclick="document.location.href='<c:url value="/admin/order/${order.customerOrderId}"/>'">
 
                 <%-- Below anchor tags are provided in case JavaScript is disabled --%>
-            <td><a href="order?${order.customerOrderId}" class="noDecoration">${order.customerOrderId}</a></td>
-            <td><a href="order?${order.customerOrderId}" class="noDecoration">${order.confirmationNumber}</a></td>
-            <td><a href="order?${order.customerOrderId}" class="noDecoration">
+            <td><a href="<c:url value="/admin/order/${order.customerOrderId}"/>" class="noDecoration">${order.customerOrderId}</a></td>
+            <td><a href="<c:url value="/admin/order/${order.customerOrderId}"/>" class="noDecoration">${order.confirmationNumber}</a></td>
+            <td><a href="<c:url value="/admin/order/${order.customerOrderId}"/>" class="noDecoration">
                 <fmt:formatNumber type="currency"
                                   currencySymbol="&euro; "
                                   value="${order.amount/100.0}"/></a></td>
 
-            <td><a href="order?${order.customerOrderId}" class="noDecoration">
+            <td><a href="<c:url value="/admin/order/${order.customerOrderId}"/>" class="noDecoration">
                 <fmt:formatDate value="${order.dateCreated}"
                                 type="both"
                                 dateStyle="short"

@@ -31,26 +31,15 @@
  */
 package controller;
 
-import business.ApplicationContext;
-import business.customer.Customer;
-import business.customer.CustomerService;
-import business.order.CustomerOrder;
-import business.order.CustomerOrderDetails;
-import business.order.CustomerOrderService;
 import java.io.IOException;
-import java.util.List;
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.HttpConstraint;
 import javax.servlet.annotation.ServletSecurity;
 import javax.servlet.annotation.ServletSecurity.TransportGuarantee;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 /**
@@ -70,11 +59,11 @@ public class AdminLogoutServlet extends AdminServlet {
 
         HttpSession session = request.getSession(false);
 
-        if (session != null) session.invalidate();
+        if (session != null) {
+            session.invalidate();
+        }
 
-        response.sendRedirect(request.getContextPath() + "/admin/");
-        return;
-
+        doTemporaryAdminRedirect(request, response, "/");
     }
 
 }

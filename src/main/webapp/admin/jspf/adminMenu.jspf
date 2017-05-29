@@ -33,15 +33,15 @@
 --%>
 <div id="adminMenuBox">
     <div id="adminMenu" class="alignLeft">
-        <p><a href="<c:url value='customers'/>">view all customers</a></p>
+        <p><a href="<c:url value='/admin/customers'/>">view all customers</a></p>
 
-        <p><a href="<c:url value='orders'/>">view all orders</a></p>
+        <p><a href="<c:url value='/admin/orders'/>">view all orders</a></p>
 
-        <p><a href="<c:url value='logout'/>">log out</a></p>
+        <p><a href="<c:url value='/admin/logout'/>">log out</a></p>
     </div>
 
     <div class="adminForm">
-        <form action="<c:url value='customer'/>" method="get">
+        <form onsubmit="setActionOnFormSubmit(this, this.customerId)" action="<c:url value='/admin/customer'/>" method="get">
             view customer record<br>
             <input type="text" name="customerId" placeholder=" enter customer id here.." required>
             <input type="submit" value="Submit">
@@ -49,7 +49,7 @@
     </div>
 
     <div class="adminForm">
-        <form action="<c:url value='order'/>" method="get">
+        <form onsubmit="setActionOnFormSubmit(this, this.orderId)" action="<c:url value='/admin/order'/>" method="get">
             view order record<br>
             <input type="text" name="orderId" placeholder=" enter order id here.." required>
             <input type="submit" value="Submit">

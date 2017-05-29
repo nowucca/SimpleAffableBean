@@ -70,10 +70,10 @@
     <tr><td colspan="2" style="padding: 0 20px"><hr></td></tr>
 
     <tr class="tableRow"
-        onclick="document.location.href='order?orderId=${order.customerOrderId}'">
+        onclick="document.location.href='<c:url value="/admin/order/${order.customerOrderId}"/>'">
         <td colspan="2">
             <%-- Anchor tag is provided in case JavaScript is disabled --%>
-            <a href="order?orderId=${order.customerOrderId}" class="noDecoration">
+            <a href="<c:url value="/admin/order/${order.customerOrderId}"/>" class="noDecoration">
                 <strong>view order summary &#x279f;</strong></a></td>
     </tr>
 </table>
