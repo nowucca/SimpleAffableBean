@@ -31,14 +31,33 @@
     OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 --%>
-<form action="<c:url value='j_security_check'/>" method=post>
-    <div id="loginBox">
-        <p><strong>username:</strong>
-            <input type="text" size="20" name="j_username"></p>
 
-        <p><strong>password:</strong>
-            <input type="password" size="20" name="j_password"></p>
+<%-- customerList is requested --%>
+<table id="adminTable" class="detailsTable">
 
-        <p><input type="submit" value="submit"></p>
-    </div>
-</form>
+    <tr class="header">
+        <th colspan="4">customers</th>
+    </tr>
+
+    <tr class="tableHeading">
+        <td>customer id</td>
+        <td>name</td>
+        <td>email</td>
+        <td>phone</td>
+    </tr>
+
+    <c:forEach var="customer" items="${customerList}" varStatus="iter">
+
+        <tr class="${((iter.index % 2) == 1) ? 'lightBlue' : 'white'} tableRow"
+            onclick="document.location.href='customer/${customer.customerId}'">
+
+                <%-- Below anchor tags are provided in case JavaScript is disabled --%>
+            <td><a href="<c:url value="/admin/customer/${customer.customerId}"/>" class="noDecoration">${customer.customerId}</a></td>
+            <td><a href="<c:url value="/admin/customer/${customer.customerId}"/>" class="noDecoration">${customer.name}</a></td>
+            <td><a href="<c:url value="/admin/customer/${customer.customerId}"/>" class="noDecoration">${customer.email}</a></td>
+            <td><a href="<c:url value="/admin/customer/${customer.customerId}"/>" class="noDecoration">${customer.phone}</a></td>
+        </tr>
+
+    </c:forEach>
+
+</table>

@@ -31,14 +31,29 @@
     OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 --%>
-<form action="<c:url value='j_security_check'/>" method=post>
-    <div id="loginBox">
-        <p><strong>username:</strong>
-            <input type="text" size="20" name="j_username"></p>
+<div id="adminMenuBox">
+    <div id="adminMenu" class="alignLeft">
+        <p><a href="<c:url value='/admin/customers'/>">view all customers</a></p>
 
-        <p><strong>password:</strong>
-            <input type="password" size="20" name="j_password"></p>
+        <p><a href="<c:url value='/admin/orders'/>">view all orders</a></p>
 
-        <p><input type="submit" value="submit"></p>
+        <p><a href="<c:url value='/admin/logout'/>">log out</a></p>
     </div>
-</form>
+
+    <div class="adminForm">
+        <form onsubmit="setActionOnFormSubmit(this, this.customerId)" action="<c:url value='/admin/customer'/>" method="get">
+            view customer record<br>
+            <input type="text" name="customerId" placeholder=" enter customer id here.." required>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+
+    <div class="adminForm">
+        <form onsubmit="setActionOnFormSubmit(this, this.orderId)" action="<c:url value='/admin/order'/>" method="get">
+            view order record<br>
+            <input type="text" name="orderId" placeholder=" enter order id here.." required>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+</div>
+

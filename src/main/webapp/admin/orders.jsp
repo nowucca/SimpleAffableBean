@@ -31,14 +31,41 @@
     OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 --%>
-<form action="<c:url value='j_security_check'/>" method=post>
-    <div id="loginBox">
-        <p><strong>username:</strong>
-            <input type="text" size="20" name="j_username"></p>
 
-        <p><strong>password:</strong>
-            <input type="password" size="20" name="j_password"></p>
+<%-- orderList is requested --%>
+<table id="adminTable" class="detailsTable">
 
-        <p><input type="submit" value="submit"></p>
-    </div>
-</form>
+    <tr class="header">
+        <th colspan="4">orders</th>
+    </tr>
+
+    <tr class="tableHeading">
+        <td>order id</td>
+        <td>confirmation number</td>
+        <td>amount</td>
+        <td>date created</td>
+    </tr>
+
+    <c:forEach var="order" items="${orderList}" varStatus="iter">
+
+        <tr class="${((iter.index % 2) == 1) ? 'lightBlue' : 'white'} tableRow"
+            onclick="document.location.href='<c:url value="/admin/order/${order.customerOrderId}"/>'">
+
+                <%-- Below anchor tags are provided in case JavaScript is disabled --%>
+            <td><a href="<c:url value="/admin/order/${order.customerOrderId}"/>" class="noDecoration">${order.customerOrderId}</a></td>
+            <td><a href="<c:url value="/admin/order/${order.customerOrderId}"/>" class="noDecoration">${order.confirmationNumber}</a></td>
+            <td><a href="<c:url value="/admin/order/${order.customerOrderId}"/>" class="noDecoration">
+                <fmt:formatNumber type="currency"
+                                  currencySymbol="&euro; "
+                                  value="${order.amount/100.0}"/></a></td>
+
+            <td><a href="<c:url value="/admin/order/${order.customerOrderId}"/>" class="noDecoration">
+                <fmt:formatDate value="${order.dateCreated}"
+                                type="both"
+                                dateStyle="short"
+                                timeStyle="short"/></a></td>
+        </tr>
+
+    </c:forEach>
+
+</table>

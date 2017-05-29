@@ -442,6 +442,12 @@ label.error {
     border-radius: 4px;
 }
 
+#adminMenuBox {
+    position: relative;
+    width: 100%;
+    height: 170px;
+}
+
 #adminMenu {
     float: left;
     width: 180px;
@@ -453,9 +459,25 @@ label.error {
 
 #adminMenu p { margin-left: 15px }
 
+.adminForm {
+    float: left;
+    width: 250px;
+    margin: 25px 5px 0 20px;
+    padding: 15px;
+    text-align: left;
+    border: solid 1px #f5eabe;
+    background-color: #f5eabe;
+    border-radius: 4px;
+}
+
+#customerForm {}
+
+#orderForm {}
+
 #adminTable {
     width: 580px;
-    float: left;
+    margin-left: auto;
+    margin-right: auto;
     background-color: #edf8f7;
 }
 

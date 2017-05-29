@@ -31,14 +31,49 @@
     OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 --%>
-<form action="<c:url value='j_security_check'/>" method=post>
-    <div id="loginBox">
-        <p><strong>username:</strong>
-            <input type="text" size="20" name="j_username"></p>
 
-        <p><strong>password:</strong>
-            <input type="password" size="20" name="j_password"></p>
+<%-- customerRecord is requested --%>
+<table id="adminTable" class="detailsTable">
 
-        <p><input type="submit" value="submit"></p>
-    </div>
-</form>
+    <tr class="header">
+        <th colspan="2">customer details</th>
+    </tr>
+    <tr>
+        <td style="width: 290px"><strong>customer id:</strong></td>
+        <td>${customerRecord.customerId}</td>
+    </tr>
+    <tr>
+        <td><strong>name:</strong></td>
+        <td>${customerRecord.name}</td>
+    </tr>
+    <tr>
+        <td><strong>email:</strong></td>
+        <td>${customerRecord.email}</td>
+    </tr>
+    <tr>
+        <td><strong>phone:</strong></td>
+        <td>${customerRecord.phone}</td>
+    </tr>
+    <tr>
+        <td><strong>address:</strong></td>
+        <td>${customerRecord.address}</td>
+    </tr>
+    <tr>
+        <td><strong>city region:</strong></td>
+        <td>${customerRecord.cityRegion}</td>
+    </tr>
+    <tr>
+        <td><strong>credit card number:</strong></td>
+        <td>${customerRecord.ccNumber}</td>
+    </tr>
+
+    <tr><td colspan="2" style="padding: 0 20px"><hr></td></tr>
+
+    <tr class="tableRow"
+        onclick="document.location.href='<c:url value="/admin/order/${order.customerOrderId}"/>'">
+        <td colspan="2">
+            <%-- Anchor tag is provided in case JavaScript is disabled --%>
+            <a href="<c:url value="/admin/order/${order.customerOrderId}"/>" class="noDecoration">
+                <strong>view order summary &#x279f;</strong></a></td>
+    </tr>
+</table>

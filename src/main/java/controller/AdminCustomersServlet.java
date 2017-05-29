@@ -31,52 +31,51 @@
  */
 package controller;
 
+import business.ApplicationContext;
+import business.customer.Customer;
+import business.customer.CustomerService;
 import java.io.IOException;
+import java.util.List;
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.HttpConstraint;
 import javax.servlet.annotation.ServletSecurity;
 import javax.servlet.annotation.ServletSecurity.TransportGuarantee;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 /**
  *
  */
-@WebServlet(name = "AdminServlet",
-        loadOnStartup = 1)
+@WebServlet(name = "AdminCustomersServlet",
+        urlPatterns = {"/admin/customers"})
 @ServletSecurity(
-    @HttpConstraint(transportGuarantee = TransportGuarantee.CONFIDENTIAL,
-                    rolesAllowed = {"simpleAffableBeanAdmin"})
+        @HttpConstraint(transportGuarantee = TransportGuarantee.CONFIDENTIAL,
+                rolesAllowed = {"simpleAffableBeanAdmin"})
 )
-public class AdminServlet extends HttpServlet {
+public class AdminCustomersServlet extends AdminServlet {
 
-    private final Logger logger = LoggerFactory.getLogger(getClass());
+    private CustomerService customerService;
 
-    protected void doForwardToAdminJSP(HttpServletRequest request,
-                                       HttpServletResponse response,
-                                       String userPath)
-        throws ServletException, IOException {
-
-        String url = "/admin" + userPath + ".jsp";
-        try {
-            request.getRequestDispatcher(url).forward(request, response);
-        } catch (Exception ex) {
-            logger.error("Failed to forward to JSP {}", userPath, ex);
-            ex.printStackTrace();
-        }
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        ApplicationContext applicationContext = ApplicationContext.INSTANCE;
+        customerService = applicationContext.getCustomerService();
     }
 
-    protected void doTemporaryAdminRedirect(HttpServletRequest request,
-                                            HttpServletResponse response,
-                                            String userPath)
-        throws ServletException, IOException {
-        response.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
-        response.setHeader("Location", getServletContext().getContextPath() + "/admin"+userPath);
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        List<Customer> customerList = customerService.findAll();
+        request.setAttribute("customerList", customerList);
+
+        doForwardToAdminJSP(request, response, "/customers");
+
     }
 
 }
+
