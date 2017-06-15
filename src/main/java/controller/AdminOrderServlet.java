@@ -32,32 +32,25 @@
 package controller;
 
 import business.ApplicationContext;
-import business.customer.Customer;
-import business.customer.CustomerService;
-import business.order.CustomerOrder;
 import business.order.CustomerOrderDetails;
 import business.order.CustomerOrderService;
 import java.io.IOException;
-import java.util.List;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.HttpConstraint;
 import javax.servlet.annotation.ServletSecurity;
 import javax.servlet.annotation.ServletSecurity.TransportGuarantee;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 /**
  *
  */
 @WebServlet(name = "AdminOrderServlet",
-        urlPatterns = {"/admin/order"})
+        urlPatterns = {"/admin/order/*"})
 @ServletSecurity(
         @HttpConstraint(transportGuarantee = TransportGuarantee.CONFIDENTIAL,
                 rolesAllowed = {"simpleAffableBeanAdmin"})
@@ -81,7 +74,7 @@ public class AdminOrderServlet extends AdminServlet {
         String userPath = request.getServletPath();
 
         // get order ID from request
-        String orderId = request.getParameter("orderId");
+        String orderId = request.getPathInfo().split("/")[1];
 
         // get order details
         CustomerOrderDetails details = customerOrderService.getOrderDetails(Long.parseLong(orderId));
@@ -92,7 +85,7 @@ public class AdminOrderServlet extends AdminServlet {
         request.setAttribute("orderRecord", details.getCustomerOrder());
         request.setAttribute("orderedProducts", details.getCustomerOrderLineItems());
 
-        doForwardToAdminJSP(request, response, "/admin/order");
+        doForwardToAdminJSP(request, response, "/order");
 
     }
 

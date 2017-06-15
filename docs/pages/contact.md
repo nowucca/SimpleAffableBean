@@ -7,9 +7,8 @@ teaser: ""
 permalink: "/contact/"
 ---
 
-- [Wufoo][1]
-- [Google Forms][2]
+This site is developed and maintained on [Github](https://nowucca.github.com/SimpleAffableBean).
+
+For more contact information please use the contact information on [nowucca.com](http://nowucca.com/).
 
 
- [1]: http://www.wufoo.com/
- [2]: https://www.google.com/intl/de_de/forms/about/

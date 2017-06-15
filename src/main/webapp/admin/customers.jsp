@@ -49,13 +49,13 @@
     <c:forEach var="customer" items="${customerList}" varStatus="iter">
 
         <tr class="${((iter.index % 2) == 1) ? 'lightBlue' : 'white'} tableRow"
-            onclick="document.location.href='customer?${customer.customerId}'">
+            onclick="document.location.href='customer/${customer.customerId}'">
 
                 <%-- Below anchor tags are provided in case JavaScript is disabled --%>
-            <td><a href="customer?${customer.customerId}" class="noDecoration">${customer.customerId}</a></td>
-            <td><a href="customer?${customer.customerId}" class="noDecoration">${customer.name}</a></td>
-            <td><a href="customer?${customer.customerId}" class="noDecoration">${customer.email}</a></td>
-            <td><a href="customer?${customer.customerId}" class="noDecoration">${customer.phone}</a></td>
+            <td><a href="<c:url value="/admin/customer/${customer.customerId}"/>" class="noDecoration">${customer.customerId}</a></td>
+            <td><a href="<c:url value="/admin/customer/${customer.customerId}"/>" class="noDecoration">${customer.name}</a></td>
+            <td><a href="<c:url value="/admin/customer/${customer.customerId}"/>" class="noDecoration">${customer.email}</a></td>
+            <td><a href="<c:url value="/admin/customer/${customer.customerId}"/>" class="noDecoration">${customer.phone}</a></td>
         </tr>
 
     </c:forEach>

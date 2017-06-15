@@ -1,39 +1,37 @@
 #
 #   Navigation to the left › side: left
 #
-- title: Start
+- title: Home
   url: "/"
   side: left
 
-- title: "Dropdown Menu"
-  url: "#"
+- title: "Tutorial"
+  url: "/tutorial/"
   side: left
   dropdown:
-  - title: "Dropdown Menu 1"
-    url: "#"
-  - title: "Dropdown Menu 2"
-    url: "#"
-  - title: "Dropdown Menu 3"
-    url: "#"
-
-- title: Blog
-  url: "/blog/"
+  - title: "Site Requirements"
+    url: "/tutorial/site-requirements"
+  - title: "Website Architecture"
+    url: "/tutorial/website-architecture"
+  - title: "Setting Up Your Development Environment"
+    url: "/tutorial/setting-up-development-environments"
+  - title: "Building and Deploying"
+    url: "/tutorial/building-and-deploying-sab"
+  - title: "Code Walkabout"
+    url: "/tutorial/walkabout/"
+- title: "Further Topics"
+  url: "/topics/"
   side: left
-  dropdown:
-  - title: "Blog Archive"
-    url: "/blog/archive/"
-
+#- title: Blog
+#  url: "/blog/"
+#  side: left
+#  dropdown:
+#  - title: "Blog Archive"
+#    url: "/blog/archive/"
+- title: "Contact"
+  url: "/contact/"
+  side: left
 #
 #   Navigation to the right › side: right
 #
-- title: "Info"
-  url: "/info/"
-  side: right
 
-- title: "Search"
-  url: "/search/"
-  side: right
-
-- title: "Contact"
-  url: "/contact/"
-  side: right

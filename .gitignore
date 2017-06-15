@@ -21,6 +21,6 @@ build/
 project/
 !/gradle/wrapper/gradle-wrapper.jar
 
-# SimpleAffableBean ignore files
+# Other ignore files
 .ideaDataSources/
 dataSources/

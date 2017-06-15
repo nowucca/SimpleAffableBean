@@ -32,10 +32,7 @@
 package controller;
 
 import business.ApplicationContext;
-import business.customer.Customer;
-import business.customer.CustomerService;
 import business.order.CustomerOrder;
-import business.order.CustomerOrderDetails;
 import business.order.CustomerOrderService;
 import java.io.IOException;
 import java.util.List;
@@ -45,12 +42,8 @@ import javax.servlet.annotation.HttpConstraint;
 import javax.servlet.annotation.ServletSecurity;
 import javax.servlet.annotation.ServletSecurity.TransportGuarantee;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 /**
@@ -80,7 +73,7 @@ public class AdminOrdersServlet extends AdminServlet {
         List<CustomerOrder> orderList = customerOrderService.findAll();
         request.setAttribute("orderList", orderList);
 
-        doForwardToAdminJSP(request, response, "/admin/orders");
+        doForwardToAdminJSP(request, response, "/orders");
 
     }
 

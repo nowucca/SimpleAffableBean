@@ -31,15 +31,7 @@
  */
 package controller;
 
-import business.ApplicationContext;
-import business.customer.Customer;
-import business.customer.CustomerService;
-import business.order.CustomerOrder;
-import business.order.CustomerOrderDetails;
-import business.order.CustomerOrderService;
 import java.io.IOException;
-import java.util.List;
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.HttpConstraint;
 import javax.servlet.annotation.ServletSecurity;
@@ -48,7 +40,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -69,15 +60,23 @@ public class AdminServlet extends HttpServlet {
     protected void doForwardToAdminJSP(HttpServletRequest request,
                                        HttpServletResponse response,
                                        String userPath)
-            throws ServletException, IOException {
+        throws ServletException, IOException {
 
-        String url = userPath + ".jsp";
+        String url = "/admin" + userPath + ".jsp";
         try {
             request.getRequestDispatcher(url).forward(request, response);
         } catch (Exception ex) {
             logger.error("Failed to forward to JSP {}", userPath, ex);
             ex.printStackTrace();
         }
+    }
+
+    protected void doTemporaryAdminRedirect(HttpServletRequest request,
+                                            HttpServletResponse response,
+                                            String userPath)
+        throws ServletException, IOException {
+        response.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
+        response.setHeader("Location", getServletContext().getContextPath() + "/admin"+userPath);
     }
 
 }
