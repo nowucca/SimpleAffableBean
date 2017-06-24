@@ -31,66 +31,72 @@
  */
 package controller;
 
+import business.ApplicationContext;
+import business.cart.ShoppingCart;
+import business.customer.CustomerService;
+import business.order.CustomerOrderService;
 import java.io.IOException;
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.HttpConstraint;
 import javax.servlet.annotation.ServletSecurity;
 import javax.servlet.annotation.ServletSecurity.TransportGuarantee;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import javax.servlet.http.HttpSession;
+import java.util.Date;
 
 
 /**
  *
  */
-@WebServlet(name = "AdminServlet",
-        loadOnStartup = 1)
+@WebServlet(name = "AdminSessionServlet",
+        urlPatterns = {"/test/session"})
 @ServletSecurity(
-    @HttpConstraint(transportGuarantee = TransportGuarantee.CONFIDENTIAL,
-                    rolesAllowed = {"simpleAffableBeanAdmin"})
+        @HttpConstraint(transportGuarantee = TransportGuarantee.CONFIDENTIAL,
+                rolesAllowed = {"simpleAffableBeanAdmin"})
 )
-public class AdminServlet extends HttpServlet {
+public class AdminSessionServlet extends AdminServlet {
 
-    private final Logger logger = LoggerFactory.getLogger(getClass());
+    private CustomerService customerService;
+    private CustomerOrderService customerOrderService;
 
-    protected void doForwardToAdminJSP(HttpServletRequest request,
-                                       HttpServletResponse response,
-                                       String userPath)
-        throws ServletException, IOException {
-
-        String url = "/admin" + userPath + ".jsp";
-        try {
-            request.getRequestDispatcher(url).forward(request, response);
-        } catch (Exception ex) {
-            logger.error("Failed to forward to JSP {}", userPath, ex);
-            ex.printStackTrace();
-        }
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        ApplicationContext applicationContext = ApplicationContext.INSTANCE;
+        customerService = applicationContext.getCustomerService();
+        customerOrderService = applicationContext.getCustomerOrderService();
     }
 
-    protected void doTemporaryAdminRedirect(HttpServletRequest request,
-                                            HttpServletResponse response,
-                                            String userPath)
-        throws ServletException, IOException {
-        response.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
-        response.setHeader("Location", getServletContext().getContextPath() + "/admin"+userPath);
-    }
-
-    protected void doForwardToTestAdminJSP(HttpServletRequest request,
-                                           HttpServletResponse response,
-                                           String userPath)
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String url = "/test" + userPath + ".jsp";
-        try {
-            request.getRequestDispatcher(url).forward(request, response);
-        } catch (Exception ex) {
-            logger.error("Failed to forward to JSP {}", userPath, ex);
-            ex.printStackTrace();
-        }
+        HttpSession session = request.getSession(true);
+        request.setAttribute("session", session);
+
+        // session information
+        Long createTime = session.getCreationTime();
+        Date creationTime = new Date(createTime);
+        request.setAttribute("creationTime", creationTime);
+
+        Long lastAccessTime = session.getLastAccessedTime();
+        Date lastAccessedTime = new Date(lastAccessTime);
+        request.setAttribute("lastAccessedTime", lastAccessedTime);
+
+        ShoppingCart cart = (ShoppingCart) session.getAttribute("cart");
+        request.setAttribute("cart", cart);
+
+        // locale information
+        String acceptLanguage = request.getHeader("Accept-Language");
+        acceptLanguage = acceptLanguage.substring(0,acceptLanguage.indexOf(','));
+        request.setAttribute("acceptLanguage", acceptLanguage);
+
+        doForwardToTestAdminJSP(request, response, "/session");
+
     }
 
 }
+

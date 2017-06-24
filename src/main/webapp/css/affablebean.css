@@ -386,6 +386,7 @@ label.error {
     padding: 5px 10px 5px 20px;
     font-size: small;
     font-family: "Courier New", courier, monospace;
+    width: 50%;
 }
 
 #orderSummaryTable { width: 100% }
@@ -445,7 +446,7 @@ label.error {
 #adminMenuBox {
     position: relative;
     width: 100%;
-    height: 170px;
+    height: 200px;
 }
 
 #adminMenu {
@@ -474,7 +475,7 @@ label.error {
 
 #orderForm {}
 
-#adminTable {
+.adminTable {
     width: 580px;
     margin-left: auto;
     margin-right: auto;
@@ -495,4 +496,29 @@ label.error {
 .embedded {
     margin: 0;
     border: none;
+}
+
+.adminTableBox {
+    margin-top: 20px;
+}
+
+#adminCartTableHeader {
+    width: 750px;
+    margin-left: auto;
+    margin-right: auto;
+    border-bottom: 0;
+}
+
+#adminCartTable {
+    width: 750px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.detailsCartTable { text-align: center }
+
+.detailsCartTable td {
+    padding: 5px 10px 5px 20px;
+    font-size: small;
+    font-family: "Courier New", courier, monospace;
 }

@@ -48,6 +48,12 @@
     </context-param>
 
     <context-param>
+        <description>The relative path to product images from test folder</description>
+        <param-name>productImagePathFromTest</param-name>
+        <param-value>../img/products/</param-value>
+    </context-param>
+
+    <context-param>
         <description>The relative path to category images</description>
         <param-name>categoryImagePath</param-name>
         <param-value>img/categories/</param-value>
@@ -113,6 +119,7 @@
             <url-pattern>/admin/customer.jsp</url-pattern>
             <url-pattern>/admin/orders.jsp</url-pattern>
             <url-pattern>/admin/order.jsp</url-pattern>
+            <url-pattern>/test/session.jsp</url-pattern>
             <include-prelude>/admin/jspf/header.jspf</include-prelude>
             <include-prelude>/admin/jspf/adminMenu.jspf</include-prelude>
             <include-coda>/admin/jspf/footer.jspf</include-coda>
