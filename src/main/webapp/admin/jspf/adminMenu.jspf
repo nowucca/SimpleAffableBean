@@ -37,6 +37,8 @@
 
         <p><a href="<c:url value='/admin/orders'/>">view all orders</a></p>
 
+        <p><a href="<c:url value='/admin/session'/>">view session</a></p>
+
         <p><a href="<c:url value='/admin/logout'/>">log out</a></p>
     </div>
 

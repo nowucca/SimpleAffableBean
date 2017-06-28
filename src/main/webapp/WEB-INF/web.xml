@@ -113,6 +113,7 @@
             <url-pattern>/admin/customer.jsp</url-pattern>
             <url-pattern>/admin/orders.jsp</url-pattern>
             <url-pattern>/admin/order.jsp</url-pattern>
+            <url-pattern>/admin/session.jsp</url-pattern>
             <include-prelude>/admin/jspf/header.jspf</include-prelude>
             <include-prelude>/admin/jspf/adminMenu.jspf</include-prelude>
             <include-coda>/admin/jspf/footer.jspf</include-coda>
