@@ -31,6 +31,7 @@
     OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 --%>
+<jsp:useBean id="p" scope="request" type="viewmodel.admin.AdminSessionViewModel"/>
 
 <%-- session information --%>
 <table class="adminTable detailsTable">
@@ -40,12 +41,12 @@
     </tr>
     <tr>
         <td><strong>session id:</strong></td>
-        <td>${session.id}</td>
+        <td>${p.session.id}</td>
     </tr>
     <tr>
         <td><strong>creation time:</strong></td>
         <td>
-            <fmt:formatDate value="${creationTime}"
+            <fmt:formatDate value="${p.creationTime}"
                             type="both"
                             dateStyle="short"
                             timeStyle="long"/></td>
@@ -53,39 +54,27 @@
     <tr>
         <td><strong>last accessed time:</strong></td>
         <td>
-            <fmt:formatDate value="${lastAccessedTime}"
+            <fmt:formatDate value="${p.lastAccessedTime}"
                             type="both"
                             dateStyle="short"
                             timeStyle="long"/></td>
     </tr>
     <tr>
         <td><strong>max inactive interval (seconds):</strong></td>
-        <td>${session.maxInactiveInterval}</td>
+        <td>${p.session.maxInactiveInterval}</td>
     </tr>
+
+    <c:forEach var="attribute" items="${p.sessionAttributes}">
+        <tr>
+            <td><strong>${attribute.key}:</strong></td>
+            <td>${attribute.value}</td>
+        </tr>
+    </c:forEach>
 
 </table>
 
-<%-- locale information --%>
-<div class="adminTableBox">
-    <table class="adminTable detailsTable">
-
-        <tr class="header">
-            <th colspan="2">locale</th>
-        </tr>
-        <tr>
-            <td><strong>browser:</strong></td>
-            <td>${acceptLanguage}</td>
-        </tr>
-        <tr>
-            <td><strong>website:</strong></td>
-            <td>${acceptLanguage}</td>
-        </tr>
-
-    </table>
-</div>
-
 <%-- shopping cart contents--%>
-<c:if test="${cart.numberOfItems > 0}">
+<c:if test="${p.cart.numberOfItems > 0}">
 
     <div class="adminTableBox">
 
@@ -104,13 +93,13 @@
                 <th><fmt:message key="quantity"/></th>
             </tr>
 
-            <c:forEach var="cartItem" items="${cart.items}" varStatus="iter">
+            <c:forEach var="cartItem" items="${p.cart.items}" varStatus="iter">
 
                 <c:set var="product" value="${cartItem.product}"/>
 
                 <tr class="${((iter.index % 2) == 0) ? 'lightBlue' : 'white'}">
                     <td>
-                        <img src="${initParam.productImagePathFromTest}${product.name}.png"
+                        <img src="<c:url value="${p.productImagePath}${product.name}.png"/>"
                              alt="<fmt:message key="${product.name}"/>">
                     </td>
 
@@ -139,7 +128,7 @@
                 </td>
                 <td>
                     <h4 font-weight="bold">
-                        <fmt:formatNumber type="currency" currencySymbol="&euro; " value="${cart.subtotal/100.0}"/>
+                        <fmt:formatNumber type="currency" currencySymbol="&euro; " value="${p.cart.subtotal/100.0}"/>
                     </h4>
                 </td>
                 <td></td>

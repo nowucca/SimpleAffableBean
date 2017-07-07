@@ -79,18 +79,4 @@ public class AdminServlet extends HttpServlet {
         response.setHeader("Location", getServletContext().getContextPath() + "/admin"+userPath);
     }
 
-    protected void doForwardToTestAdminJSP(HttpServletRequest request,
-                                           HttpServletResponse response,
-                                           String userPath)
-            throws ServletException, IOException {
-
-        String url = "/test" + userPath + ".jsp";
-        try {
-            request.getRequestDispatcher(url).forward(request, response);
-        } catch (Exception ex) {
-            logger.error("Failed to forward to JSP {}", userPath, ex);
-            ex.printStackTrace();
-        }
-    }
-
 }
