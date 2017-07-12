@@ -31,11 +31,9 @@
  */
 package controller;
 
-import business.ApplicationContext;
-import business.order.CustomerOrderDetails;
-import business.order.CustomerOrderService;
+import viewmodel.admin.AdminOrderViewModel;
+
 import java.io.IOException;
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.HttpConstraint;
 import javax.servlet.annotation.ServletSecurity;
@@ -43,7 +41,6 @@ import javax.servlet.annotation.ServletSecurity.TransportGuarantee;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 
 /**
@@ -57,36 +54,11 @@ import javax.servlet.http.HttpSession;
 )
 public class AdminOrderServlet extends AdminServlet {
 
-    private CustomerOrderService customerOrderService;
-
-    @Override
-    public void init(ServletConfig config) throws ServletException {
-        super.init(config);
-        ApplicationContext applicationContext = ApplicationContext.INSTANCE;
-        customerOrderService = applicationContext.getCustomerOrderService();
-    }
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        HttpSession session = request.getSession(true);
-        String userPath = request.getServletPath();
-
-        // get order ID from request
-        String orderId = request.getPathInfo().split("/")[1];
-
-        // get order details
-        CustomerOrderDetails details = customerOrderService.getOrderDetails(Long.parseLong(orderId));
-
-        // place order details in request scope
-        request.setAttribute("customer", details.getCustomer());
-        request.setAttribute("products", details.getProducts());
-        request.setAttribute("orderRecord", details.getCustomerOrder());
-        request.setAttribute("orderedProducts", details.getCustomerOrderLineItems());
-
+        request.setAttribute("p", new AdminOrderViewModel(request));
         doForwardToAdminJSP(request, response, "/order");
-
     }
 
 }

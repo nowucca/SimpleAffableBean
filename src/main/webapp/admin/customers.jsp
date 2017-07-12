@@ -32,8 +32,10 @@
 
 --%>
 
+<jsp:useBean id="p" scope="request" type="viewmodel.admin.AdminCustomersViewModel"/>
+
 <%-- customerList is requested --%>
-<table id="adminTable" class="detailsTable">
+<table id="adminTable" class="detailsTable detailsCustomersTable">
 
     <tr class="header">
         <th colspan="4">customers</th>
@@ -46,7 +48,7 @@
         <td>phone</td>
     </tr>
 
-    <c:forEach var="customer" items="${customerList}" varStatus="iter">
+    <c:forEach var="customer" items="${p.customerList}" varStatus="iter">
 
         <tr class="${((iter.index % 2) == 1) ? 'lightBlue' : 'white'} tableRow"
             onclick="document.location.href='customer/${customer.customerId}'">

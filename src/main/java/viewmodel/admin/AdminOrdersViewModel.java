@@ -29,36 +29,27 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package controller;
+package viewmodel.admin;
 
-import viewmodel.admin.AdminOrdersViewModel;
+import business.order.CustomerOrder;
+import viewmodel.BaseAdminViewModel;
 
-import java.io.IOException;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.HttpConstraint;
-import javax.servlet.annotation.ServletSecurity;
-import javax.servlet.annotation.ServletSecurity.TransportGuarantee;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
+public class AdminOrdersViewModel extends BaseAdminViewModel {
 
-/**
- *
- */
-@WebServlet(name = "AdminOrdersServlet",
-        urlPatterns = {"/admin/orders"})
-@ServletSecurity(
-        @HttpConstraint(transportGuarantee = TransportGuarantee.CONFIDENTIAL,
-                rolesAllowed = {"simpleAffableBeanAdmin"})
-)
-public class AdminOrdersServlet extends AdminServlet {
+    private List<CustomerOrder> orderList;
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        request.setAttribute("p", new AdminOrdersViewModel(request));
-        doForwardToAdminJSP(request, response, "/orders");
+    public AdminOrdersViewModel(HttpServletRequest request) {
+        super(request);
+
+        this.orderList = customerOrderService.findAll();
+    }
+
+    public List<CustomerOrder> getOrderList() {
+        return orderList;
     }
 
 }
+

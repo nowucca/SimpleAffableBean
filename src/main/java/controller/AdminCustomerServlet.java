@@ -31,13 +31,9 @@
  */
 package controller;
 
-import business.ApplicationContext;
-import business.customer.Customer;
-import business.customer.CustomerService;
-import business.order.CustomerOrder;
-import business.order.CustomerOrderService;
+import viewmodel.admin.AdminCustomerViewModel;
+
 import java.io.IOException;
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.HttpConstraint;
 import javax.servlet.annotation.ServletSecurity;
@@ -45,7 +41,6 @@ import javax.servlet.annotation.ServletSecurity.TransportGuarantee;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 
 /**
@@ -59,37 +54,11 @@ import javax.servlet.http.HttpSession;
 )
 public class AdminCustomerServlet extends AdminServlet {
 
-    private CustomerService customerService;
-    private CustomerOrderService customerOrderService;
-
-    @Override
-    public void init(ServletConfig config) throws ServletException {
-        super.init(config);
-        ApplicationContext applicationContext = ApplicationContext.INSTANCE;
-        customerService = applicationContext.getCustomerService();
-        customerOrderService = applicationContext.getCustomerOrderService();
-    }
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        HttpSession session = request.getSession(true);
-        String userPath = request.getServletPath();
-
-        // get customer ID from request
-        String customerId = request.getPathInfo().split("/")[1];
-
-        // get customer details
-        Customer customer = customerService.findByCustomerId(Integer.parseInt(customerId));
-        request.setAttribute("customerRecord", customer);
-
-        // get customer order details
-        CustomerOrder order = customerOrderService.findByCustomerId(Integer.parseInt(customerId));
-        request.setAttribute("order", order);
-
+        request.setAttribute("p", new AdminCustomerViewModel(request));
         doForwardToAdminJSP(request, response, "/customer");
-
     }
 
 }

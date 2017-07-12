@@ -117,7 +117,6 @@ label.error {
     background-color: #edf8f7;
 }
 
-
 /* styles for elements contained in the header, i.e.,
    shopping cart widget, language toggle, and logo */
 #header {
@@ -475,11 +474,32 @@ label.error {
 
 #orderForm {}
 
-.adminTable {
-    width: 580px;
+#adminTable {
     margin-left: auto;
     margin-right: auto;
+    padding-left: auto;
+    padding-right: auto;
     background-color: #edf8f7;
+}
+
+.detailsSessionTable {
+    width: 750px;
+}
+
+.detailsCustomersTable {
+    width: 800px;
+}
+
+.detailsOrderTable {
+    width: 450px;
+}
+
+.detailsOrdersTable {
+    width: 700px;
+}
+
+.detailsOrdersTable td {
+    width: 25%;
 }
 
 .alignLeft { text-align: left }

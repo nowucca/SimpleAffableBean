@@ -31,12 +31,9 @@
  */
 package controller;
 
-import business.ApplicationContext;
-import business.customer.Customer;
-import business.customer.CustomerService;
+import viewmodel.admin.AdminCustomersViewModel;
+
 import java.io.IOException;
-import java.util.List;
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.HttpConstraint;
 import javax.servlet.annotation.ServletSecurity;
@@ -57,24 +54,11 @@ import javax.servlet.http.HttpServletResponse;
 )
 public class AdminCustomersServlet extends AdminServlet {
 
-    private CustomerService customerService;
-
-    @Override
-    public void init(ServletConfig config) throws ServletException {
-        super.init(config);
-        ApplicationContext applicationContext = ApplicationContext.INSTANCE;
-        customerService = applicationContext.getCustomerService();
-    }
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        List<Customer> customerList = customerService.findAll();
-        request.setAttribute("customerList", customerList);
-
+        request.setAttribute("p", new AdminCustomersViewModel(request));
         doForwardToAdminJSP(request, response, "/customers");
-
     }
 
 }

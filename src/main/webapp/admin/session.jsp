@@ -34,7 +34,7 @@
 <jsp:useBean id="p" scope="request" type="viewmodel.admin.AdminSessionViewModel"/>
 
 <%-- session information --%>
-<table class="adminTable detailsTable">
+<table id="adminTable" class="detailsTable detailsSessionTable">
 
     <tr class="header">
         <th colspan="2">session</th>

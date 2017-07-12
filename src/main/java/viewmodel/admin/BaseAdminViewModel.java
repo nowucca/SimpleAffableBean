@@ -29,36 +29,59 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package controller;
+package viewmodel;
 
-import viewmodel.admin.AdminOrdersViewModel;
-
-import java.io.IOException;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.HttpConstraint;
-import javax.servlet.annotation.ServletSecurity;
-import javax.servlet.annotation.ServletSecurity.TransportGuarantee;
-import javax.servlet.annotation.WebServlet;
+import business.ApplicationContext;
+import business.customer.CustomerService;
+import business.order.CustomerOrderService;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 
 /**
- *
+ * A base class for all view models for admin pages.
+ * Put access to data here that are potentially useful on all pages.
+ * For example this is a good place to put support for common header
+ * and footer elements that are dynamic.
  */
-@WebServlet(name = "AdminOrdersServlet",
-        urlPatterns = {"/admin/orders"})
-@ServletSecurity(
-        @HttpConstraint(transportGuarantee = TransportGuarantee.CONFIDENTIAL,
-                rolesAllowed = {"simpleAffableBeanAdmin"})
-)
-public class AdminOrdersServlet extends AdminServlet {
+public class BaseAdminViewModel {
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        request.setAttribute("p", new AdminOrdersViewModel(request));
-        doForwardToAdminJSP(request, response, "/orders");
+    // The relative path to product images
+    private static final String PRODUCT_IMAGE_PATH = "/img/products/";
+
+    // Every view model knows the request and session
+    protected HttpServletRequest request;
+    protected HttpSession session;
+
+    // All customer/order pages need the following service objects
+    protected CustomerService customerService;
+    protected CustomerOrderService customerOrderService;
+
+    @SuppressWarnings("unchecked")
+    public BaseAdminViewModel(HttpServletRequest request) {
+        ApplicationContext applicationContext = ApplicationContext.INSTANCE;
+        customerService = applicationContext.getCustomerService();
+        customerOrderService = applicationContext.getCustomerOrderService();
+
+        this.request = request;
+        this.session = request.getSession(true);
+    }
+
+    public HttpSession getSession() {
+        return session;
+    }
+
+    public CustomerService getCustomerService() {
+        return customerService;
+    }
+
+    public CustomerOrderService getCustomerOrderService() {
+        return customerOrderService;
+    }
+
+    public String getProductImagePath() {
+        return PRODUCT_IMAGE_PATH;
     }
 
 }
+

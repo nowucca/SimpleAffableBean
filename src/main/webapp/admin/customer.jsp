@@ -32,6 +32,8 @@
 
 --%>
 
+<jsp:useBean id="p" scope="request" type="viewmodel.admin.AdminCustomerViewModel"/>
+
 <%-- customerRecord is requested --%>
 <table id="adminTable" class="detailsTable">
 
@@ -40,40 +42,40 @@
     </tr>
     <tr>
         <td style="width: 290px"><strong>customer id:</strong></td>
-        <td>${customerRecord.customerId}</td>
+        <td>${p.customerRecord.customerId}</td>
     </tr>
     <tr>
         <td><strong>name:</strong></td>
-        <td>${customerRecord.name}</td>
+        <td>${p.customerRecord.name}</td>
     </tr>
     <tr>
         <td><strong>email:</strong></td>
-        <td>${customerRecord.email}</td>
+        <td>${p.customerRecord.email}</td>
     </tr>
     <tr>
         <td><strong>phone:</strong></td>
-        <td>${customerRecord.phone}</td>
+        <td>${p.customerRecord.phone}</td>
     </tr>
     <tr>
         <td><strong>address:</strong></td>
-        <td>${customerRecord.address}</td>
+        <td>${p.customerRecord.address}</td>
     </tr>
     <tr>
         <td><strong>city region:</strong></td>
-        <td>${customerRecord.cityRegion}</td>
+        <td>${p.customerRecord.cityRegion}</td>
     </tr>
     <tr>
         <td><strong>credit card number:</strong></td>
-        <td>${customerRecord.ccNumber}</td>
+        <td>${p.customerRecord.ccNumber}</td>
     </tr>
 
     <tr><td colspan="2" style="padding: 0 20px"><hr></td></tr>
 
     <tr class="tableRow"
-        onclick="document.location.href='<c:url value="/admin/order/${order.customerOrderId}"/>'">
+        onclick="document.location.href='<c:url value="/admin/order/${p.order.customerOrderId}"/>'">
         <td colspan="2">
             <%-- Anchor tag is provided in case JavaScript is disabled --%>
-            <a href="<c:url value="/admin/order/${order.customerOrderId}"/>" class="noDecoration">
+            <a href="<c:url value="/admin/order/${p.order.customerOrderId}"/>" class="noDecoration">
                 <strong>view order summary &#x279f;</strong></a></td>
     </tr>
 </table>

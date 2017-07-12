@@ -32,16 +32,16 @@
 package viewmodel.admin;
 
 import business.cart.ShoppingCart;
+import viewmodel.BaseAdminViewModel;
+
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
-public class AdminSessionViewModel {
+public class AdminSessionViewModel extends BaseAdminViewModel {
 
-    private HttpSession session;
     private Date creationTime;
     private Date lastAccessedTime;
 
@@ -50,7 +50,8 @@ public class AdminSessionViewModel {
 
 
     public AdminSessionViewModel(HttpServletRequest request) {
-        this.session = request.getSession(true);
+        super(request);
+
         this.creationTime = new Date(session.getCreationTime());
         this.lastAccessedTime = new Date(session.getLastAccessedTime());
         this.cart = (ShoppingCart) session.getAttribute("cart");
@@ -62,10 +63,6 @@ public class AdminSessionViewModel {
             sessionAttributes.put(attributeName, session.getAttribute(attributeName));
         }
 
-    }
-
-    public HttpSession getSession() {
-        return session;
     }
 
     public Date getCreationTime() {
@@ -84,7 +81,4 @@ public class AdminSessionViewModel {
         return sessionAttributes;
     }
 
-    public String getProductImagePath() {
-        return "/img/products/";
-    }
 }
