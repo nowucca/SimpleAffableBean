@@ -47,7 +47,8 @@ import javax.servlet.http.HttpSession;
 public class BaseAdminViewModel {
 
     // The relative path to product images
-    private static final String PRODUCT_IMAGE_PATH = "/img/products/";
+//    private static final String PRODUCT_IMAGE_PATH = "/img/products/";
+    private static final String PRODUCT_IMAGE_PATH = BaseViewModel.PRODUCT_IMAGE_PATH;
 
     // Every view model knows the request and session
     protected HttpServletRequest request;
@@ -57,6 +58,9 @@ public class BaseAdminViewModel {
     protected CustomerService customerService;
     protected CustomerOrderService customerOrderService;
 
+    // Delivery surcharge
+    protected int deliverySurcharge;
+
     @SuppressWarnings("unchecked")
     public BaseAdminViewModel(HttpServletRequest request) {
         ApplicationContext applicationContext = ApplicationContext.INSTANCE;
@@ -65,6 +69,7 @@ public class BaseAdminViewModel {
 
         this.request = request;
         this.session = request.getSession(true);
+        this.deliverySurcharge = Integer.valueOf(request.getServletContext().getInitParameter("deliverySurcharge"));
     }
 
     public HttpSession getSession() {
@@ -81,6 +86,10 @@ public class BaseAdminViewModel {
 
     public String getProductImagePath() {
         return PRODUCT_IMAGE_PATH;
+    }
+
+    public int getDeliverySurcharge() {
+        return deliverySurcharge;
     }
 
 }

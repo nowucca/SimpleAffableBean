@@ -99,7 +99,7 @@
 
                 <tr class="${((iter.index % 2) == 0) ? 'lightBlue' : 'white'}">
                     <td>
-                        <img src="<c:url value="${p.productImagePath}${product.name}.png"/>"
+                        <img src="<c:url value="/${p.productImagePath}${product.name}.png"/>"
                              alt="<fmt:message key="${product.name}"/>">
                     </td>
 

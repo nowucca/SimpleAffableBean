@@ -56,7 +56,7 @@ public class BaseViewModel {
     private static final String CATEGORY_IMAGE_PATH = "img/categories/";
 
     // The relative path to product images
-    private static final String PRODUCT_IMAGE_PATH = "img/products/";
+    protected static final String PRODUCT_IMAGE_PATH = "img/products/";
 
     // Every view model knows the request and session
     protected HttpServletRequest request;
@@ -171,7 +171,6 @@ public class BaseViewModel {
     protected ProductService getProductService() {
         return ApplicationContext.INSTANCE.getProductService();
     }
-
 
     // Also a good place to put elements onto a page that are generally useful
     // (e.g. XSRF tokens for cross-site scripting prevention)

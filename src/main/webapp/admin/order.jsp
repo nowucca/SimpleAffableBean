@@ -92,7 +92,7 @@
                     <td id="deliverySurchargeCellRight">
                         <fmt:formatNumber type="currency"
                                           currencySymbol="&euro; "
-                                          value="${initParam.deliverySurcharge/100.0}"/></td>
+                                          value="${p.deliverySurcharge/100.0}"/></td>
                 </tr>
 
                 <tr>
