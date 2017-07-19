@@ -29,7 +29,7 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package controller;
+package controller.admin;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -39,31 +39,26 @@ import javax.servlet.annotation.ServletSecurity.TransportGuarantee;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 
 /**
  *
  */
-@WebServlet(name = "AdminLogoutServlet",
-        urlPatterns = {"/admin/logout"})
+@WebServlet(name = "AdminHomeServlet",
+        urlPatterns = {"/admin/"})
 @ServletSecurity(
         @HttpConstraint(transportGuarantee = TransportGuarantee.CONFIDENTIAL,
                 rolesAllowed = {"simpleAffableBeanAdmin"})
 )
-public class AdminLogoutServlet extends AdminServlet {
+public class AdminHomeServlet extends AdminServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        HttpSession session = request.getSession(false);
+        doForwardToAdminJSP(request, response, "/home");
 
-        if (session != null) {
-            session.invalidate();
-        }
-
-        doTemporaryAdminRedirect(request, response, "/");
     }
 
 }
+

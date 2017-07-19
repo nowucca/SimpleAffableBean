@@ -29,9 +29,7 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package controller;
-
-import viewmodel.admin.AdminOrderViewModel;
+package controller.admin;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -46,19 +44,23 @@ import javax.servlet.http.HttpServletResponse;
 /**
  *
  */
-@WebServlet(name = "AdminOrderServlet",
-        urlPatterns = {"/admin/order/*"})
+@WebServlet(name = "AdminErrorServlet",
+        urlPatterns = {"/admin/error"})
 @ServletSecurity(
-        @HttpConstraint(transportGuarantee = TransportGuarantee.CONFIDENTIAL,
-                rolesAllowed = {"simpleAffableBeanAdmin"})
+        @HttpConstraint(transportGuarantee = TransportGuarantee.CONFIDENTIAL)
 )
-public class AdminOrderServlet extends AdminServlet {
+public class AdminErrorServlet extends AdminServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.setAttribute("p", new AdminOrderViewModel(request));
-        doForwardToAdminJSP(request, response, "/order");
+
+        doForwardToAdminJSP(request, response, "/error");
+
     }
 
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        doGet(req, resp);
+    }
 }

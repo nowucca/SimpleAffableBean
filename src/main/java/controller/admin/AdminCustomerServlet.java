@@ -29,9 +29,7 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package controller;
-
-import viewmodel.admin.AdminCustomerViewModel;
+package controller.admin;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -41,6 +39,7 @@ import javax.servlet.annotation.ServletSecurity.TransportGuarantee;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import viewmodel.admin.AdminCustomerViewModel;
 
 
 /**

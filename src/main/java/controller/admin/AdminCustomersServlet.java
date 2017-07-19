@@ -29,7 +29,7 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package controller;
+package controller.admin;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -39,28 +39,26 @@ import javax.servlet.annotation.ServletSecurity.TransportGuarantee;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import viewmodel.admin.AdminCustomersViewModel;
 
 
 /**
  *
  */
-@WebServlet(name = "AdminErrorServlet",
-        urlPatterns = {"/admin/error"})
+@WebServlet(name = "AdminCustomersServlet",
+        urlPatterns = {"/admin/customers"})
 @ServletSecurity(
-        @HttpConstraint(transportGuarantee = TransportGuarantee.CONFIDENTIAL)
+        @HttpConstraint(transportGuarantee = TransportGuarantee.CONFIDENTIAL,
+                rolesAllowed = {"simpleAffableBeanAdmin"})
 )
-public class AdminErrorServlet extends AdminServlet {
+public class AdminCustomersServlet extends AdminServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        doForwardToAdminJSP(request, response, "/error");
-
+        request.setAttribute("p", new AdminCustomersViewModel(request));
+        doForwardToAdminJSP(request, response, "/customers");
     }
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        doGet(req, resp);
-    }
 }
+

@@ -29,7 +29,7 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package controller;
+package controller.admin;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -37,46 +37,27 @@ import javax.servlet.annotation.HttpConstraint;
 import javax.servlet.annotation.ServletSecurity;
 import javax.servlet.annotation.ServletSecurity.TransportGuarantee;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 /**
  *
  */
-@WebServlet(name = "AdminServlet",
-        loadOnStartup = 1)
+@WebServlet(name = "AdminLoginServlet",
+        urlPatterns = {"/admin/login"})
 @ServletSecurity(
-    @HttpConstraint(transportGuarantee = TransportGuarantee.CONFIDENTIAL,
-                    rolesAllowed = {"simpleAffableBeanAdmin"})
+        @HttpConstraint(transportGuarantee = TransportGuarantee.CONFIDENTIAL,
+                rolesAllowed = {"simpleAffableBeanAdmin"})
 )
-public class AdminServlet extends HttpServlet {
+public class AdminLoginServlet extends AdminServlet {
 
-    private final Logger logger = LoggerFactory.getLogger(getClass());
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
-    protected void doForwardToAdminJSP(HttpServletRequest request,
-                                       HttpServletResponse response,
-                                       String userPath)
-        throws ServletException, IOException {
+        doForwardToAdminJSP(request, response, "/login");
 
-        String url = "/admin" + userPath + ".jsp";
-        try {
-            request.getRequestDispatcher(url).forward(request, response);
-        } catch (Exception ex) {
-            logger.error("Failed to forward to JSP {}", userPath, ex);
-            ex.printStackTrace();
-        }
-    }
-
-    protected void doTemporaryAdminRedirect(HttpServletRequest request,
-                                            HttpServletResponse response,
-                                            String userPath)
-        throws ServletException, IOException {
-        response.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
-        response.setHeader("Location", getServletContext().getContextPath() + "/admin"+userPath);
     }
 
 }
