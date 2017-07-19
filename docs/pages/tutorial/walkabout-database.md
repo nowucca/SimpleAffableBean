@@ -89,4 +89,3 @@ Avoid using triggers for anything.  This is because they are not portable across
  
 Avoid using stored procedures for anything for the same reason.  A team I worked with spent 2 years refactoring away from PL/SQL in Oracle.  During that time much money was spent on Oracle licenses to keep the ship afloat - it locks your company in for no good reason.  
 
-

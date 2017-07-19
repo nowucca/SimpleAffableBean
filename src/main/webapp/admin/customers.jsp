@@ -32,8 +32,10 @@
 
 --%>
 
+<jsp:useBean id="p" scope="request" type="viewmodel.admin.AdminCustomersViewModel"/>
+
 <%-- customerList is requested --%>
-<table id="adminTable" class="detailsTable">
+<table id="adminTable" class="detailsTable detailsCustomersTable">
 
     <tr class="header">
         <th colspan="4">customers</th>
@@ -46,18 +48,18 @@
         <td>phone</td>
     </tr>
 
-    <c:forEach var="customer" items="${customerList}" varStatus="iter">
+    <c:forEach var="customer" items="${p.customerList}" varStatus="iter">
 
-        <tr class="${((iter.index % 2) == 1) ? 'lightBlue' : 'white'} tableRow"
-            onclick="document.location.href='customer/${customer.customerId}'">
+    <tr class="${((iter.index % 2) == 1) ? 'lightBlue' : 'white'} tableRow"
+        onclick="document.location.href='customer/${customer.customerId}'">
 
-                <%-- Below anchor tags are provided in case JavaScript is disabled --%>
-            <td><a href="<c:url value="/admin/customer/${customer.customerId}"/>" class="noDecoration">${customer.customerId}</a></td>
-            <td><a href="<c:url value="/admin/customer/${customer.customerId}"/>" class="noDecoration">${customer.name}</a></td>
-            <td><a href="<c:url value="/admin/customer/${customer.customerId}"/>" class="noDecoration">${customer.email}</a></td>
-            <td><a href="<c:url value="/admin/customer/${customer.customerId}"/>" class="noDecoration">${customer.phone}</a></td>
-        </tr>
+            <%-- Below anchor tags are provided in case JavaScript is disabled --%>
+        <td><a href="<c:url value="/admin/customer/${customer.customerId}"/>" class="noDecoration">${customer.customerId}</a></td>
+        <td><a href="<c:url value="/admin/customer/${customer.customerId}"/>" class="noDecoration">${customer.name}</a></td>
+        <td><a href="<c:url value="/admin/customer/${customer.customerId}"/>" class="noDecoration">${customer.email}</a></td>
+        <td><a href="<c:url value="/admin/customer/${customer.customerId}"/>" class="noDecoration">${customer.phone}</a></td>
+    </tr>
 
-    </c:forEach>
+</c:forEach>
 
 </table>

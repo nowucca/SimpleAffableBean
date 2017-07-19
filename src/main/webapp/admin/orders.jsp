@@ -32,8 +32,10 @@
 
 --%>
 
+<jsp:useBean id="p" scope="request" type="viewmodel.admin.AdminOrdersViewModel"/>
+
 <%-- orderList is requested --%>
-<table id="adminTable" class="detailsTable">
+<table id="adminTable" class="detailsTable detailsOrdersTable">
 
     <tr class="header">
         <th colspan="4">orders</th>
@@ -46,7 +48,7 @@
         <td>date created</td>
     </tr>
 
-    <c:forEach var="order" items="${orderList}" varStatus="iter">
+    <c:forEach var="order" items="${p.orderList}" varStatus="iter">
 
         <tr class="${((iter.index % 2) == 1) ? 'lightBlue' : 'white'} tableRow"
             onclick="document.location.href='<c:url value="/admin/order/${order.customerOrderId}"/>'">

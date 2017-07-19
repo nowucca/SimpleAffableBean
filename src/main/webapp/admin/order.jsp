@@ -32,24 +32,26 @@
 
 --%>
 
+<jsp:useBean id="p" scope="request" type="viewmodel.admin.AdminOrderViewModel"/>
+
 <%-- orderRecord is requested --%>
-<table id="adminTable" class="detailsTable">
+<table id="adminTable" class="detailsTable detailsOrderTable">
 
     <tr class="header">
         <th colspan="2">order summary</th>
     </tr>
     <tr>
         <td><strong>order id:</strong></td>
-        <td>${orderRecord.customerOrderId}</td>
+        <td>${p.orderRecord.customerOrderId}</td>
     </tr>
     <tr>
         <td><strong>confirmation number:</strong></td>
-        <td>${orderRecord.confirmationNumber}</td>
+        <td>${p.orderRecord.confirmationNumber}</td>
     </tr>
     <tr>
         <td><strong>date processed:</strong></td>
         <td>
-            <fmt:formatDate value="${orderRecord.dateCreated}"
+            <fmt:formatDate value="${p.orderRecord.dateCreated}"
                             type="both"
                             dateStyle="short"
                             timeStyle="short"/></td>
@@ -66,18 +68,18 @@
 
                 <tr><td colspan="3" style="padding: 0 20px"><hr></td></tr>
 
-                <c:forEach var="orderedProduct" items="${orderedProducts}" varStatus="iter">
+                <c:forEach var="orderedProduct" items="${p.orderedProducts}" varStatus="iter">
 
                     <tr>
                         <td>
-                            <fmt:message key="${products[iter.index].name}"/>
+                            <fmt:message key="${p.products[iter.index].name}"/>
                         </td>
                         <td>
                                 ${orderedProduct.quantity}
                         </td>
                         <td class="confirmationPriceColumn">
                             <fmt:formatNumber type="currency" currencySymbol="&euro; "
-                                              value="${products[iter.index].price * orderedProduct.quantity / 100.0}"/>
+                                              value="${p.products[iter.index].price * orderedProduct.quantity / 100.0}"/>
                         </td>
                     </tr>
 
@@ -90,7 +92,7 @@
                     <td id="deliverySurchargeCellRight">
                         <fmt:formatNumber type="currency"
                                           currencySymbol="&euro; "
-                                          value="${initParam.deliverySurcharge/100.0}"/></td>
+                                          value="${p.deliverySurcharge/100.0}"/></td>
                 </tr>
 
                 <tr>
@@ -98,7 +100,7 @@
                     <td id="totalCellRight">
                         <fmt:formatNumber type="currency"
                                           currencySymbol="&euro; "
-                                          value="${orderRecord.amount/100.0}"/></td>
+                                          value="${p.orderRecord.amount/100.0}"/></td>
                 </tr>
             </table>
         </td>
@@ -107,10 +109,10 @@
     <tr><td colspan="3" style="padding: 0 20px"><hr></td></tr>
 
     <tr class="tableRow"
-        onclick="document.location.href='<c:url value="/admin/customer/${customer.customerId}"/>'">
+        onclick="document.location.href='<c:url value="/admin/customer/${p.customer.customerId}"/>'">
         <td colspan="2">
             <%-- Anchor tag is provided in case JavaScript is disabled --%>
-            <a href="<c:url value="/admin/customer/${customer.customerId}"/>" class="noDecoration">
+            <a href="<c:url value="/admin/customer/${p.customer.customerId}"/>" class="noDecoration">
                 <strong>view customer details &#x279f;</strong></a></td>
     </tr>
 </table>

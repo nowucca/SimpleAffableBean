@@ -29,36 +29,52 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package controller;
+package viewmodel.admin;
 
-import viewmodel.admin.AdminOrdersViewModel;
+import business.customer.Customer;
+import business.order.CustomerOrder;
+import business.order.CustomerOrderDetails;
+import business.order.CustomerOrderLineItem;
+import business.product.Product;
+import viewmodel.BaseAdminViewModel;
 
-import java.io.IOException;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.HttpConstraint;
-import javax.servlet.annotation.ServletSecurity;
-import javax.servlet.annotation.ServletSecurity.TransportGuarantee;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
+public class AdminOrderViewModel extends BaseAdminViewModel {
 
-/**
- *
- */
-@WebServlet(name = "AdminOrdersServlet",
-        urlPatterns = {"/admin/orders"})
-@ServletSecurity(
-        @HttpConstraint(transportGuarantee = TransportGuarantee.CONFIDENTIAL,
-                rolesAllowed = {"simpleAffableBeanAdmin"})
-)
-public class AdminOrdersServlet extends AdminServlet {
+    private String orderId;
+    private CustomerOrderDetails details;
+    private Customer customer;
+    private List<Product> products;
+    private CustomerOrder orderRecord;
+    private List<CustomerOrderLineItem> orderedProducts;
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        request.setAttribute("p", new AdminOrdersViewModel(request));
-        doForwardToAdminJSP(request, response, "/orders");
+    public AdminOrderViewModel(HttpServletRequest request) {
+        super(request);
+
+        this.orderId = request.getPathInfo().split("/")[1];
+        this.details = customerOrderService.getOrderDetails(Long.parseLong(orderId));
+        this.customer = details.getCustomer();
+        this.products = details.getProducts();
+        this.orderRecord = details.getCustomerOrder();
+        this.orderedProducts = details.getCustomerOrderLineItems();
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public CustomerOrder getOrderRecord() {
+        return orderRecord;
+    }
+
+    public List<CustomerOrderLineItem> getOrderedProducts() {
+        return orderedProducts;
     }
 
 }
