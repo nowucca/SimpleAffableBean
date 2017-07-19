@@ -32,7 +32,6 @@
 package business.category;
 
 import business.SimpleAffableDbException.SimpleAffableQueryDbException;
-import business.product.ProductDao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -61,8 +60,6 @@ public class CategoryDaoJdbc implements CategoryDao {
             "category c " +
         "WHERE " +
             "c.category_id = ?";
-
-    private ProductDao productDao;
 
     @Override
     public Category findByCategoryId(long categoryId) {
@@ -105,7 +102,4 @@ public class CategoryDaoJdbc implements CategoryDao {
         return new Category(categoryId, categoryName);
     }
 
-    public void setProductDao(ProductDao productDao) {
-        this.productDao = productDao;
-    }
 }

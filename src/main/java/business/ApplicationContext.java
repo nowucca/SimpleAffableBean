@@ -88,7 +88,6 @@ public final class ApplicationContext {
         ((DefaultProductService) productService).setProductDao(productDao);
 
         CategoryDao categoryDao = new CategoryDaoJdbc();
-        ((CategoryDaoJdbc) categoryDao).setProductDao(productDao);
 
         CategoryDaoGuava cachedCategoryDao = new CategoryDaoGuava(categoryDao);
 
@@ -101,7 +100,6 @@ public final class ApplicationContext {
 
         CustomerOrderLineItemDao customerOrderLineItemDao = new CustomerOrderLineItemDaoJdbc();
         CustomerOrderDao customerOrderDao = new CustomerOrderDaoJdbc();
-        ((CustomerOrderDaoJdbc) customerOrderDao).setLineItemDao(customerOrderLineItemDao);
 
         customerOrderService = new DefaultCustomerOrderService();
         DefaultCustomerOrderService service = (DefaultCustomerOrderService) customerOrderService;

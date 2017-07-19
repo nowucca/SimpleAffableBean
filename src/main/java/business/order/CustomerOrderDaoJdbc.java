@@ -74,9 +74,6 @@ public class CustomerOrderDaoJdbc implements CustomerOrderDao {
             "WHERE " +
             "co.customer_order_id = ?";
 
-    private CustomerOrderLineItemDao lineItemDao;
-
-
     @Override
     public long create(final Connection connection, long customerId, int amount, int confirmationNumber) {
         try (PreparedStatement statement =
@@ -156,7 +153,4 @@ public class CustomerOrderDaoJdbc implements CustomerOrderDao {
        return new CustomerOrder(customerOrderId, customerId, amount, dateCreated, confirmationNumber);
     }
 
-    public void setLineItemDao(CustomerOrderLineItemDao lineItemDao) {
-        this.lineItemDao = lineItemDao;
-    }
 }
