@@ -64,8 +64,8 @@
          -->
 
     <Resource name="jdbc/simpleaffablebean" auth="Container" type="javax.sql.DataSource"
-              maxTotal="100"
-              maxIdle="30"
+              maxTotal="5"
+              maxIdle="2"
               maxWaitMillis="10000"
               username="simpleaffablebean"
               password="simpleaffablebean"

@@ -104,7 +104,7 @@ public final class ApplicationContext {
         customerOrderService = new DefaultCustomerOrderService();
         DefaultCustomerOrderService service = (DefaultCustomerOrderService) customerOrderService;
         service.setProductDao(cachedProductDao);
-        service.setCustomerDao(customerDao);
+        service.setCustomerService(customerService);
         service.setCustomerOrderDao(customerOrderDao);
         service.setCustomerOrderLineItemDao(customerOrderLineItemDao);
 

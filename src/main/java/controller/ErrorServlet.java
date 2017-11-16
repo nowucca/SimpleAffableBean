@@ -56,6 +56,12 @@ public class ErrorServlet extends SimpleAffableBeanServlet {
 
         final Integer statusCode = errorViewModel.getStatusCode();
 
+        if (errorViewModel.isServiceRequest()) {
+            response.setStatus(statusCode);
+            response.setHeader("X-SimpleAffableBean-Error", errorViewModel.getMessage());
+            return;
+        }
+
         if (statusCode != null) {
             switch (statusCode) {
                 case 403: {

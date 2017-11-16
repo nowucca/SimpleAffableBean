@@ -31,6 +31,7 @@
  */
 package business.customer;
 
+import business.ValidationException;
 import java.sql.Connection;
 import java.util.List;
 import org.slf4j.Logger;
@@ -46,8 +47,59 @@ public class DefaultCustomerService implements CustomerService {
     private static final Logger logger =
         LoggerFactory.getLogger(DefaultCustomerService.class);
 
+
+    private void validateForm(CustomerForm customerForm)
+        throws ValidationException {
+
+        ValidationException e = new ValidationException();
+        String name = customerForm.getName();
+        String email = customerForm.getEmail();
+        String phone = customerForm.getPhone();
+        String address = customerForm.getAddress();
+        String cityRegion = customerForm.getCityRegion();
+        String ccNumber = customerForm.getCcNumber();
+
+        if (name == null
+            || name.equals("")
+            || name.length() > 45) {
+            e.fieldError("name");
+        }
+        if (email == null
+            || email.equals("")
+            || !email.contains("@")) {
+            e.fieldError("email");
+        }
+        if (phone == null
+            || phone.equals("")
+            || phone.length() < 9) {
+            e.fieldError("phone");
+        }
+        if (address == null
+            || address.equals("")
+            || address.length() > 45) {
+            e.fieldError("address");
+        }
+        if (cityRegion == null
+            || cityRegion.equals("")
+            || cityRegion.length() > 2) {
+            e.fieldError("cityRegion");
+        }
+        if (ccNumber == null
+            || ccNumber.equals("")
+            || ccNumber.length() > 19) {
+            e.fieldError("ccNumber");
+        }
+
+        if (e.hasErrors()) {
+            throw e;
+        }
+
+    }
+
+
     @Override
-    public long create(Connection connection, CustomerForm customerForm) {
+    public long create(Connection connection, CustomerForm customerForm) throws ValidationException {
+        validateForm(customerForm);
         try {
             return customerDao.create(connection, customerForm);
         } catch (Exception e) {

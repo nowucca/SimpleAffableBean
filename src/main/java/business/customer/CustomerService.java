@@ -31,13 +31,14 @@
  */
 package business.customer;
 
+import business.ValidationException;
 import java.sql.Connection;
 import java.util.List;
 
 /**
  */
 public interface CustomerService {
-    long create(Connection connection, CustomerForm customerForm);
+    long create(Connection connection, CustomerForm customerForm) throws ValidationException;
 
     Customer findByCustomerId(long customerId);
 

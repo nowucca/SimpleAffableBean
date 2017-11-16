@@ -69,6 +69,42 @@
         <tracking-mode>COOKIE</tracking-mode>
     </session-config>
 
+
+    <!-- The JERSEY REST application support is initialized here.  -->
+    <filter>
+        <filter-name>ServiceApplication</filter-name>
+        <filter-class>org.glassfish.jersey.servlet.ServletContainer</filter-class>
+
+        <init-param>
+            <param-name>jersey.config.server.provider.packages</param-name>
+            <param-value>
+                webservices
+            </param-value>
+        </init-param>
+
+        <init-param>
+            <param-name>jersey.config.server.provider.classnames</param-name>
+            <param-value>
+                org.glassfish.jersey.server.spring.scope.RequestContextFilter,
+                org.glassfish.jersey.jackson.JacksonFeature
+            </param-value>
+        </init-param>
+
+        <!-- required if we are in servlet 2.x container                                            -->
+        <!-- per https://jersey.github.io/documentation/latest/deployment.html#deployment.servlet.3 -->
+        <init-param>
+            <param-name>jersey.config.servlet.filter.contextPath</param-name>
+            <param-value>/service</param-value>
+        </init-param>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>ServiceApplication</filter-name>
+        <url-pattern>/service/*</url-pattern>
+    </filter-mapping>
+
+
+
     <!--This is only needed for testing the datasource (TestDataSource.jsp)-->
     <resource-ref>
         <description>jdbc:mysql://localhost:3306/simpleaffablebean</description>
