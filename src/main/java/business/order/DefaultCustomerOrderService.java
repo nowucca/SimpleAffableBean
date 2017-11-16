@@ -36,8 +36,8 @@ import business.SimpleAffableDbException;
 import business.ValidationException;
 import business.cart.ShoppingCart;
 import business.customer.Customer;
-import business.customer.CustomerDao;
 import business.customer.CustomerForm;
+import business.customer.CustomerService;
 import business.product.Product;
 import business.product.ProductDao;
 import java.sql.Connection;
@@ -58,7 +58,7 @@ public class DefaultCustomerOrderService implements CustomerOrderService {
 
     private CustomerOrderDao customerOrderDao;
     private CustomerOrderLineItemDao customerOrderLineItemDao;
-    private CustomerDao customerDao;
+    private CustomerService customerService;
     private ProductDao productDao;
     private Random random = new Random();
 
@@ -79,8 +79,6 @@ public class DefaultCustomerOrderService implements CustomerOrderService {
     }
 
     private long performPlaceOrder(CustomerForm customerForm, ShoppingCart cart) throws ValidationException {
-        validateForm(customerForm);
-
         try (Connection connection = JdbcUtils.getConnection()) {
             return performPlaceOrderTransaction(customerForm, cart, connection);
         } catch (SQLException e) {
@@ -88,20 +86,20 @@ public class DefaultCustomerOrderService implements CustomerOrderService {
         }
     }
 
-    private long performPlaceOrderTransaction(CustomerForm customerForm, ShoppingCart cart, Connection connection) throws SQLException {
+    private long performPlaceOrderTransaction(CustomerForm customerForm, ShoppingCart cart, Connection connection) throws SQLException, ValidationException {
         try {
             connection.setAutoCommit(false);
 
-            long customerId = customerDao.create(connection, customerForm);
-            long customerOrderId = customerOrderDao.create(connection, customerId,
-                cart.getTotal(), generateConfirmationNumber());
+            long customerId = customerService.create(connection, customerForm);
+            long customerOrderId = customerOrderDao.create(connection, customerId, cart.getTotal(), generateConfirmationNumber());
 
 
-            cart.getItems().forEach((item) ->
-                customerOrderLineItemDao.create(connection, customerOrderId, item.getProductId(), item.getQuantity()));
+            cart.getItems().forEach((item) -> customerOrderLineItemDao.create(connection, customerOrderId, item.getProductId(), item.getQuantity()));
 
             connection.commit();
             return customerOrderId;
+        } catch (ValidationException e) {
+            throw e;
         } catch (Exception e) {
             try {
                 connection.rollback();
@@ -120,7 +118,7 @@ public class DefaultCustomerOrderService implements CustomerOrderService {
 
         try {
             CustomerOrder order = customerOrderDao.findByCustomerOrderId(customerOrderId);
-            Customer customer = customerDao.findByCustomerId(order.getCustomerId());
+            Customer customer = customerService.findByCustomerId(order.getCustomerId());
             List<CustomerOrderLineItem> lineItems = new ArrayList<>(customerOrderLineItemDao.findByCustomerOrderId(customerOrderId));
             List<Product> products = lineItems.stream().map(LINE_ITEM_TO_PRODUCT).collect(Collectors.toList());
 
@@ -148,54 +146,6 @@ public class DefaultCustomerOrderService implements CustomerOrderService {
         return customerOrderDao.findByCustomerOrderId(customerOrderId);
     }
 
-    private void validateForm(CustomerForm customerForm)
-        throws ValidationException {
-
-        ValidationException e = new ValidationException();
-        String name = customerForm.getName();
-        String email = customerForm.getEmail();
-        String phone = customerForm.getPhone();
-        String address = customerForm.getAddress();
-        String cityRegion = customerForm.getCityRegion();
-        String ccNumber = customerForm.getCcNumber();
-
-        if (name == null
-            || name.equals("")
-            || name.length() > 45) {
-            e.fieldError("name");
-        }
-        if (email == null
-            || email.equals("")
-            || !email.contains("@")) {
-            e.fieldError("email");
-        }
-        if (phone == null
-            || phone.equals("")
-            || phone.length() < 9) {
-            e.fieldError("phone");
-        }
-        if (address == null
-            || address.equals("")
-            || address.length() > 45) {
-            e.fieldError("address");
-        }
-        if (cityRegion == null
-            || cityRegion.equals("")
-            || cityRegion.length() > 2) {
-            e.fieldError("cityRegion");
-        }
-        if (ccNumber == null
-            || ccNumber.equals("")
-            || ccNumber.length() > 19) {
-            e.fieldError("ccNumber");
-        }
-
-        if (e.hasErrors()) {
-            throw e;
-        }
-
-    }
-
     private int generateConfirmationNumber() {
         return random.nextInt(999999999);
     }
@@ -208,8 +158,8 @@ public class DefaultCustomerOrderService implements CustomerOrderService {
         this.customerOrderLineItemDao = customerOrderLineItemDao;
     }
 
-    public void setCustomerDao(CustomerDao customerDao) {
-        this.customerDao = customerDao;
+    public void setCustomerService(CustomerService customerService) {
+        this.customerService = customerService;
     }
 
     public void setProductDao(ProductDao productDao) {

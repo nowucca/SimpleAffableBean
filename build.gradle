@@ -74,11 +74,13 @@ testSets {
  */
 dependencies {
 
-    // Declare version for tomcat and junit5 that are used for multipe libraries.
-    ext.tomcatVersion = '8.5.9'
+    // Declare version for tomcat and junit5 that are used for multiple libraries.
+    ext.tomcatVersion = '8.5.20'
     ext.junit5Version = '5.0.0-M4'
     ext.junitPlatformVersion = '1.0.0-M4'
     ext.slf4jVersion = '1.7.25'
+    ext.jacksonVersion = '2.8.4'
+    ext.jerseyVersion = '2.25.1'
 
     // Using sfl4j allows us to replace different loggers later, if desired
     compile group: 'org.slf4j', name:'slf4j-api', version: "$slf4jVersion"
@@ -103,6 +105,18 @@ dependencies {
     compile group: 'org.apache.taglibs', name: 'taglibs-standard-jstlel', version: '1.2.5'
     compile group: 'org.apache.taglibs', name: 'taglibs-standard-impl', version: '1.2.5'
    	compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.40'
+
+    //Jersey / JSON REST service dependencies
+
+    compile group: 'com.fasterxml.jackson.core', name:'jackson-core', version:"$jacksonVersion"
+    compile group: 'com.fasterxml.jackson.core', name:'jackson-databind', version:"$jacksonVersion"
+
+
+    compile group: 'org.glassfish.jersey.containers', name:'jersey-container-servlet', version:"$jerseyVersion"
+    compile group: 'org.glassfish.jersey.bundles.repackaged', name:'jersey-guava', version:"$jerseyVersion"
+    compile group: 'org.glassfish.jersey.media', name:'jersey-media-json-jackson', version:"$jerseyVersion"
+    compile group: 'org.glassfish.jersey.core', name:'jersey-server', version:"$jerseyVersion"
+    compile group: 'javax.ws.rs', name:'javax.ws.rs-api', version:'2.0.1'
 
     // These are needed for running junit5 tests
     testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: "$junit5Version"

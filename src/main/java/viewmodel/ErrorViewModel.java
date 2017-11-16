@@ -40,6 +40,7 @@ public class ErrorViewModel extends BaseViewModel {
     private String requestUri;
     private Integer statusCode;
     private Throwable throwable;
+    private boolean isServiceRequest;
 
     public ErrorViewModel(HttpServletRequest request) {
         super(request);
@@ -54,6 +55,11 @@ public class ErrorViewModel extends BaseViewModel {
         if (requestUri == null) {
             requestUri = "Unknown";
         }
+        isServiceRequest = requestUri.toLowerCase().contains("/service");
+    }
+
+    public boolean isServiceRequest() {
+        return isServiceRequest;
     }
 
     public String getServletName() {
