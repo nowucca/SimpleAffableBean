@@ -83,6 +83,13 @@
                 <td><fmt:formatNumber type="currency" currencySymbol="&euro; " value="${product.price/100.0}"/></td>
 
                 <td>
+                    <button type="button"
+                            class="ajaxAddToCart"
+                            data-product-id="${product.productId}"
+                            data-action="add"
+                            name="submit">ajax-<fmt:message key='addToCart'/></button>
+
+
                     <form action="<c:url value='cart'/>" method="post">
                         <input type="hidden"
                                name="productId"
@@ -100,4 +107,86 @@
         </c:forEach>
 
     </table>
+
+    <script>
+
+        // We have to encode form data for POST operations.
+        // Standard Javascript has an encodeURIComponent that does this job.
+
+        function encodeFormData(data) {
+            if (data && typeof(data) === 'object') {
+                var y = '', e = encodeURIComponent;
+                for (field in data) {
+                    // A safety check to avoid iterating over unexpected properties.
+                    if (data.hasOwnProperty(field)) {
+                        y += '&' + e(field) + '=' + e(data[field]);
+                    }
+                }
+                return y.slice(1); // strip leading '&'
+            }
+            return '';
+        }
+
+        // Make an ajax request to post the data object to the url, using
+        // Standard Javascript for modern browsers.
+        //
+        // Upon success, invoke the callback function with xhr.responseText.
+        function ajaxPost(url, data, callback) {
+            try {
+                var xhr = new XMLHttpRequest();
+
+                xhr.onreadystatechange = ensureReadiness;
+
+                function ensureReadiness() {
+                    if(xhr.readyState < 4) {
+                        return;
+                    }
+
+                    if(xhr.status !== 200) {
+                        return;
+                    }
+
+                    // all is well
+                    if(xhr.readyState === 4) {
+                        callback(xhr.responseText, xhr);
+                    }
+                }
+
+                xhr.open('POST', url, true);
+                xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+                xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                xhr.setRequestHeader('Accept', 'application/json');
+                xhr.send(encodeFormData(data));
+            } catch (e) {
+                window.console && console.log(e);
+            }
+        }
+
+        // Now, paint the click functions onto the addToCart buttons.
+
+        var buttons = document.querySelectorAll(".ajaxAddToCart");
+
+        for (i = 0; i < buttons.length; i++) {
+            buttons[i].addEventListener("click", function(event) {
+
+                // Cross-browser trickery to get the source element 'src' that was clicked on.
+                event = event || window.event;
+                var src = event.target || event.srcElement;
+
+                // Handle this event here, do not propagate to parent DOM elements.
+                event.stopPropagation();
+
+                // Read the data for product and action from the src element.
+                // The "dataset" collection is a standard javascript object in modern browsers.
+                var data = { "productId": src.dataset.productId, "action": src.dataset.action };
+
+                //
+                ajaxPost('cart', data, function(responseText, xhr) {
+                    alert ('Response text: '+responseText+'; Ready state is '+xhr.readyState);
+                    var cartSize = JSON.parse(responseText).cartSize;
+                    document.getElementById('cartSizeHeaderElement').textContent = ''+cartSize;
+                });
+            });
+        }
+    </script>
 </div>

@@ -116,6 +116,8 @@ public class CartServlet extends SimpleAffableBeanServlet {
         // if addToCart action is called
         if ("add".equals(action)) {
 
+            boolean isAjaxRequest = "XMLHttpRequest".equalsIgnoreCase(request.getHeader("X-Requested-With"));
+
             // if user is adding item to cart for first time
             // create cart object and attach it to user session
             if (cart == null) {
@@ -133,6 +135,15 @@ public class CartServlet extends SimpleAffableBeanServlet {
                 cart.addItem(product);
             }
             userPath = "/category";
+
+            if (isAjaxRequest) {
+                final String jsonString = "{ \"cartSize\": " + cart.getNumberOfItems() + " }";
+                response.setStatus(200);
+                response.setContentType("application/json");
+                response.getWriter().write(jsonString);
+                response.flushBuffer();
+                return;
+            }
 
         // if updateCart action is called
         } else if ("update".equals(action)) {

@@ -46,7 +46,7 @@
 
   <span class="horizontalMargin">
     <%-- Show number of items --%>
-    ${cart.numberOfItems}
+    <span id="cartSizeHeaderElement">${cart.numberOfItems}</span>
     <%-- Handle singular/plural forms of 'item' --%>
     <fmt:message key="${cart.itemsTextKey}" />
   </span>
