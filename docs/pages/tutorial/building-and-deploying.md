@@ -29,7 +29,7 @@ permalink: "/tutorial/building-and-deploying-sab"
 
 
 The goal of this part of the tutorial is to get the website built and running locally inside your Tomcat installation,
-in such a way that you can browse to it in your web browser, and in such a way that it is using your MySql simpleaffablebean 
+in such a way that you can browse to it in your web browser, and in such a way that it is using your MySql simpleaffablebean
 database.
 
 To start with, we assume you have the following:
@@ -40,10 +40,10 @@ To start with, we assume you have the following:
 There are a few steps to running the Simple Affable Bean application we will walk through below.
 
 # Obtain the Simple Affable Bean Source code
- 
+
 There are two main ways to download the Simple Affable BEan source code.
 
-1. Download the most recent release as a zip or a tar file from the [latest release on GitHub](https://github.com/nowucca/SimpleAffableBean/releases/latest/), or 
+1. Download the most recent release as a zip or a tar file from the [latest release on GitHub](https://github.com/nowucca/SimpleAffableBean/releases/latest/), or
 
 1. Clone the code from Github using git
 
@@ -58,9 +58,9 @@ Whether you are downloading or cloning, please unpack this into **$SAB_HOME**, s
 
 {% highlight bash %}
 SAB_HOME
-├── apache-tomcat-8.5.15  #<-- this is CATALINA_HOME
+├── apache-tomcat-x.5.15  #<-- this is CATALINA_HOME
 │   ....
-├── SimpleAffableBean  
+├── SimpleAffableBean
 |   ├── LICENCE.affablebean.txt
 |   ├── LICENSE
 |   ├── README.md
@@ -74,9 +74,9 @@ SAB_HOME
 
 The database scripts to build and populate sample data into your mysql database are in $SAB_HOME/SimpleAffableBean/src/main/db.
 
-## Build the Database 
+## Build the Database
 
-Having established the username, password and database named 'simpleaffablebean' when installing MySQL, we can now simply create 
+Having established the username, password and database named 'simpleaffablebean' when installing MySQL, we can now simply create
 the database using the command line:
 
 {% highlight bash %}
@@ -179,7 +179,7 @@ mysql> select * from product;
 - Setting up the MySQL database
    - user, password
 
-# Building the Web Application Archive (WAR) 
+# Building the Web Application Archive (WAR)
 
 When you build a Java web application, the output is a single "web application archive" (nicknamed: WAR) file.
 
@@ -234,7 +234,7 @@ BUILD SUCCESSFUL
 Total time: 8.712 secs
 {% endhighlight %}
 
-If you choose to, you can [install Gradle locally](https://gradle.org/install), 
+If you choose to, you can [install Gradle locally](https://gradle.org/install),
 and then commands are "gradle command" instead of "gradlew command".
 
 ### Other gradle commands of interest for Simple Affable Bean
@@ -256,29 +256,29 @@ Here is a brief list of some of the tasks supported by the Simple Affable Bean g
 Having built the web application, all that remains is to deploy the web application into Tomcat.
 
 This simply means copying the WAR file into the right place into Tomcat, then starting Tomcat running.
- 
+
 {% highlight bash %}
 $ cd $SAB_HOME/SimpleAffableBean
-$ cp build/libs/SimpleAffableBean.war ../apache-tomcat-8.5.15/webapps/
-$ cd ../apache-tomcat-8.5.15/bin
+$ cp build/libs/SimpleAffableBean.war ../apache-tomcat-9.0.8/webapps/
+$ cd ../apache-tomcat-9.0.8/bin
 $ ./catalina.sh start
-Using CATALINA_BASE:   /$SAB_HOME/apache-tomcat-8.5.15
-Using CATALINA_HOME:   /$SAB_HOME/apache-tomcat-8.5.15
-Using CATALINA_TMPDIR: /$SAB_HOME/apache-tomcat-8.5.15/temp
+Using CATALINA_BASE:   /$SAB_HOME/apache-tomcat-9.0.8
+Using CATALINA_HOME:   /$SAB_HOME/apache-tomcat-9.0.8
+Using CATALINA_TMPDIR: /$SAB_HOME/apache-tomcat-9.0.8/temp
 Using JRE_HOME:        /Library/Java/JavaVirtualMachines/jdk1.8.0_77.jdk/Contents/Home
-Using CLASSPATH:       /$SAB_HOME/apache-tomcat-8.5.15/bin/bootstrap.jar:/$SAB_HOME/apache-tomcat-8.5.15/bin/tomcat-juli.jar
+Using CLASSPATH:       /$SAB_HOME/apache-tomcat-9.0.8/bin/bootstrap.jar:/$SAB_HOME/apache-tomcat-9.0.8/bin/tomcat-juli.jar
 Tomcat started.
-$ 
+$
 {% endhighlight %}
 
-For more detail, or in case something goes wrong, the "catalina.out" Tomcat log file in 
-**$SAB_HOME**/apache-tomcat-8.5.15/logs/catalina.out should contain information.  On successful startup you should see:
+For more detail, or in case something goes wrong, the "catalina.out" Tomcat log file in
+**$SAB_HOME**/apache-tomcat-9.0.8/logs/catalina.out should contain information.  On successful startup you should see:
 
 {% highlight bash %}
-$ cd $SAB_HOME/apache-tomcat-8.5.15/logs
+$ cd $SAB_HOME/apache-tomcat-9.0.8/logs
 $ tail -1000f ../logs/catalina.out
 ...
-21-May-2017 16:39:37.081 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployWAR Deployment of web application archive /$SAB_HOME/apache-tomcat-8.5.9/webapps/SimpleAffableBean.war has finished in 1,682 ms`
+21-May-2017 16:39:37.081 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployWAR Deployment of web application archive /$SAB_HOME/apache-tomcat-9.0.8/webapps/SimpleAffableBean.war has finished in 1,682 ms`
 ...
 {% endhighlight %}
 
@@ -308,8 +308,8 @@ $ gradle clean war
 BUILD SUCCESSFUL
 
 Total time: 2.261 secs
-p build/libs/SimpleAffableBean.war ../apache-tomcat-8.5.9/webapps/
-overwrite ../apache-tomcat-8.5.9/webapps/SimpleAffableBean.war? (y/n [n]) y
+p build/libs/SimpleAffableBean.war ../apache-tomcat-9.0.8/webapps/
+overwrite ../apache-tomcat-9.0.8/webapps/SimpleAffableBean.war? (y/n [n]) y
 {% endhighlight %}
 
 You should see something like:
@@ -324,13 +324,13 @@ with a few warning log lines in between.  You can verify your re-installation is
 
 To shut down Tomcat, you simply run:
 {% highlight bash %}
-$ cd $SAB_HOME/apache-tomcat-8.5.15/bin
+$ cd $SAB_HOME/apache-tomcat-9.0.8/bin
 $ ./catalina.sh stop
-Using CATALINA_BASE:   /Users/satkinson/Work/vtech/cs5244/SAB/apache-tomcat-8.5.9
-Using CATALINA_HOME:   /Users/satkinson/Work/vtech/cs5244/SAB/apache-tomcat-8.5.9
-Using CATALINA_TMPDIR: /Users/satkinson/Work/vtech/cs5244/SAB/apache-tomcat-8.5.9/temp
+Using CATALINA_BASE:   /Users/satkinson/Work/vtech/cs5244/SAB/apache-tomcat-9.0.8
+Using CATALINA_HOME:   /Users/satkinson/Work/vtech/cs5244/SAB/apache-tomcat-9.0.8
+Using CATALINA_TMPDIR: /Users/satkinson/Work/vtech/cs5244/SAB/apache-tomcat-9.0.8/temp
 Using JRE_HOME:        /Library/Java/JavaVirtualMachines/jdk1.8.0_77.jdk/Contents/Home
-Using CLASSPATH:       /Users/satkinson/Work/vtech/cs5244/SAB/apache-tomcat-8.5.9/bin/bootstrap.jar:/Users/satkinson/Work/vtech/cs5244/SAB/apache-tomcat-8.5.9/bin/tomcat-juli.jar
+Using CLASSPATH:       /Users/satkinson/Work/vtech/cs5244/SAB/apache-tomcat-9.0.8/bin/bootstrap.jar:/Users/satkinson/Work/vtech/cs5244/SAB/apache-tomcat-9.0.8/bin/tomcat-juli.jar
 {% endhighlight %}
 
 
@@ -347,7 +347,7 @@ What is the reasoning behind these choices?
 How well will the site scale to tens, hundreds, thousands and millions of customers?
 
 The next sections of the tutorial are a code walkabout.  As we look though the code, we will point out not only
-what the code does, but why it is structured that way.  
+what the code does, but why it is structured that way.
 
 ----
 
