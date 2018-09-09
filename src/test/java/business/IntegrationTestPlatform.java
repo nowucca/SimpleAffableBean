@@ -31,7 +31,7 @@
  */
 package business;
 
-import com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource;
+import com.mysql.cj.jdbc.MysqlConnectionPoolDataSource;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import javax.naming.Context;
@@ -61,6 +61,8 @@ public class IntegrationTestPlatform {
             mysqlDS.setURL("jdbc:mysql://localhost:3306/simpleaffablebean");
             mysqlDS.setUser("simpleaffablebean");
             mysqlDS.setPassword("simpleaffablebean");
+            mysqlDS.setAllowPublicKeyRetrieval(true);
+            mysqlDS.setServerTimezone("PST");
 
             compEnvCtx.bind(JdbcUtils.JDBC_SIMPLEAFFABLEBEAN, mysqlDS);
         } catch (NamingException e) {

@@ -5,67 +5,30 @@
  * https://docs.gradle.org/3.4.1/dsl/org.gradle.api.tasks.bundling.War.html
  * http://stackoverflow.com/questions/6683375/how-do-i-add-a-properties-file-into-my-war-using-gradle
  *
- * For running tests:
- * https://github.com/junit-team/junit5-samples/tree/master/junit5-gradle-consumer
  */
 
-import com.hierynomus.gradle.license.tasks.LicenseFormat
-import com.hierynomus.gradle.license.tasks.LicenseCheck
 
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        /*
-         * Required for junit 5.
-         */
-        classpath 'org.junit.platform:junit-platform-gradle-plugin:1.0.0-M4'
-    }
-}
+import com.hierynomus.gradle.license.tasks.LicenseCheck
+import com.hierynomus.gradle.license.tasks.LicenseFormat
 
 /*
  * Required for newer plugins.
  */
 plugins {
+    id 'java'
+    id 'war'
     id "com.github.hierynomus.license" version "0.14.0"
-    id 'org.unbroken-dome.test-sets' version '1.3.2'
-}
-
-apply plugin: 'java'
-apply plugin: 'war'
-apply plugin: 'org.junit.platform.gradle.plugin'
-apply plugin: "com.github.hierynomus.license"
-
-allprojects {
-    compileJava {
-        sourceCompatibility = '1.8'
-        targetCompatibility = '1.8'
-    }
-}
-
-compileTestJava {
-    /*
-     * For JUnit5: This stores formal parameter names of constructors and methods in the generated class file so that the method
-     * java.lang.reflect.Executable.getParameters from the Reflection API can retrieve them.
-     */
-    options.compilerArgs += '-parameters'
 }
 
 repositories {
     mavenCentral()
 }
 
-sourceSets {
-    main
-    test
-}
-
-/*
- * Use 'gradle qa' with a running web application to run acceptance tests.
- */
-testSets {
-    qa { createArtifact = true }
+allprojects {
+    compileJava {
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
+    }
 }
 
 /*
@@ -76,8 +39,7 @@ dependencies {
 
     // Declare version for tomcat and junit5 that are used for multiple libraries.
     ext.tomcatVersion = '8.5.20'
-    ext.junit5Version = '5.0.0-M4'
-    ext.junitPlatformVersion = '1.0.0-M4'
+    ext.junit5Version = '5.3.0'
     ext.slf4jVersion = '1.7.25'
     ext.jacksonVersion = '2.8.4'
     ext.jerseyVersion = '2.25.1'
@@ -104,13 +66,20 @@ dependencies {
     compile group: 'org.apache.taglibs', name: 'taglibs-standard-spec', version: '1.2.5'
     compile group: 'org.apache.taglibs', name: 'taglibs-standard-jstlel', version: '1.2.5'
     compile group: 'org.apache.taglibs', name: 'taglibs-standard-impl', version: '1.2.5'
-   	compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.40'
+   	compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.12'
+
+    // These are needed for running junit5 tests
+    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: "$junit5Version"
+    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: "$junit5Version"
+    testRuntime group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: "$junit5Version"
+
+    // Used for automated selenium driver testing
+    testCompile group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '2.2.5'
+    testCompile group: 'org.seleniumhq.selenium', name: 'selenium-htmlunit-driver', version: '2.52.0'
 
     //Jersey / JSON REST service dependencies
-
     compile group: 'com.fasterxml.jackson.core', name:'jackson-core', version:"$jacksonVersion"
     compile group: 'com.fasterxml.jackson.core', name:'jackson-databind', version:"$jacksonVersion"
-
 
     compile group: 'org.glassfish.jersey.containers', name:'jersey-container-servlet', version:"$jerseyVersion"
     compile group: 'org.glassfish.jersey.bundles.repackaged', name:'jersey-guava', version:"$jerseyVersion"
@@ -118,18 +87,6 @@ dependencies {
     compile group: 'org.glassfish.jersey.core', name:'jersey-server', version:"$jerseyVersion"
     compile group: 'javax.ws.rs', name:'javax.ws.rs-api', version:'2.0.1'
 
-    // These are needed for running junit5 tests
-    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: "$junit5Version"
-    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: "$junit5Version"
-    testCompile group: 'org.junit.platform', name: 'junit-platform-gradle-plugin', version: "$junitPlatformVersion"
-    testCompile group: 'org.junit.platform', name: 'junit-platform-runner', version: "$junitPlatformVersion"
-    testCompile group: 'org.junit.platform', name: 'junit-platform-launcher', version: "$junitPlatformVersion"
-    testCompile group: 'org.junit.platform', name: 'junit-platform-console', version: "$junitPlatformVersion"
-    testCompile group: 'org.junit.platform', name: 'junit-platform-commons', version: "$junitPlatformVersion"
-    testCompile group: 'org.opentest4j', name: 'opentest4j', version: '1.0.0-M2'
-
-    // These are only used for QA acceptance tests
-    qaCompile group: 'org.seleniumhq.selenium', name: 'selenium-htmlunit-driver', version: '2.52.0'
 
 }
 
@@ -151,25 +108,11 @@ war {
     }
 }
 
-/*
- * junit5 will work for all test classes ending in 'Test'.
- * Use 'gradle clean junitPlatformTest' to run these tests.
- */
-junitPlatform {
-    // platformVersion '1.0.0-M4'
-    filters {
-        engines {
-            // include 'junit-jupiter', 'junit-vintage'
-            // exclude 'custom-engine'
-        }
-        tags {
-            // include 'fast'
-            exclude 'slow'
-        }
-         includeClassNamePattern '.*Test'
+test {
+    useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
     }
-    enableStandardTestTask false
-    // reportsDir file('build/test-results/junit-platform') // this is the default
 }
 
 /*
