@@ -41,7 +41,7 @@ import org.slf4j.LoggerFactory;
 /**
  */
 public class DefaultCategoryService implements CategoryService {
-    private static final long DEFAULT_CATEGORY_ID = 1L;
+    private static final long DEFAULT_CATEGORY_ID = 1001L;
 
     private static final Logger logger =
         LoggerFactory.getLogger(DefaultCategoryService.class);

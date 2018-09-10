@@ -57,7 +57,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class CustomerOrderServiceTest extends IntegrationTestPlatform {
 
 
-    private static final int MILK_PRODUCT_ID = 1;
+    private static final int MILK_PRODUCT_ID = 1001;
     private CustomerOrderService orderService;
     private ProductService productService;
 
@@ -131,7 +131,7 @@ public class CustomerOrderServiceTest extends IntegrationTestPlatform {
                 int confirmationNumber = resultSet.getInt("confirmation_number");
 
                 assertAll("Customer Order read looks valid",
-                    () -> assertNotNull(customerOrderId, "Missing customerOrderId"),
+                    () -> assertNotNull(actualCustomerOrderId, "Missing customerOrderId"),
                     () -> assertEquals(470, amount, "Expected amount to be price of milk plus surcharge"),
                     () -> assertTrue(now.getTime() - dateCreated.getTime()
                         < TimeUnit.SECONDS.toMillis(30), "Expected created timestamp close to the current time"),

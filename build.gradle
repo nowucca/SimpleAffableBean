@@ -38,7 +38,7 @@ allprojects {
 dependencies {
 
     // Declare version for tomcat and junit5 that are used for multiple libraries.
-    ext.tomcatVersion = '8.5.20'
+    ext.tomcatVersion = '9.0.11'
     ext.junit5Version = '5.3.0'
     ext.slf4jVersion = '1.7.25'
     ext.jacksonVersion = '2.8.4'
@@ -75,7 +75,7 @@ dependencies {
 
     // Used for automated selenium driver testing
     testCompile group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '2.2.5'
-    testCompile group: 'org.seleniumhq.selenium', name: 'selenium-htmlunit-driver', version: '2.52.0'
+    testCompile group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.14.0'
 
     //Jersey / JSON REST service dependencies
     compile group: 'com.fasterxml.jackson.core', name:'jackson-core', version:"$jacksonVersion"
@@ -123,7 +123,7 @@ test {
 license {
     ext.year = Calendar.getInstance().get(Calendar.YEAR)
     ext.name = 'Steven Atkinson'
-    ext.email = 'support@simpleaffablebean.com'
+    ext.email = 'support@simpleaffablebean.info'
     strictCheck true
     mapping {
         jspf = 'DYNASCRIPT_STYLE'
@@ -150,6 +150,8 @@ task licenseFormatWeb(type: LicenseFormat) {
     description 'Format web resource file licenses'
     source = fileTree(dir: "src/main/webapp")
 }
+
+
 
 licenseMain {
     dependsOn licenseWeb, licenseDb

@@ -65,7 +65,7 @@ INSERT INTO `product` (product_id, `name`, price, description, category_id)
 VALUES (4, 'product-1-4', 140, 'product-1-4', 1);
 
 INSERT INTO `product` (product_id, `name`, price, description, category_id)
-VALUES (5, 'product-20-10', 210, 'product-20-10', 2);
+VALUES (5, 'product-2-1', 210, 'product-2-1', 2);
 INSERT INTO `product` (product_id, `name`, price, description, category_id)
 VALUES (6, 'product-2-2', 220, 'product-2-2', 2);
 INSERT INTO `product` (product_id, `name`, price, description, category_id)
@@ -77,7 +77,7 @@ VALUES (8, 'product-2-4', 240, 'product-2-4', 2);
 INSERT INTO `product` (product_id, `name`, price, description, category_id)
 VALUES (9, 'product-3-1', 310, 'product-3-1', 3);
 INSERT INTO `product` (product_id, `name`, price, description, category_id)
-VALUES (10, 'product-3-2', 320, 'product-3-3', 3);
+VALUES (10, 'product-3-2', 320, 'product-3-2', 3);
 INSERT INTO `product` (product_id, `name`, price, description, category_id)
 VALUES (11, 'product-3-3', 330, 'product-3-3', 3);
 INSERT INTO `product` (product_id, `name`, price, description, category_id)

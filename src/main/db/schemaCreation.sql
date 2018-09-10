@@ -53,6 +53,7 @@ CREATE  TABLE IF NOT EXISTS `simpleaffablebean`.`customer` (
   `cc_number` VARCHAR(19) NOT NULL ,
   PRIMARY KEY (`customer_id`) )
 ENGINE = InnoDB
+AUTO_INCREMENT = 1001
 COMMENT = 'maintains customer details';
 
 
@@ -75,6 +76,7 @@ CREATE  TABLE IF NOT EXISTS `simpleaffablebean`.`customer_order` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
+AUTO_INCREMENT = 1001
 COMMENT = 'maintains customer order details';
 
 
@@ -84,10 +86,11 @@ COMMENT = 'maintains customer order details';
 DROP TABLE IF EXISTS `simpleaffablebean`.`category` ;
 
 CREATE  TABLE IF NOT EXISTS `simpleaffablebean`.`category` (
-  `category_id` TINYINT UNSIGNED NOT NULL AUTO_INCREMENT ,
+  `category_id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(45) NOT NULL ,
   PRIMARY KEY (`category_id`) )
 ENGINE = InnoDB
+AUTO_INCREMENT = 1001
 COMMENT = 'contains product categories, e.g., dairy, meats, etc.';
 
 
@@ -98,7 +101,7 @@ DROP TABLE IF EXISTS `simpleaffablebean`.`product` ;
 
 CREATE TABLE IF NOT EXISTS `simpleaffablebean`.`product` (
   `product_id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
-  `category_id` TINYINT UNSIGNED NOT NULL ,
+  `category_id` INT UNSIGNED NOT NULL ,
   `name` VARCHAR(45) NOT NULL ,
   `price` INT UNSIGNED NOT NULL ,
 
@@ -114,6 +117,7 @@ CREATE TABLE IF NOT EXISTS `simpleaffablebean`.`product` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
+AUTO_INCREMENT = 1001
 COMMENT = 'contains product details';
 
 
