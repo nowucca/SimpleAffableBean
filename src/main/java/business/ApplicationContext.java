@@ -85,7 +85,7 @@ public final class ApplicationContext {
         ProductDaoGuava cachedProductDao = new ProductDaoGuava(productDao);
 
         productService = new DefaultProductService();
-        ((DefaultProductService) productService).setProductDao(productDao);
+        ((DefaultProductService) productService).setProductDao(cachedProductDao);
 
         CategoryDao categoryDao = new CategoryDaoJdbc();
 

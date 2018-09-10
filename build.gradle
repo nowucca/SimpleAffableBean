@@ -113,6 +113,10 @@ test {
     testLogging {
         events "passed", "skipped", "failed"
     }
+    filter {
+        includeTestsMatching "business.*"
+    }
+
 }
 
 /*

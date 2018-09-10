@@ -83,7 +83,7 @@ public class ViewTest {
     @Test
     public void logoLinksToHomepage() {
 
-        driver.get("http://localhost:8080/" + APP_CONTEXT + "/category?2002");
+        driver.get("http://localhost:8080/" + APP_CONTEXT + "/category?1001");
 
         WebElement logo = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("logo")));
 
