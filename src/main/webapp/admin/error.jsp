@@ -2,7 +2,7 @@
 
     BSD 3-Clause License
 
-    Copyright (C) 2017 Steven Atkinson <support@simpleaffablebean.com>
+    Copyright (C) 2018 Steven Atkinson <steven@nowucca.com>
     All rights reserved.
 
     Redistribution and use in source and binary forms, with or without
@@ -31,7 +31,6 @@
     OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 --%>
-
 <div id="loginBox">
 
     <p class="error">Invalid username or password.</p>
