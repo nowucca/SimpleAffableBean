@@ -103,7 +103,7 @@
               maxWaitMillis="10000"
               username="simpleaffablebean"
               password="simpleaffablebean"
-              driverClassName="com.mysql.jdbc.Driver"
+              driverClassName="com.mysql.cj.jdbc.Driver"
               removeAbandonedOnBorrow="true"
               removeAbandonedOnMaintenance="true"
               removeAbandonedTimeout="60"
